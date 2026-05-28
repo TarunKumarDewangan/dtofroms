@@ -1,0 +1,15 @@
+# Dependencies
+/backend/vendor/
+/frontend/node_modules/
+/frontend/dist/
+
+# Configuration
+/backend/.env
+/backend/.env.backup
+/backend/.env.production
+*.local
+
+# Logs and system files
+*.log
+.DS_Store
+Thumbs.db

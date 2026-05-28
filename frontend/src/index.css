@@ -1,0 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  --sidebar-gradient: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --danger-gradient: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  --dark-bg: #f8fafc;
+  --glass-bg: #ffffff;
+  --glass-border: #cbd5e1;
+  --glass-highlight: #94a3b8;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --hindi-font: 'Nirmala UI', 'Mangal', 'Arial', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Glassmorphism/Premium Light Card Classes */
+.glass-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: #94a3b8;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+/* Sidebar Styling */
+.sidebar {
+  background: var(--sidebar-gradient);
+  min-height: 100vh;
+  border-right: 1px solid #cbd5e1;
+  position: fixed;
+  width: 260px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.main-content {
+  margin-left: 260px;
+  padding: 30px;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+.nav-link-custom {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 10px;
+  margin: 8px 15px;
+  transition: all 0.2s ease;
+}
+
+.nav-link-custom:hover, .nav-link-custom.active {
+  background: #e0e7ff;
+  color: #4f46e5;
+  border-left: 4px solid #4f46e5;
+  font-weight: 600;
+}
+
+/* Button & Form Enhancements */
+.btn-primary-gradient {
+  background: var(--primary-gradient);
+  border: none;
+  color: #ffffff !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-primary-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+.btn-success-gradient {
+  background: var(--success-gradient);
+  border: none;
+  color: #ffffff !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-success-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.form-control-dark {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: var(--text-primary) !important;
+  border-radius: 10px !important;
+}
+
+.form-control-dark:focus {
+  background-color: #ffffff !important;
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.15) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-select-dark {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: var(--text-primary) !important;
+  border-radius: 10px !important;
+}
+
+.form-select-dark:focus {
+  background-color: #ffffff !important;
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.15) !important;
+  color: var(--text-primary) !important;
+}
+
+/* White Theme Helper Overrides */
+.text-white {
+  color: var(--text-primary) !important;
+}
+.border-secondary {
+  border-color: #cbd5e1 !important;
+}
+.border-opacity-25 {
+  border-opacity: 1 !important;
+}
+.bg-black.bg-opacity-20 {
+  background-color: #f1f5f9 !important;
+}
+.login-page-bg {
+  background: radial-gradient(circle at center, #ffffff 0%, #cbd5e1 100%) !important;
+}
+.navbar-custom {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+}
+.select-works-card {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: var(--text-primary) !important;
+}
+.badge:not([class*="text-"]) {
+  color: #ffffff !important;
+}
+
+/* Transliteration Suggestions Dropdown Style for Light Theme */
+.transliteration-dropdown {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+  padding: 4px 0;
+}
+.transliteration-dropdown-header {
+  font-size: 10px;
+  color: #64748b;
+  padding: 4px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-family: monospace;
+}
+.transliteration-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: all 0.15s ease;
+  outline: none;
+}
+.transliteration-dropdown-item:hover, .transliteration-dropdown-item.active {
+  background: #e0e7ff !important;
+  color: #4f46e5 !important;
+}
+
+/* Hindi Devanagari text presentation */
+.notesheet-text-area {
+  font-family: var(--hindi-font);
+  font-size: 16px;
+  line-height: 1.8;
+  color: #2c3e50;
+  background-color: #fbfbfb;
+  border: 1px solid #d1d5db;
+  padding: 40px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+/* Micro-animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.print-only {
+  display: none !important;
+}
+
+/* PRINT STYLING - MUST MATCH OFFICE SPECIFICATIONS */
+@media print {
+  /* Reset flex and layout heights globally during printing to prevent premature page splits */
+  html, body, #root, .d-flex, .flex-grow-1, .main-content, .animate-fade-in {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-family: var(--hindi-font) !important;
+  }
+
+  .animate-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  .sidebar {
+    display: none !important;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .notesheet-text-area {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: #000000 !important;
+    font-size: 16pt !important;
+    line-height: 1.8 !important;
+  }
+  
+  .print-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important; /* Let components or @page margin define layout bounds */
+  }
+
+  @page {
+    size: A4;
+    margin: 6mm 6mm 6mm 10mm;
+  }
+}
