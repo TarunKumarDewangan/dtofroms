@@ -493,11 +493,20 @@ const NotesheetPreview = ({ notesheet }) => {
 
                     {/* Closing Paragraph */}
                     <div className="notesheet-closing">
-                        वाहन क्रमांक <strong>{vehicle.registration_number}</strong> का <strong>{selectedWorksText}</strong> किये जाने हेतु {isBlankNotesheet ? (
-                            <strong>.....................</strong>
+                        {isBlankNotesheet ? (
+                            <span>
+                                वाहन क्रमांक <strong>{vehicle.registration_number}</strong> का स्वामित्व अंतरण/भाड़ा-क्रय करार दर्ज/भाड़ा-क्रय करार निरस्त/पता परिवर्तन दर्ज/पंजीयन प्रमाण पत्र की द्वितीय प्रति जारी जारी किये जाने हेतु मूल नस्ति/मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर प्रकरण अवलोकनार्थ एवं आदेशार्थ प्रस्तुत है।
+                            </span>
                         ) : (
-                            (content.original_file_attached === 'no' || content.original_file_attached === false) ? <strong>मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर</strong> : <strong>मूल नस्ती सहित</strong>
-                        )} प्रकरण अवलोकनार्थ एवं आदेशार्थ प्रस्तुत है।
+                            <span>
+                                वाहन क्रमांक <strong>{vehicle.registration_number}</strong> का <strong>{selectedWorksText}</strong>
+                                {(content.original_file_attached === 'no' || content.original_file_attached === false) ? (
+                                    <span> किये जाने हेतु <strong>मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर</strong></span>
+                                ) : (
+                                    <span> करने हेतु <strong>मूल नस्ती सहित</strong></span>
+                                )} प्रकरण अवलोकनार्थ एवं आदेशार्थ प्रस्तुत है।
+                            </span>
+                        )}
                     </div>
 
                     {/* Signature */}

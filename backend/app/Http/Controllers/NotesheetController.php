@@ -307,13 +307,14 @@ class NotesheetController extends Controller
         $workLabels = implode(" / ", $workNames);
         $originalFileAttached = $content['original_file_attached'] ?? 'yes';
         if ($isBlank) {
-            $nastiText = '.....................';
+            $body .= "वाहन क्रमांक {$vehicle->registration_number} का स्वामित्व अंतरण/भाड़ा-क्रय करार दर्ज/भाड़ा-क्रय करार निरस्त/पता परिवर्तन दर्ज/पंजीयन प्रमाण पत्र की द्वितीय प्रति जारी जारी किये जाने हेतु मूल नस्ति/मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर प्रकरण अवलोकनार्थ एवं आदेशार्थ प्रस्तुत है।\n\n";
         } else {
-            $nastiText = ($originalFileAttached === 'no' || $originalFileAttached === false)
-                ? "मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर"
-                : "प्रकरण आवश्यक मूल नस्ती सहित";
+            if ($originalFileAttached === 'no' || $originalFileAttached === false) {
+                $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} किये जाने हेतु मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
+            } else {
+                $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} करने हेतु मूल नस्ती सहित नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
+            }
         }
-        $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} करने हेतु {$nastiText} नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
         $body .= "शाखा प्रभारी\n\n";
         $body .= "--------------------------------------------------------\n";
         $body .= "जिला परिवहन अधिकारी (DTO) आदेश / टिप्पणी:\n\n\n\n";

@@ -775,7 +775,12 @@ const FormFiller = () => {
                                         formData.include_address && "पता परिवर्तन दर्ज",
                                         formData.include_duplicate && "पंजीयन प्रमाण पत्र की द्वितीय प्रति जारी"
                                     ].filter(Boolean).join(" / ") || ".........."
-                                }</strong> किये जाने हेतु {(formData.original_file_attached === 'no' || formData.original_file_attached === false) ? <strong>मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर</strong> : <strong>प्रकरण आवश्यक मूल नस्ती सहित</strong>} नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।
+                                }</strong>
+                                {(formData.original_file_attached === 'no' || formData.original_file_attached === false) ? (
+                                    <span> किये जाने हेतु <strong>मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर</strong></span>
+                                ) : (
+                                    <span> करने हेतु <strong>मूल नस्ती सहित</strong></span>
+                                )} नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।
                             </div>
 
                             {/* Signature */}
