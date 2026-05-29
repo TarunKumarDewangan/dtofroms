@@ -97,6 +97,37 @@ class NotesheetController extends Controller
         $vehicle = $notesheet->vehicle;
         $works = $notesheet->combined_works;
 
+        $isBlank = (isset($content['is_blank']) && $content['is_blank'] === true) || 
+                   ($vehicle && $vehicle->owner_name === '.....................');
+
+        $getVal = function($val, $fallback = '.....................') use ($isBlank) {
+            if ($isBlank) {
+                return '.....................';
+            }
+            return ($val !== null && $val !== '') ? $val : $fallback;
+        };
+
+        $formatDate = function($date, $fallback = '.....................') use ($isBlank) {
+            if ($isBlank) {
+                return '.....................';
+            }
+            if (!$date || $date === '1970-01-01' || strpos($date, '1970-01-01') !== false) {
+                return $fallback;
+            }
+            try {
+                return Carbon::parse($date)->format('d-m-Y');
+            } catch (\Exception $e) {
+                return $fallback;
+            }
+        };
+
+        $formatTax = function($amount) use ($isBlank) {
+            if ($isBlank) {
+                return '.....................';
+            }
+            return number_format((float)$amount, 2);
+        };
+
         // Generate Subject
         $workNames = collect($works)->pluck('work_name')->map(function($name) {
             // Strip English parts in parenthesis if any for cleaner Hindi subject
@@ -122,82 +153,89 @@ class NotesheetController extends Controller
 
         // 1. Ownership Transfer
         if ($hasTransfer) {
-            $saleDate = isset($content['sale_date']) ? Carbon::parse($content['sale_date'])->format('d-m-Y') : '_______';
-            $buyerName = $content['buyer_name'] ?? '_______';
-            $buyerFather = $content['buyer_father'] ?? '_______';
-            $buyerAddress = $content['buyer_address'] ?? '_______';
-            $transferFee = $content['transfer_fee'] ?? '_______';
+            $saleDate = $formatDate($content['sale_date'] ?? null, '_______');
+            $buyerName = $getVal($content['buyer_name'] ?? null, '_______');
+            $buyerFather = $getVal($content['buyer_father'] ?? null, '_______');
+            $buyerAddress = $getVal($content['buyer_address'] ?? null, '_______');
+            $transferFee = $getVal($content['transfer_fee'] ?? null, '_______');
+            $vOwnerName = $getVal($vehicle->owner_name);
 
-            $body .= "उक्त वाहन को श्री {$buyerName} आत्मज श्री {$buyerFather} निवासी {$buyerAddress} ने मूल वाहन स्वामी श्री {$vehicle->owner_name} से क्रय कर स्वामित्व अंतरण हेतु निर्धारित प्रारूप क्रय-विक्रय फार्म नं. 29 एवं 30 में विक्रय दिनांक {$saleDate} को प्रस्तुत कर शुल्क रु. {$transferFee}/- ऑनलाइन माध्यम से जमा कर आवेदन प्रस्तुत किया है।\n\n";
+            $body .= "उक्त वाहन को श्री {$buyerName} आत्मज श्री {$buyerFather} निवासी {$buyerAddress} ने मूल वाहन स्वामी श्री {$vOwnerName} से क्रय कर स्वामित्व अंतरण हेतु निर्धारित प्रारूप क्रय-विक्रय फार्म नं. 29 एवं 30 में विक्रय दिनांक {$saleDate} को प्रस्तुत कर शुल्क रु. {$transferFee}/- ऑनलाइन माध्यम से जमा कर आवेदन प्रस्तुत किया है।\n\n";
         }
 
         // 2. Transfer after Death
         if ($hasTransferDeath) {
-            $deathDate = isset($content['death_date']) ? Carbon::parse($content['death_date'])->format('d-m-Y') : '_______';
-            $applicantName = $content['applicant_name'] ?? '_______';
-            $applicantFather = $content['applicant_father'] ?? '_______';
-            $applicantAddress = $content['applicant_address'] ?? '_______';
-            $relation = $content['relation_to_deceased'] ?? 'वारिस';
-            $deathFee = $content['death_transfer_fee'] ?? '_______';
+            $deathDate = $formatDate($content['death_date'] ?? null, '_______');
+            $applicantName = $getVal($content['applicant_name'] ?? null, '_______');
+            $applicantFather = $getVal($content['applicant_father'] ?? null, '_______');
+            $applicantAddress = $getVal($content['applicant_address'] ?? null, '_______');
+            $relation = $getVal($content['relation_to_deceased'] ?? null, 'वारिस');
+            $deathFee = $getVal($content['death_transfer_fee'] ?? null, '_______');
+            $vOwnerName = $getVal($vehicle->owner_name);
 
-            $body .= "मूल वाहन स्वामी श्री {$vehicle->owner_name} की मृत्यु दिनांक {$deathDate} को हो जाने के कारण उनके विधिक {$relation} श्री {$applicantName} आत्मज श्री {$applicantFather} निवासी {$applicantAddress} द्वारा मृत्यु उपरांत स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 31, मृत्यु प्रमाण पत्र, विधिक वारिस प्रमाण पत्र एवं शपथ पत्र के साथ विहित शुल्क रु. {$deathFee}/- ऑनलाइन माध्यम से जमा कर आवेदन प्रस्तुत किया गया है।\n\n";
+            $body .= "मूल वाहन स्वामी श्री {$vOwnerName} की मृत्यु दिनांक {$deathDate} को हो जाने के कारण उनके विधिक {$relation} श्री {$applicantName} आत्मज श्री {$applicantFather} निवासी {$applicantAddress} द्वारा मृत्यु उपरांत स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 31, मृत्यु प्रमाण पत्र, विधिक वारिस प्रमाण पत्र एवं शपथ पत्र के साथ विहित शुल्क रु. {$deathFee}/- ऑनलाइन माध्यम से जमा कर आवेदन प्रस्तुत किया गया है।\n\n";
         }
 
         // 3. HP Register
         if ($hasHPRegister) {
-            $hpBank = $content['hp_bank_name'] ?? '_______';
-            $hpFee = $content['hp_fee'] ?? '_______';
-            $hpDate = isset($content['hp_date']) ? Carbon::parse($content['hp_date'])->format('d-m-Y') : '_______';
+            $hpBank = $getVal($content['hp_bank_name'] ?? null, '_______');
+            $hpFee = $getVal($content['hp_fee'] ?? null, '_______');
+            $hpDate = $formatDate($content['hp_date'] ?? null, '_______');
 
             $body .= "आवेदक द्वारा वाहन में फाइनेंस/हायर परचेस (HPA) दर्ज करने हेतु बैंक/फाइनेंस कंपनी {$hpBank} के साथ निष्पादित समझौता प्रारूप फार्म नं. 34 में विहित शुल्क रूपये {$hpFee}/- ऑनलाइन माध्यम से दिनांक {$hpDate} को जमा कर प्रकरण प्रस्तुत किया गया है।\n\n";
         }
 
         // 4. HP Cancel
         if ($hasHPCancel) {
-            $cancelBank = $content['cancel_bank_name'] ?? '_______';
-            $cancelFee = $content['hp_cancel_fee'] ?? '_______';
-            $cancelDate = isset($content['cancel_date']) ? Carbon::parse($content['cancel_date'])->format('d-m-Y') : '_______';
+            $cancelBank = $getVal($content['cancel_bank_name'] ?? null, '_______');
+            $cancelFee = $getVal($content['hp_cancel_fee'] ?? null, '_______');
+            $cancelDate = $formatDate($content['cancel_date'] ?? null, '_______');
 
-            $body .= "वाहन में पूर्व में दर्ज फाइनेंस अनुबंध को निरस्त करने हेतु फाइनेंसर {$cancelBank} द्वारा जारी अनापत्ति प्रमाण पत्र (NOC) एवं प्रारूप फार्म नं. 35 के साथ विहित शुल्क रूपये {$cancelFee}/- ऑनलाइन माध्यम से दिनांक {$cancelDate} को जमा कर आवेदन प्रस्तुत किया है।\n\n";
+            $body .= "वाहन में पूर्व में दर्ज फाइनेंस अनुबंध को निरस्त करने हेतु फाइनेंसर {$cancelBank} द्वारा जारी अनापत्ति प्रमाण पत्र (NOC) एवं प्रारूप फार्म नं. 35 के साथ विहित शुल्क रूपये {$cancelFee}/- ऑनलाइन माध्यम से दिनांक {$cancelDate} को जमा कर आवेदन प्रस्तुत है।\n\n";
         }
 
         // 5. Address Change
         if ($hasAddressChange) {
-            $newAddress = $content['new_address'] ?? '_______';
-            $addressFee = $content['address_fee'] ?? '_______';
-            $addressProofType = $content['address_proof_type'] ?? 'आधार कार्ड/निवास प्रमाण पत्र';
+            $newAddress = $getVal($content['new_address'] ?? null, '_______');
+            $addressFee = $getVal($content['address_fee'] ?? null, '_______');
+            $addressProofType = $getVal($content['address_proof_type'] ?? null, 'आधार कार्ड/निवास प्रमाण पत्र');
 
             $body .= "वाहन स्वामी द्वारा अपना निवास स्थान परिवर्तन करने के कारण पंजीयन प्रमाण पत्र में नया पता दर्ज करने हेतु निर्धारित प्रारूप फार्म नं. 33 में विहित शुल्क रु. {$addressFee}/- जमा कर आवेदन प्रस्तुत किया गया है। आवेदक द्वारा नया पता प्रमाण पत्र के रूप में {$addressProofType} संलग्न किया गया है।\n\n";
         }
 
         // 6. Duplicate RC
         if ($hasDuplicateRC) {
-            $dupReason = $content['duplicate_reason'] ?? 'गुम हो जाने';
-            $dupFee = $content['duplicate_rc_fee'] ?? '_______';
+            $dupReason = $getVal($content['duplicate_reason'] ?? null, 'गुम हो जाने');
+            $dupFee = $getVal($content['duplicate_rc_fee'] ?? null, '_______');
 
             $body .= "वाहन स्वामी द्वारा पंजीयन पुस्तिका (RC) {$dupReason} के कारण द्वितीय प्रति जारी करने हेतु निर्धारित प्रारूप फार्म नं. 26 में विहित शुल्क रु. {$dupFee}/- जमा कर आवेदन प्रस्तुत किया गया है। आवेदक द्वारा पुलिस थाना में दर्ज कराई गई गुमशुदगी रिपोर्ट/सनहा की प्रति एवं शपथ पत्र संलग्न किया गया है।\n\n";
         }
 
         // 7. Renewal of Registration
         if ($hasRenewal) {
-            $renewalFee = $content['renewal_fee'] ?? '_______';
+            $renewalFee = $getVal($content['renewal_fee'] ?? null, '_______');
             $body .= "वाहन का पंजीयन अवधि समाप्त होने के कारण पंजीयन नवीनीकरण (Renewal of Registration) हेतु निर्धारित प्रारूप फार्म नं. 25 में विहित ऑनलाइन शुल्क रूपये {$renewalFee}/- जमा कर आवेदन प्रस्तुत किया गया है।\n\n";
         }
 
         // 8. Alteration of Vehicle
         if ($hasAlteration) {
-            $altDetails = $content['alteration_details'] ?? '_______';
-            $altFee = $content['alteration_fee'] ?? '_______';
+            $altDetails = $getVal($content['alteration_details'] ?? null, '_______');
+            $altFee = $getVal($content['alteration_fee'] ?? null, '_______');
             $body .= "वाहन की मूल बनावट में परिवर्तन (Alteration of Vehicle: {$altDetails}) दर्ज करने हेतु निर्धारित प्रारूप फार्म नं. 22C एवं 22D में विहित ऑनलाइन शुल्क रूपये {$altFee}/- जमा कर आवेदन प्रस्तुत किया गया है।\n\n";
         }
 
         // 9. Conversion of Vehicle
         if ($hasConversion) {
-            $convFrom = $content['conversion_from'] ?? '_______';
-            $convTo = $content['conversion_to'] ?? '_______';
-            $convFee = $content['conversion_fee'] ?? '_______';
+            $convFrom = $getVal($content['conversion_from'] ?? null, '_______');
+            $convTo = $getVal($content['conversion_to'] ?? null, '_______');
+            $convFee = $getVal($content['conversion_fee'] ?? null, '_______');
             $newClass = $content['new_vehicle_class'] ?? '';
-            $classText = $newClass ? ", नया वर्ग: {$newClass}" : "";
+            $classText = '';
+            if ($isBlank) {
+                $classText = ", नया वर्ग: .....................";
+            } else if ($newClass) {
+                $classText = ", नया वर्ग: {$newClass}";
+            }
             $body .= "वाहन का वर्ग रूपांतरण (Conversion of Vehicle: {$convFrom} से {$convTo}{$classText}) दर्ज करने हेतु निर्धारित प्रारूप में विहित ऑनलाइन शुल्क रूपये {$convFee}/- जमा कर आवेदन प्रस्तुत किया गया है।\n\n";
         }
 
@@ -210,7 +248,7 @@ class NotesheetController extends Controller
             $supportingDocs[] = "वाहन का एन.सी.आर.बी. (NCRB) क्लीयरेंस रिपोर्ट संलग्न है, जिसमें वाहन चोरी या किसी गंभीर अपराध में संलिप्त नहीं पाया गया है।";
         }
         if (isset($content['physical_verification_date']) && $content['physical_verification_date']) {
-            $verifDate = Carbon::parse($content['physical_verification_date'])->format('d-m-Y');
+            $verifDate = $formatDate($content['physical_verification_date']);
             $supportingDocs[] = "वाहन का भौतिक सत्यापन (Physical Verification) कार्यालयीन उपनिरीक्षक/आरक्षक द्वारा दिनांक {$verifDate} को किया गया है तथा सत्यापन रिपोर्ट संलग्न है।";
         }
 
@@ -222,36 +260,59 @@ class NotesheetController extends Controller
         $body .= "वाहन का विवरण निम्नानुसार है:-\n";
         $body .= "--------------------------------------------------------\n";
         $body .= "१. वाहन क्रमांक             : {$vehicle->registration_number}\n";
-        $body .= "२. वाहन स्वामी का नाम         : {$vehicle->owner_name}\n";
-        $body .= "३. पिता/पति का नाम          : {$vehicle->owner_father_name}\n";
-        $body .= "४. वर्तमान पता               : {$vehicle->owner_address}\n";
-        $body .= "५. वाहन का प्रकार            : {$vehicle->vehicle_type}\n";
-        $body .= "६. मॉडल/निर्माण वर्ष          : {$vehicle->model_year}\n";
-        $body .= "७. चेसिस नंबर              : {$vehicle->chassis_number}\n";
-        $body .= "८. इंजन नंबर               : {$vehicle->engine_number}\n";
-        $body .= "९. टैक्स वैधता/भुगतान दिनांक    : " . Carbon::parse($vehicle->tax_paid_date)->format('d-m-Y') . " (कर राशि रु. " . number_format($vehicle->tax_amount, 2) . "/-)\n";
-        $body .= "१०. फिटनेस वैधता दिनांक      : " . Carbon::parse($vehicle->fitness_validity)->format('d-m-Y') . "\n";
-        $body .= "११. बीमा वैधता दिनांक        : " . Carbon::parse($vehicle->insurance_validity)->format('d-m-Y') . "\n";
-        if ($vehicle->permit_validity) {
-            $body .= "१२. परमिट वैधता दिनांक       : " . Carbon::parse($vehicle->permit_validity)->format('d-m-Y') . "\n";
+        $body .= "२. वाहन स्वामी का नाम         : " . $getVal($vehicle->owner_name) . "\n";
+        $body .= "३. पिता/पति का नाम          : " . $getVal($vehicle->owner_father_name) . "\n";
+        $body .= "४. वर्तमान पता               : " . $getVal($vehicle->owner_address) . "\n";
+        $body .= "५. वाहन का प्रकार            : " . $getVal($vehicle->vehicle_type) . "\n";
+        $body .= "६. मॉडल/निर्माण वर्ष          : " . $getVal($vehicle->model_year) . "\n";
+        $body .= "७. चेसिस नंबर              : " . $getVal($vehicle->chassis_number) . "\n";
+        $body .= "८. इंजन नंबर               : " . $getVal($vehicle->engine_number) . "\n";
+        
+        $taxPaidDateFormatted = $formatDate($vehicle->tax_paid_date);
+        $taxAmountFormatted = $formatTax($vehicle->tax_amount);
+        $body .= "९. टैक्स वैधता/भुगतान दिनांक    : {$taxPaidDateFormatted} (कर राशि रु. {$taxAmountFormatted}/-)\n";
+        
+        $fitnessFormatted = $formatDate($vehicle->fitness_validity);
+        $body .= "१०. फिटनेस वैधता दिनांक      : {$fitnessFormatted}\n";
+        
+        $insuranceFormatted = $formatDate($vehicle->insurance_validity);
+        $body .= "११. बीमा वैधता दिनांक        : {$insuranceFormatted}\n";
+        
+        if ($isBlank) {
+            $body .= "१२. परमिट वैधता दिनांक       : .....................\n";
+            $body .= "१३. प्रदूषण वैधता दिनांक       : .....................\n";
+        } else {
+            if ($vehicle->permit_validity) {
+                $body .= "१२. परमिट वैधता दिनांक       : " . $formatDate($vehicle->permit_validity) . "\n";
+            }
+            if ($vehicle->pollution_validity) {
+                $body .= "१३. प्रदूषण वैधता दिनांक       : " . $formatDate($vehicle->pollution_validity) . "\n";
+            }
         }
-        if ($vehicle->pollution_validity) {
-            $body .= "१३. प्रदूषण वैधता दिनांक       : " . Carbon::parse($vehicle->pollution_validity)->format('d-m-Y') . "\n";
-        }
-        $body .= "१४. बंधक / फाइनेंस स्थिति       : {$vehicle->current_hpa}\n";
+        
+        $body .= "१४. बंधक / फाइनेंस स्थिति       : " . $getVal($vehicle->current_hpa) . "\n";
+        
         $originalFileAttached = $content['original_file_attached'] ?? 'yes';
-        $originalFileStatusText = ($originalFileAttached === 'no' || $originalFileAttached === false) 
-            ? "नहीं, मूल नस्ती संलग्न नहीं है" 
-            : "हाँ, मूल नस्ती संलग्न है";
+        if ($isBlank) {
+            $originalFileStatusText = '.....................';
+        } else {
+            $originalFileStatusText = ($originalFileAttached === 'no' || $originalFileAttached === false) 
+                ? "नहीं, मूल नस्ती संलग्न नहीं है" 
+                : "हाँ, मूल नस्ती संलग्न है";
+        }
         $body .= "१५. हस्ताक्षर मिलान हेतु मूल नस्ती : {$originalFileStatusText}\n";
         $body .= "--------------------------------------------------------\n\n";
 
         // Closing Paragraph
         $workLabels = implode(" / ", $workNames);
         $originalFileAttached = $content['original_file_attached'] ?? 'yes';
-        $nastiText = ($originalFileAttached === 'no' || $originalFileAttached === false)
-            ? "मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर"
-            : "प्रकरण आवश्यक मूल नस्ती सहित";
+        if ($isBlank) {
+            $nastiText = '.....................';
+        } else {
+            $nastiText = ($originalFileAttached === 'no' || $originalFileAttached === false)
+                ? "मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर"
+                : "प्रकरण आवश्यक मूल नस्ती सहित";
+        }
         $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} करने हेतु {$nastiText} नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
         $body .= "शाखा प्रभारी\n\n";
         $body .= "--------------------------------------------------------\n";

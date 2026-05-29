@@ -14,6 +14,7 @@ const NotesheetBuilder = () => {
     const [vehicle, setVehicle] = useState(null);
     const [regNumber, setRegNumber] = useState('');
     const [selectedWorks, setSelectedWorks] = useState([]);
+    const [isBlankNotesheet, setIsBlankNotesheet] = useState(false);
     const [generatedNotesheet, setGeneratedNotesheet] = useState(null);
     const [workOptions, setWorkOptions] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -61,6 +62,9 @@ const NotesheetBuilder = () => {
             setRegNumber(ns.vehicle.registration_number);
             setSelectedWorks(ns.combined_works);
             setGeneratedNotesheet(ns);
+            if (ns.content && ns.content.is_blank) {
+                setIsBlankNotesheet(true);
+            }
             setStep(3);
         } catch (err) {
             console.error('Edit load error:', err);
@@ -178,31 +182,63 @@ const NotesheetBuilder = () => {
         setShowAddForm(false);
         try {
             const res = await api.get(`/vehicles/search/${regNumber.trim()}`);
-            setVehicle(res.data);
+            const veh = res.data;
+            if (isBlankNotesheet) {
+                veh.is_blank_notesheet = true;
+            }
+            setVehicle(veh);
             setStep(2);
         } catch (err) {
-            setError('वाहन डेटाबेस में नहीं मिला। आप नीचे दिए गए फॉर्म का उपयोग करके इसे जोड़ सकते हैं। (Vehicle not found in database. You can add it using the form below.)');
-            setShowAddForm(true);
-            setVehicleClassSelect('Motor Car');
-            setCustomVehicleType('');
-            setNewVehicleData({
-                registration_number: regNumber.trim().toUpperCase(),
-                owner_name: '',
-                owner_father_name: '',
-                owner_address: '',
-                vehicle_type: 'Motor Car',
-                model_year: '',
-                chassis_number: '',
-                engine_number: '',
-                fitness_validity: '',
-                insurance_validity: '',
-                tax_amount: '',
-                tax_paid_date: '',
-                permit_validity: '',
-                pollution_validity: '',
-                current_hpa: 'NA',
-                ncrb_report_status: 'no',
-            });
+            if (isBlankNotesheet) {
+                try {
+                    const placeholderVehicle = {
+                        registration_number: regNumber.trim().toUpperCase(),
+                        owner_name: '.....................',
+                        owner_father_name: '.....................',
+                        owner_address: '.....................',
+                        vehicle_type: '.....................',
+                        model_year: '.....................',
+                        chassis_number: '.....................',
+                        engine_number: '.....................',
+                        fitness_validity: '1970-01-01',
+                        insurance_validity: '1970-01-01',
+                        tax_amount: 0,
+                        tax_paid_date: '1970-01-01',
+                        ncrb_report_status: 'no'
+                    };
+                    const createRes = await api.post('/vehicles', placeholderVehicle);
+                    const newVeh = createRes.data.vehicle;
+                    newVeh.is_blank_notesheet = true;
+                    setVehicle(newVeh);
+                    setStep(2);
+                } catch (createErr) {
+                    console.error('Placeholder creation error:', createErr);
+                    setError('Error creating blank notesheet vehicle.');
+                }
+            } else {
+                setError('वाहन डेटाबेस में नहीं मिला। आप नीचे दिए गए फॉर्म का उपयोग करके इसे जोड़ सकते हैं। (Vehicle not found in database. You can add it using the form below.)');
+                setShowAddForm(true);
+                setVehicleClassSelect('Motor Car');
+                setCustomVehicleType('');
+                setNewVehicleData({
+                    registration_number: regNumber.trim().toUpperCase(),
+                    owner_name: '',
+                    owner_father_name: '',
+                    owner_address: '',
+                    vehicle_type: 'Motor Car',
+                    model_year: '',
+                    chassis_number: '',
+                    engine_number: '',
+                    fitness_validity: '',
+                    insurance_validity: '',
+                    tax_amount: '',
+                    tax_paid_date: '',
+                    permit_validity: '',
+                    pollution_validity: '',
+                    current_hpa: 'NA',
+                    ncrb_report_status: 'no',
+                });
+            }
         } finally { setLoading(false); }
     };
 
@@ -283,7 +319,10 @@ const NotesheetBuilder = () => {
 
             // Step 2: Generate the notesheet text
             const genRes = await api.post(`/notesheets/${nsId}/generate`, {
-                content: formData
+                content: {
+                    ...formData,
+                    is_blank: isBlankNotesheet
+                }
             });
 
             setGeneratedNotesheet(genRes.data);
@@ -314,6 +353,7 @@ const NotesheetBuilder = () => {
         setGeneratedNotesheet(null);
         setError('');
         setSuccess('');
+        setIsBlankNotesheet(false);
     };
 
     const stepLabels = [
@@ -372,6 +412,24 @@ const NotesheetBuilder = () => {
                             <h5 className="text-white fw-semibold mb-3">
                                 चरण 1: वाहन खोजें (Search Vehicle)
                             </h5>
+                            
+                            <Form.Group className="mb-4">
+                                <Form.Check 
+                                    type="switch"
+                                    id="blank-notesheet-switch"
+                                    label={<span className="text-white fw-medium">खाली नोटशीट (Blank Notesheet) - केवल वाहन क्रमांक प्रिंट करें, बाकी जानकारी रिक्त रखें</span>}
+                                    checked={isBlankNotesheet}
+                                    onChange={(e) => {
+                                        setIsBlankNotesheet(e.target.checked);
+                                        if (e.target.checked) {
+                                            setShowAddForm(false);
+                                            setError('');
+                                        }
+                                    }}
+                                    className="custom-switch"
+                                />
+                            </Form.Group>
+
                             <div className="input-group" style={{ maxWidth: 500 }}>
                                 <input
                                     type="text"
@@ -382,11 +440,19 @@ const NotesheetBuilder = () => {
                                     onKeyDown={(e) => e.key === 'Enter' && searchVehicle()}
                                 />
                                 <Button className="btn-primary-gradient px-4" onClick={searchVehicle} disabled={loading}>
-                                    {loading ? <Spinner size="sm" /> : <><i className="bi bi-search me-2"></i>Search</>}
+                                    {loading ? (
+                                        <Spinner size="sm" />
+                                    ) : isBlankNotesheet ? (
+                                        <><i className="bi bi-arrow-right me-2"></i>Proceed</>
+                                    ) : (
+                                        <><i className="bi bi-search me-2"></i>Search</>
+                                    )}
                                 </Button>
                             </div>
                             <p className="text-secondary mt-3 mb-0" style={{ fontSize: '13px' }}>
-                                वाहन क्रमांक दर्ज करें और खोजें बटन पर क्लिक करें
+                                {isBlankNotesheet 
+                                    ? "वाहन क्रमांक दर्ज करें और आगे बढ़ने के लिए Proceed बटन पर क्लिक करें" 
+                                    : "वाहन क्रमांक दर्ज करें और खोजें बटन पर क्लिक करें"}
                             </p>
                         </Card.Body>
                     </Card>

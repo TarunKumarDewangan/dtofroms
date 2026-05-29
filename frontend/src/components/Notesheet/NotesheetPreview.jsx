@@ -9,6 +9,13 @@ const NotesheetPreview = ({ notesheet }) => {
     const content = data.content || {};
     const works = data.combined_works || [];
 
+    const isBlankNotesheet = content.is_blank === true || data.is_blank === true || notesheet.is_blank === true || vehicle?.is_blank_notesheet || vehicle?.owner_name === '.....................';
+
+    const getVal = (val, fallback = '.....................') => {
+        if (isBlankNotesheet) return fallback;
+        return val || fallback;
+    };
+
     if (!vehicle) {
         return (
             <Card className="glass-card border-0 mb-4">
@@ -32,7 +39,7 @@ const NotesheetPreview = ({ notesheet }) => {
 
     // Date formatting helper (dd-mm-yyyy)
     const formatDate = (dateStr) => {
-        if (!dateStr) return '.....................';
+        if (isBlankNotesheet || !dateStr || dateStr === '1970-01-01' || dateStr.startsWith('1970')) return '.....................';
         const date = new Date(dateStr);
         if (isNaN(date.getTime())) return dateStr;
         const day = String(date.getDate()).padStart(2, '0');
@@ -43,7 +50,7 @@ const NotesheetPreview = ({ notesheet }) => {
 
     // Registration date calculation (15 years before fitness validity)
     const getRegistrationDate = (v) => {
-        if (!v.fitness_validity) return '.....................';
+        if (isBlankNotesheet || !v.fitness_validity || v.fitness_validity === '1970-01-01' || v.fitness_validity.startsWith('1970')) return '.....................';
         const date = new Date(v.fitness_validity);
         date.setFullYear(date.getFullYear() - 15);
         return formatDate(date.toISOString().split('T')[0]);
@@ -258,7 +265,7 @@ const NotesheetPreview = ({ notesheet }) => {
                     {/* Paragraph 1: Ownership Transfer */}
                     {hasTransfer && (
                         <div className="notesheet-paragraph">
-                            उक्त वाहन को वाहन स्वामी श्री <strong>{content.buyer_name || '.....................'}</strong> आ. श्री <strong>{content.buyer_father || '.....................'}</strong> निवासी <strong>{content.buyer_address || '.....................'}</strong> ने वाहन स्वामी श्री <strong>{vehicle.owner_name}</strong> आ. श्री <strong>{vehicle.owner_father_name}</strong> से क्रय कर स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 29(2 प्रति में) एवं फार्म नं. 30 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.transfer_fee || '.....................'}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
+                            उक्त वाहन को वाहन स्वामी श्री <strong>{content.buyer_name || '.....................'}</strong> आ. श्री <strong>{content.buyer_father || '.....................'}</strong> निवासी <strong>{content.buyer_address || '.....................'}</strong> ने वाहन स्वामी श्री <strong>{getVal(vehicle.owner_name)}</strong> आ. श्री <strong>{getVal(vehicle.owner_father_name)}</strong> से क्रय कर स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 29(2 प्रति में) एवं फार्म नं. 30 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.transfer_fee || '.....................'}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
                         </div>
                     )}
 
@@ -314,7 +321,7 @@ const NotesheetPreview = ({ notesheet }) => {
 
                     {/* Table Title */}
                     <div className="notesheet-table-title">
-                        वाहन क्रमांक <strong>{vehicle.registration_number}</strong> (वाहन का मॉडल {vehicle.model_year}) संबंधित जानकारी निम्नानुसार है:-
+                        वाहन क्रमांक <strong>{vehicle.registration_number}</strong> (वाहन का मॉडल {getVal(vehicle.model_year)}) संबंधित जानकारी निम्नानुसार है:-
                     </div>
 
                     {/* 14-Row Table */}
@@ -324,14 +331,20 @@ const NotesheetPreview = ({ notesheet }) => {
                                 <td className="sno">01.</td>
                                 <td className="label-cell">वर्तमान वाहन स्वामी/विक्रेता का नाम पिता व वर्तमान पता</td>
                                 <td className="value-cell">
-                                    श्री {vehicle.owner_name} आ. श्री {vehicle.owner_father_name} निवासी {vehicle.owner_address}
+                                    श्री {getVal(vehicle.owner_name)} आ. श्री {getVal(vehicle.owner_father_name)} निवासी {getVal(vehicle.owner_address)}
                                 </td>
                             </tr>
                             <tr>
                                 <td className="sno">02.</td>
                                 <td className="label-cell">प्रस्तावित वाहन स्वामी/क्रेता का नाम पिता व वर्तमान पता</td>
                                 <td className="value-cell">
-                                    {hasTransfer ? (
+                                    {isBlankNotesheet ? (
+                                        (hasTransfer || hasTransferDeath) ? (
+                                            <span>श्री ..................... आ. श्री ..................... निवासी .....................</span>
+                                        ) : (
+                                            <span>लागू नहीं (NA)</span>
+                                        )
+                                    ) : hasTransfer ? (
                                         <span>श्री {content.buyer_name || '.......'} आ. श्री {content.buyer_father || '.......'} निवासी {content.buyer_address || '.......'}</span>
                                     ) : hasTransferDeath ? (
                                         <span>श्री {content.applicant_name || '.......'} आ. श्री {content.applicant_father || '.......'} निवासी {content.applicant_address || '.......'}</span>
@@ -348,44 +361,70 @@ const NotesheetPreview = ({ notesheet }) => {
                             <tr>
                                 <td className="sno">04.</td>
                                 <td className="label-cell">चेसिस क्रमांक</td>
-                                <td className="value-cell">{vehicle.chassis_number}</td>
+                                <td className="value-cell">{getVal(vehicle.chassis_number)}</td>
                             </tr>
                             <tr>
                                 <td className="sno">05.</td>
                                 <td className="label-cell">इंजन क्रमांक</td>
-                                <td className="value-cell">{vehicle.engine_number}</td>
+                                <td className="value-cell">{getVal(vehicle.engine_number)}</td>
                             </tr>
                             <tr>
                                 <td className="sno">06.</td>
                                 <td className="label-cell">वाहन का मोटरयान कर की जमा दिनांक</td>
                                 <td className="value-cell">
-                                    दिनांक {formatDate(vehicle.tax_paid_date)} (शुल्क ₹{Number(vehicle.tax_amount).toLocaleString('en-IN')}/-)
+                                    {isBlankNotesheet ? (
+                                        <span>दिनांक ..................... (कर राशि रु. ...................../-)</span>
+                                    ) : (
+                                        <span>दिनांक {formatDate(vehicle.tax_paid_date)} (शुल्क ₹{Number(vehicle.tax_amount).toLocaleString('en-IN')}/-)</span>
+                                    )}
                                 </td>
                             </tr>
                             <tr>
                                 <td className="sno">07.</td>
                                 <td className="label-cell">वाहन का परमिट (यदि लागू हो तो)</td>
                                 <td className="value-cell">
-                                    {vehicle.permit_validity ? `वैधता दिनांक ${formatDate(vehicle.permit_validity)}` : 'लागू नहीं (NA)'}
+                                    {isBlankNotesheet ? (
+                                        <span>वैधता दिनांक .....................</span>
+                                    ) : (
+                                        <span>{vehicle.permit_validity ? `वैधता दिनांक ${formatDate(vehicle.permit_validity)}` : 'लागू नहीं (NA)'}</span>
+                                    )}
                                 </td>
                             </tr>
                             <tr>
                                 <td className="sno">08.</td>
                                 <td className="label-cell">वाहन का फिटनेस/पंजीयन प्रमाण पत्र की वैधता</td>
-                                <td className="value-cell">वैधता दिनांक {formatDate(vehicle.fitness_validity)}</td>
+                                <td className="value-cell">
+                                    {isBlankNotesheet ? (
+                                        <span>वैधता दिनांक .....................</span>
+                                    ) : (
+                                        <span>वैधता दिनांक {formatDate(vehicle.fitness_validity)}</span>
+                                    )}
+                                </td>
                             </tr>
                             <tr>
                                 <td className="sno">09.</td>
                                 <td className="label-cell">वाहन का प्रदूषण जांच प्रमाण पत्र की वैधता</td>
                                 <td className="value-cell">
-                                    {vehicle.pollution_validity ? `वैधता दिनांक ${formatDate(vehicle.pollution_validity)}` : 'लागू नहीं (NA)'}
+                                    {isBlankNotesheet ? (
+                                        <span>वैधता दिनांक .....................</span>
+                                    ) : (
+                                        <span>{vehicle.pollution_validity ? `वैधता दिनांक ${formatDate(vehicle.pollution_validity)}` : 'लागू नहीं (NA)'}</span>
+                                    )}
                                 </td>
                             </tr>
                             <tr>
                                 <td className="sno">10.</td>
                                 <td className="label-cell">वित्त-पोषक का नाम</td>
                                 <td className="value-cell">
-                                    {hasHPRegister ? (
+                                    {isBlankNotesheet ? (
+                                        hasHPRegister ? (
+                                            <span>श्री ..................... (दर्ज हेतु)</span>
+                                        ) : hasHPCancel ? (
+                                            <span>श्री ..................... (निरस्त हेतु)</span>
+                                        ) : (
+                                            <span>.....................</span>
+                                        )
+                                    ) : hasHPRegister ? (
                                         <span>श्री {content.hp_bank_name || '.......'} (दर्ज हेतु)</span>
                                     ) : hasHPCancel ? (
                                         <span>श्री {content.cancel_bank_name || '.......'} (निरस्त हेतु)</span>
@@ -398,35 +437,55 @@ const NotesheetPreview = ({ notesheet }) => {
                                 <td className="sno">11.</td>
                                 <td className="label-cell">पुलिस जांच/चोरी संबंधी स्थिति एन.सी.आर.बी. रिपोर्ट</td>
                                 <td className="value-cell">
-                                    {content.ncrb_report === 'yes' ? 'चोरी/अपराध में संलिप्त नहीं (एन.सी.आर.बी. रिपोर्ट संलग्न)' : 'संलग्न नहीं'}
+                                    {isBlankNotesheet ? (
+                                        <span>.....................</span>
+                                    ) : (
+                                        content.ncrb_report === 'yes' ? 'चोरी/अपराध में संलिप्त नहीं (एन.सी.आर.बी. रिपोर्ट संलग्न)' : 'संलग्न नहीं'
+                                    )}
                                 </td>
                             </tr>
                             <tr>
                                 <td className="sno">12.</td>
                                 <td className="label-cell">एफ.आई.आर. की प्रति</td>
                                 <td className="value-cell">
-                                    {hasDuplicateRC ? 'गुमशुदगी रिपोर्ट/सनहा की प्रति संलग्न' : 'लागू नहीं (NA)'}
+                                    {isBlankNotesheet ? (
+                                        <span>.....................</span>
+                                    ) : (
+                                        hasDuplicateRC ? 'गुमशुदगी रिपोर्ट/सनहा की प्रति संलग्न' : 'लागू नहीं (NA)'
+                                    )}
                                 </td>
                             </tr>
                             <tr>
                                 <td className="sno">13.</td>
                                 <td className="label-cell">वाहन स्वामी एवं क्रेता द्वारा वाहन संबंधी समस्त जवाबदारी लेते हुए शपथपत्र प्रस्तुत किया गया है।</td>
                                 <td className="value-cell">
-                                    {content.affidavit_attached === 'yes' ? 'हाँ, शपथपत्र संलग्न है' : 'संलग्न नहीं'}
+                                    {isBlankNotesheet ? (
+                                        <span>.....................</span>
+                                    ) : (
+                                        content.affidavit_attached === 'yes' ? 'हाँ, शपथपत्र संलग्न है' : 'संलग्न नहीं'
+                                    )}
                                 </td>
                             </tr>
                             <tr>
                                 <td className="sno">14.</td>
                                 <td className="label-cell">वाहन का भौतिक सत्यापन दिनांक</td>
                                 <td className="value-cell">
-                                    {content.physical_verification_date ? `दिनांक ${formatDate(content.physical_verification_date)} को भौतिक सत्यापन किया गया` : 'लागू नहीं (NA)'}
+                                    {isBlankNotesheet ? (
+                                        <span>दिनांक ..................... को भौतिक सत्यापन किया गया</span>
+                                    ) : (
+                                        content.physical_verification_date ? `दिनांक ${formatDate(content.physical_verification_date)} को भौतिक सत्यापन किया गया` : 'लागू नहीं (NA)'
+                                    )}
                                 </td>
                             </tr>
                             <tr>
                                 <td className="sno">15.</td>
                                 <td className="label-cell">हस्ताक्षर मिलान हेतु मूल नस्ती संलग्न है।</td>
                                 <td className="value-cell">
-                                    {(content.original_file_attached === 'no' || content.original_file_attached === false) ? 'नहीं, मूल नस्ती संलग्न नहीं है' : 'हाँ, मूल नस्ती संलग्न है'}
+                                    {isBlankNotesheet ? (
+                                        <span>.....................</span>
+                                    ) : (
+                                        (content.original_file_attached === 'no' || content.original_file_attached === false) ? 'नहीं, मूल नस्ती संलग्न नहीं है' : 'हाँ, मूल नस्ती संलग्न है'
+                                    )}
                                 </td>
                             </tr>
                         </tbody>
@@ -434,7 +493,11 @@ const NotesheetPreview = ({ notesheet }) => {
 
                     {/* Closing Paragraph */}
                     <div className="notesheet-closing">
-                        वाहन क्रमांक <strong>{vehicle.registration_number}</strong> का <strong>{selectedWorksText}</strong> किये जाने हेतु {(content.original_file_attached === 'no' || content.original_file_attached === false) ? <strong>मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर</strong> : <strong>मूल नस्ती सहित</strong>} प्रकरण अवलोकनार्थ एवं आदेशार्थ प्रस्तुत है।
+                        वाहन क्रमांक <strong>{vehicle.registration_number}</strong> का <strong>{selectedWorksText}</strong> किये जाने हेतु {isBlankNotesheet ? (
+                            <strong>.....................</strong>
+                        ) : (
+                            (content.original_file_attached === 'no' || content.original_file_attached === false) ? <strong>मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर</strong> : <strong>मूल नस्ती सहित</strong>
+                        )} प्रकरण अवलोकनार्थ एवं आदेशार्थ प्रस्तुत है।
                     </div>
 
                     {/* Signature */}
