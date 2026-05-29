@@ -306,14 +306,10 @@ class NotesheetController extends Controller
         // Closing Paragraph
         $workLabels = implode(" / ", $workNames);
         $originalFileAttached = $content['original_file_attached'] ?? 'yes';
-        if ($isBlank) {
-            $body .= "वाहन क्रमांक {$vehicle->registration_number} का स्वामित्व अंतरण/भाड़ा-क्रय करार दर्ज/भाड़ा-क्रय करार निरस्त/पता परिवर्तन दर्ज/पंजीयन प्रमाण पत्र की द्वितीय प्रति जारी जारी किये जाने हेतु मूल नस्ति/मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर प्रकरण अवलोकनार्थ एवं आदेशार्थ प्रस्तुत है।\n\n";
+        if ($originalFileAttached === 'no' || $originalFileAttached === false) {
+            $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} किये जाने हेतु मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
         } else {
-            if ($originalFileAttached === 'no' || $originalFileAttached === false) {
-                $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} किये जाने हेतु मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
-            } else {
-                $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} करने हेतु मूल नस्ती सहित नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
-            }
+            $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} करने हेतु मूल नस्ती सहित नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है.\n\n";
         }
         $body .= "शाखा प्रभारी\n\n";
         $body .= "--------------------------------------------------------\n";
