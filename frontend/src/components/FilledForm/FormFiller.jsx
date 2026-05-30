@@ -29,6 +29,26 @@ const FormFiller = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
+    const [rowVisibility, setRowVisibility] = useState({
+        1: true, 2: true, 3: true, 4: true, 5: true,
+        6: true, 7: true, 8: true, 9: true, 10: true,
+        11: true, 12: true, 13: true, 14: true, 15: true
+    });
+
+    const toggleRow = (num) => {
+        setRowVisibility(prev => ({
+            ...prev,
+            [num]: !prev[num]
+        }));
+    };
+
+    let currentSNo = 1;
+    const getSNo = (num) => {
+        if (!rowVisibility[num]) return '--.';
+        const sno = currentSNo++;
+        return String(sno).padStart(2, '0') + '.';
+    };
+
     useEffect(() => {
         if (idParam) {
             fetchFormForEdit(idParam);
@@ -242,6 +262,7 @@ const FormFiller = () => {
         return <div className="d-flex justify-content-center py-5"><Spinner animation="border" variant="info" /></div>;
     }
 
+    currentSNo = 1;
     return (
         <div className="animate-fade-in pb-5">
             <style>{`
@@ -347,6 +368,13 @@ const FormFiller = () => {
                 .print-only {
                     display: none !important;
                 }
+                .row-disabled td:not(.toggle-cell) {
+                    opacity: 0.35;
+                    background-color: #f8f9fa !important;
+                }
+                .toggle-cell {
+                    background-color: #ffffff !important;
+                }
                 
                 @media print {
                     /* Reset flex and layout heights to prevent premature page breaks in Chrome print engine */
@@ -369,6 +397,9 @@ const FormFiller = () => {
                     .no-print {
                         display: none !important;
                     }
+                    .row-disabled {
+                        display: none !important;
+                    }
                     .print-only {
                         display: block !important;
                     }
@@ -380,6 +411,8 @@ const FormFiller = () => {
                     }
                     .pdf-form-page {
                         border: 1px solid #000000 !important;
+                        border-bottom: none !important;
+                        min-height: 265mm !important;
                         padding: 25px 25px !important; /* Normal padding to fill the page nicely */
                         width: 100% !important;
                         max-width: 100% !important;
@@ -426,6 +459,7 @@ const FormFiller = () => {
                     }
                     .notesheet-signature {
                         margin-top: 20px !important;
+                        margin-bottom: 80px !important;
                     }
                     .rto-input {
                         text-align: left !important;
@@ -606,17 +640,21 @@ const FormFiller = () => {
                                 </div>
                             )}
 
-                            {(formData.include_hp_reg || formData.include_hp_cancel || formData.include_address) && (
+                            {formData.include_hp_reg && (
                                 <div className="notesheet-paragraph">
-                                    {formData.include_hp_reg && (
-                                        <span>एच.पी. दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 34 में विहित् ऑनलाईन शुल्क राशि रू. <input name="hp_fee" className="rto-input" style={{ width: getInputWidth(formData.hp_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.hp_fee || ''} onChange={handleInputChange} /> दिनांक <input name="hp_date" className="rto-input" style={{ width: getInputWidth(formData.hp_date, "दिनांक", 80) }} placeholder="दिनांक" value={formData.hp_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है। </span>
-                                    )}
-                                    {formData.include_hp_cancel && (
-                                        <span>एच.पी. निरस्त किये जाने हेतु निर्धारित प्रारूप फार्म नं. 35 में विहित् ऑनलाईन शुल्क राशि रू. <input name="hp_cancel_fee" className="rto-input" style={{ width: getInputWidth(formData.hp_cancel_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.hp_cancel_fee || ''} onChange={handleInputChange} /> दिनांक <input name="cancel_date" className="rto-input" style={{ width: getInputWidth(formData.cancel_date, "दिनांक", 80) }} placeholder="दिनांक" value={formData.cancel_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है। </span>
-                                    )}
-                                    {formData.include_address && (
-                                        <span>पता परिवर्तन दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 33 में विहित् ऑनलाईन शुल्क राशि रू. <input name="address_fee" className="rto-input" style={{ width: getInputWidth(formData.address_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.address_fee || ''} onChange={handleInputChange} /> दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है। </span>
-                                    )}
+                                    एच.पी. दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 34 में विहित् ऑनलाईन शुल्क राशि रू. <input name="hp_fee" className="rto-input" style={{ width: getInputWidth(formData.hp_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.hp_fee || ''} onChange={handleInputChange} /> दिनांक <input name="hp_date" className="rto-input" style={{ width: getInputWidth(formData.hp_date, "दिनांक", 80) }} placeholder="दिनांक" value={formData.hp_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
+                                </div>
+                            )}
+
+                            {formData.include_hp_cancel && (
+                                <div className="notesheet-paragraph">
+                                    एच.पी. निरस्त किये जाने हेतु निर्धारित प्रारूप फार्म नं. 35 में विहित् ऑनलाईन शुल्क राशि रू. <input name="hp_cancel_fee" className="rto-input" style={{ width: getInputWidth(formData.hp_cancel_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.hp_cancel_fee || ''} onChange={handleInputChange} /> दिनांक <input name="cancel_date" className="rto-input" style={{ width: getInputWidth(formData.cancel_date, "दिनांक", 80) }} placeholder="दिनांक" value={formData.cancel_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
+                                </div>
+                            )}
+
+                            {formData.include_address && (
+                                <div className="notesheet-paragraph">
+                                    पता परिवर्तन दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 33 में विहित् ऑनलाईन शुल्क राशि रू. <input name="address_fee" className="rto-input" style={{ width: getInputWidth(formData.address_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.address_fee || ''} onChange={handleInputChange} /> दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
                                 </div>
                             )}
 
@@ -640,82 +678,186 @@ const FormFiller = () => {
                             {/* Table */}
                             <table className="notesheet-table">
                                 <tbody>
-                                    <tr>
-                                        <td className="sno">01.</td>
+                                    <tr className={!rowVisibility[1] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-1"
+                                                checked={rowVisibility[1]} 
+                                                onChange={() => toggleRow(1)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(1)}</td>
                                         <td className="label-cell">वर्तमान वाहन स्वामी/विक्रेता का नाम पिता व वर्तमान पता</td>
-                                        <td className="value-cell">
-                                            श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_name, "स्वामी का नाम", 110) }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="स्वामी का नाम" value={formData.owner_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_father, "पिता का नाम", 100) }}><TransliteratedInput name="owner_father" className="rto-input" placeholder="पिता का नाम" value={formData.owner_father || ''} onChange={handleInputChange} /></div> निवासी <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_address, "पता", 140) }}><TransliteratedInput name="owner_address" className="rto-input" placeholder="पता" value={formData.owner_address || ''} onChange={handleInputChange} /></div>
+                                        <td className="value-cell" style={{ lineHeight: '1.8' }}>
+                                            <div className="d-flex gap-2 mb-1">
+                                                <div style={{ flex: 1 }}><TransliteratedInput name="owner_name" className="rto-input w-100" placeholder="स्वामी का नाम" value={formData.owner_name || ''} onChange={handleInputChange} /></div>
+                                                <div style={{ flex: 1 }}><TransliteratedInput name="owner_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.owner_father || ''} onChange={handleInputChange} /></div>
+                                            </div>
+                                            <div><TransliteratedInput name="owner_address" className="rto-input w-100" placeholder="पता" value={formData.owner_address || ''} onChange={handleInputChange} /></div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">02.</td>
+                                    <tr className={!rowVisibility[2] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-2"
+                                                checked={rowVisibility[2]} 
+                                                onChange={() => toggleRow(2)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(2)}</td>
                                         <td className="label-cell">प्रस्तावित वाहन स्वामी/क्रेता का नाम पिता व वर्तमान पता</td>
-                                        <td className="value-cell">
+                                        <td className="value-cell" style={{ lineHeight: '1.8' }}>
                                             {formData.include_death ? (
-                                                <span>श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_name, "वारिस का नाम", 110) }}><TransliteratedInput name="applicant_name" className="rto-input" placeholder="वारिस का नाम" value={formData.applicant_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_father, "पिता का नाम", 100) }}><TransliteratedInput name="applicant_father" className="rto-input" placeholder="पिता का नाम" value={formData.applicant_father || ''} onChange={handleInputChange} /></div> निवासी <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_address, "पता", 140) }}><TransliteratedInput name="applicant_address" className="rto-input" placeholder="पता" value={formData.applicant_address || ''} onChange={handleInputChange} /></div></span>
+                                                <>
+                                                    <div className="d-flex gap-2 mb-1">
+                                                        <div style={{ flex: 1 }}><TransliteratedInput name="applicant_name" className="rto-input w-100" placeholder="वारिस का नाम" value={formData.applicant_name || ''} onChange={handleInputChange} /></div>
+                                                        <div style={{ flex: 1 }}><TransliteratedInput name="applicant_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.applicant_father || ''} onChange={handleInputChange} /></div>
+                                                    </div>
+                                                    <div><TransliteratedInput name="applicant_address" className="rto-input w-100" placeholder="पता" value={formData.applicant_address || ''} onChange={handleInputChange} /></div>
+                                                </>
                                             ) : (
-                                                <span>श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_name, "क्रेता का नाम", 110) }}><TransliteratedInput name="buyer_name" className="rto-input" placeholder="क्रेता का नाम" value={formData.buyer_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_father, "पिता का नाम", 100) }}><TransliteratedInput name="buyer_father" className="rto-input" placeholder="पिता का नाम" value={formData.buyer_father || ''} onChange={handleInputChange} /></div> निवासी <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_address, "पता", 140) }}><TransliteratedInput name="buyer_address" className="rto-input" placeholder="पता" value={formData.buyer_address || ''} onChange={handleInputChange} /></div></span>
+                                                <>
+                                                    <div className="d-flex gap-2 mb-1">
+                                                        <div style={{ flex: 1 }}><TransliteratedInput name="buyer_name" className="rto-input w-100" placeholder="क्रेता का नाम" value={formData.buyer_name || ''} onChange={handleInputChange} /></div>
+                                                        <div style={{ flex: 1 }}><TransliteratedInput name="buyer_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.buyer_father || ''} onChange={handleInputChange} /></div>
+                                                    </div>
+                                                    <div><TransliteratedInput name="buyer_address" className="rto-input w-100" placeholder="पता" value={formData.buyer_address || ''} onChange={handleInputChange} /></div>
+                                                </>
                                             )}
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">03.</td>
+                                    <tr className={!rowVisibility[3] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-3"
+                                                checked={rowVisibility[3]} 
+                                                onChange={() => toggleRow(3)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(3)}</td>
                                         <td className="label-cell">वाहन का पंजीयन दिनांक</td>
                                         <td className="value-cell">
                                             <input name="registration_date" className="rto-input" style={{ width: getInputWidth(formData.registration_date, "पंजीयन दिनांक", 100) }} placeholder="e.g. 24-05-2018" value={formData.registration_date || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">04.</td>
+                                    <tr className={!rowVisibility[4] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-4"
+                                                checked={rowVisibility[4]} 
+                                                onChange={() => toggleRow(4)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(4)}</td>
                                         <td className="label-cell">चेसिस क्रमांक</td>
                                         <td className="value-cell">
                                             <input name="chassis_number" className="rto-input" style={{ width: getInputWidth(formData.chassis_number, "चेसिस क्रमांक", 160) }} placeholder="चेसिस क्रमांक" value={formData.chassis_number || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">05.</td>
+                                    <tr className={!rowVisibility[5] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-5"
+                                                checked={rowVisibility[5]} 
+                                                onChange={() => toggleRow(5)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(5)}</td>
                                         <td className="label-cell">इंजन क्रमांक</td>
                                         <td className="value-cell">
                                             <input name="engine_number" className="rto-input" style={{ width: getInputWidth(formData.engine_number, "इंजन क्रमांक", 130) }} placeholder="इंजन क्रमांक" value={formData.engine_number || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">06.</td>
+                                    <tr className={!rowVisibility[6] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-6"
+                                                checked={rowVisibility[6]} 
+                                                onChange={() => toggleRow(6)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(6)}</td>
                                         <td className="label-cell">वाहन का मोटरयान कर की जमा दिनांक</td>
                                         <td className="value-cell">
                                             दिनांक <input name="tax_paid_date" className="rto-input" style={{ width: getInputWidth(formData.tax_paid_date, "टैक्स जमा दिनांक", 100) }} placeholder="e.g. 15-02-2025" value={formData.tax_paid_date || ''} onChange={handleInputChange} /> (शुल्क ₹<input name="tax_amount" className="rto-input" style={{ width: getInputWidth(formData.tax_amount, "कर राशि", 70) }} placeholder="कर राशि" value={formData.tax_amount || ''} onChange={handleInputChange} />/-)
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">07.</td>
+                                    <tr className={!rowVisibility[7] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-7"
+                                                checked={rowVisibility[7]} 
+                                                onChange={() => toggleRow(7)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(7)}</td>
                                         <td className="label-cell">वाहन का परमिट (यदि लागू हो तो)</td>
                                         <td className="value-cell">
                                             <input name="permit_validity" className="rto-input" style={{ width: getInputWidth(formData.permit_validity, "वैधता दिनांक", 160) }} placeholder="e.g. 10-12-2027" value={formData.permit_validity || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">08.</td>
+                                    <tr className={!rowVisibility[8] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-8"
+                                                checked={rowVisibility[8]} 
+                                                onChange={() => toggleRow(8)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(8)}</td>
                                         <td className="label-cell">वाहन का फिटनेस/पंजीयन प्रमाण पत्र की वैधता</td>
                                         <td className="value-cell">
                                             वैधता दिनांक <input name="fitness_validity" className="rto-input" style={{ width: getInputWidth(formData.fitness_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 23-05-2033" value={formData.fitness_validity || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">09.</td>
+                                    <tr className={!rowVisibility[9] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-9"
+                                                checked={rowVisibility[9]} 
+                                                onChange={() => toggleRow(9)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(9)}</td>
                                         <td className="label-cell">वाहन का प्रदूषण जांच प्रमाण पत्र की वैधता</td>
                                         <td className="value-cell">
                                             वैता दिनांक <input name="pollution_validity" className="rto-input" style={{ width: getInputWidth(formData.pollution_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 14-11-2026" value={formData.pollution_validity || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">10.</td>
+                                    <tr className={!rowVisibility[10] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-10"
+                                                checked={rowVisibility[10]} 
+                                                onChange={() => toggleRow(10)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(10)}</td>
                                         <td className="label-cell">वित्त-पोषक का नाम</td>
                                         <td className="value-cell">
                                             <div className="d-inline-block" style={{ width: getInputWidth(formData.current_hpa, "फाइनेंसर का नाम", 160) }}><TransliteratedInput name="current_hpa" className="rto-input" placeholder="e.g. NA / SBI" value={formData.current_hpa || ''} onChange={handleInputChange} /></div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">11.</td>
+                                    <tr className={!rowVisibility[11] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-11"
+                                                checked={rowVisibility[11]} 
+                                                onChange={() => toggleRow(11)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(11)}</td>
                                         <td className="label-cell">पुलिस जांच/चोरी संबंधी स्थिति एन.सी.आर.बी. रिपोर्ट</td>
                                         <td className="value-cell">
                                             <Form.Select name="ncrb_report" className="rto-input" style={{ width: getInputWidth(formData.ncrb_report, "", 160), display: 'inline-block' }} value={formData.ncrb_report || 'yes'} onChange={handleInputChange}>
@@ -724,8 +866,16 @@ const FormFiller = () => {
                                             </Form.Select>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">12.</td>
+                                    <tr className={!rowVisibility[12] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-12"
+                                                checked={rowVisibility[12]} 
+                                                onChange={() => toggleRow(12)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(12)}</td>
                                         <td className="label-cell">एफ.आई.आर. की प्रति</td>
                                         <td className="value-cell">
                                             <Form.Select name="fir_attached" className="rto-input" style={{ width: getInputWidth(formData.fir_attached, "", 160), display: 'inline-block' }} value={formData.fir_attached || 'no'} onChange={handleInputChange}>
@@ -734,8 +884,16 @@ const FormFiller = () => {
                                             </Form.Select>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">13.</td>
+                                    <tr className={!rowVisibility[13] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-13"
+                                                checked={rowVisibility[13]} 
+                                                onChange={() => toggleRow(13)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(13)}</td>
                                         <td className="label-cell">वाहन स्वामी एवं क्रेता द्वारा वाहन संबंधी समस्त जवाबदारी लेते हुए शपथपत्र प्रस्तुत किया गया है।</td>
                                         <td className="value-cell">
                                             <Form.Select name="affidavit_attached" className="rto-input" style={{ width: getInputWidth(formData.affidavit_attached, "", 160), display: 'inline-block' }} value={formData.affidavit_attached || 'yes'} onChange={handleInputChange}>
@@ -744,15 +902,31 @@ const FormFiller = () => {
                                             </Form.Select>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">14.</td>
+                                    <tr className={!rowVisibility[14] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-14"
+                                                checked={rowVisibility[14]} 
+                                                onChange={() => toggleRow(14)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(14)}</td>
                                         <td className="label-cell">वाहन का भौतिक सत्यापन दिनांक</td>
                                         <td className="value-cell">
                                             दिनांक <input name="physical_verification_date" className="rto-input" style={{ width: getInputWidth(formData.physical_verification_date, "सत्यापन दिनांक", 100) }} placeholder="e.g. 26-05-2026" value={formData.physical_verification_date || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="sno">15.</td>
+                                    <tr className={!rowVisibility[15] ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-15"
+                                                checked={rowVisibility[15]} 
+                                                onChange={() => toggleRow(15)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(15)}</td>
                                         <td className="label-cell">हस्ताक्षर मिलान हेतु मूल नस्ती संलग्न है।</td>
                                         <td className="value-cell">
                                             <Form.Select name="original_file_attached" className="rto-input" style={{ width: getInputWidth(formData.original_file_attached, "", 160), display: 'inline-block' }} value={formData.original_file_attached || 'yes'} onChange={handleInputChange}>
@@ -777,25 +951,15 @@ const FormFiller = () => {
                                     ].filter(Boolean).join(" / ") || ".........."
                                 }</strong>
                                 {(formData.original_file_attached === 'no' || formData.original_file_attached === false) ? (
-                                    <span> किये जाने हेतु <strong>मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर</strong></span>
+                                    <span> किये जाने हेतु <strong>मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर</strong></span>
                                 ) : (
                                     <span> करने हेतु <strong>मूल नस्ती सहित</strong></span>
                                 )} नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।
                             </div>
 
                             {/* Signature */}
-                            <div className="notesheet-signature" style={{ textAlign: 'right', fontWeight: 'bold', marginTop: '15px' }}>
+                            <div className="notesheet-signature" style={{ textAlign: 'right', fontWeight: 'bold', marginTop: '15px', marginBottom: '100px' }}>
                                 शाखा प्रभारी
-                            </div>
-
-                            {/* DTO Comment and Signature Section */}
-                            <div className="notesheet-dto-section" style={{ marginTop: '30px', borderTop: '1px dotted #000000', paddingTop: '15px' }}>
-                                <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '10px' }}>जिला परिवहन अधिकारी (DTO) आदेश / टिप्पणी:</div>
-                                <div style={{ height: '120px' }}></div> {/* Spacer for handwriting comments and signature */}
-                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: 'bold' }}>
-                                    <span>दिनांक: ....................</span>
-                                    <span>हस्ताक्षर जिला परिवहन अधिकारी</span>
-                                </div>
                             </div>
                         </div>
                     )}

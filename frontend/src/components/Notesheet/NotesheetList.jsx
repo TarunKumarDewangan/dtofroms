@@ -154,7 +154,17 @@ const NotesheetList = () => {
                                 {notesheets.map(ns => (
                                     <tr key={ns.id} className="border-bottom border-secondary border-opacity-10">
                                         <td className="py-3 px-4">
-                                            <code className="text-info">{ns.notesheet_number}</code>
+                                            <a 
+                                                href="#" 
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    navigate(`/build?edit=${ns.id}&step=4`);
+                                                }}
+                                                className="text-info hover-underline fw-bold"
+                                                style={{ cursor: 'pointer', textDecoration: 'none' }}
+                                            >
+                                                <code>{ns.notesheet_number}</code>
+                                            </a>
                                         </td>
                                         <td className="py-3 text-white fw-medium">{ns.vehicle?.registration_number || 'N/A'}</td>
                                         <td className="py-3">
@@ -181,7 +191,7 @@ const NotesheetList = () => {
                                             <Button variant="outline-success" size="sm" className="rounded-2 me-2" onClick={() => handlePrintDirect(ns.id)}>
                                                 <i className="bi bi-printer me-1"></i> Print
                                             </Button>
-                                            <Button variant="outline-info" size="sm" className="rounded-2" onClick={() => openView(ns.id)}>
+                                            <Button variant="outline-info" size="sm" className="rounded-2" onClick={() => navigate(`/build?edit=${ns.id}&step=4`)}>
                                                 <i className="bi bi-eye me-1"></i> View
                                             </Button>
                                         </td>

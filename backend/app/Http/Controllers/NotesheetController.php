@@ -307,14 +307,11 @@ class NotesheetController extends Controller
         $workLabels = implode(" / ", $workNames);
         $originalFileAttached = $content['original_file_attached'] ?? 'yes';
         if ($originalFileAttached === 'no' || $originalFileAttached === false) {
-            $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} किये जाने हेतु मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
+            $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} किये जाने हेतु मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
         } else {
-            $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} करने हेतु मूल नस्ती सहित नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है.\n\n";
+            $body .= "अतः वाहन क्रमांक {$vehicle->registration_number} का {$workLabels} करने हेतु मूल नस्ती सहित नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।\n\n";
         }
         $body .= "शाखा प्रभारी\n\n";
-        $body .= "--------------------------------------------------------\n";
-        $body .= "जिला परिवहन अधिकारी (DTO) आदेश / टिप्पणी:\n\n\n\n";
-        $body .= "दिनांक: ....................          हस्ताक्षर जिला परिवहन अधिकारी\n";
 
         // Save
         $notesheet->subject_line = $subject;
@@ -382,23 +379,23 @@ class NotesheetController extends Controller
             $hasAddressChange = collect($works)->contains('work_code', 'ADDRESS_CHANGE');
 
             if ($hasTransfer) {
-                $vehicle->owner_name = $content['buyer_name'];
-                $vehicle->owner_father_name = $content['buyer_father'];
-                $vehicle->owner_address = $content['buyer_address'];
+                $vehicle->owner_name = $content['buyer_name'] ?? null;
+                $vehicle->owner_father_name = $content['buyer_father'] ?? null;
+                $vehicle->owner_address = $content['buyer_address'] ?? null;
             } elseif ($hasTransferDeath) {
-                $vehicle->owner_name = $content['applicant_name'];
-                $vehicle->owner_father_name = $content['applicant_father'];
-                $vehicle->owner_address = $content['applicant_address'];
+                $vehicle->owner_name = $content['applicant_name'] ?? null;
+                $vehicle->owner_father_name = $content['applicant_father'] ?? null;
+                $vehicle->owner_address = $content['applicant_address'] ?? null;
             }
 
             if ($hasHPRegister) {
-                $vehicle->current_hpa = $content['hp_bank_name'];
+                $vehicle->current_hpa = $content['hp_bank_name'] ?? null;
             } elseif ($hasHPCancel) {
                 $vehicle->current_hpa = 'NA';
             }
 
             if ($hasAddressChange) {
-                $vehicle->owner_address = $content['new_address'];
+                $vehicle->owner_address = $content['new_address'] ?? null;
             }
 
             $hasConversion = collect($works)->contains('work_code', 'VEHICLE_CONVERSION');

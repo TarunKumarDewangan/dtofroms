@@ -111,7 +111,7 @@ const AppRoutes = () => {
 
 function App() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/notesheet">
             <AuthProvider>
                 <AppRoutes />
             </AuthProvider>

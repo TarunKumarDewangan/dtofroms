@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import api from '../../services/api';
 import WorkSelector from './WorkSelector';
 import DynamicForm from './DynamicForm';
@@ -7,8 +8,10 @@ import NotesheetPreview from './NotesheetPreview';
 import { Card, Button, Alert, Spinner, Row, Col, Badge, Table, Form } from 'react-bootstrap';
 
 const NotesheetBuilder = () => {
+    const { user } = useAuth();
     const [searchParams] = useSearchParams();
     const editId = searchParams.get('edit');
+    const stepParam = searchParams.get('step');
 
     const [step, setStep] = useState(1);
     const [vehicle, setVehicle] = useState(null);
@@ -51,7 +54,7 @@ const NotesheetBuilder = () => {
         } else if (fromFormId) {
             loadNotesheetFromForm(fromFormId);
         }
-    }, [editId, fromFormId]);
+    }, [editId, fromFormId, stepParam]);
 
     const loadNotesheetForEdit = async (id) => {
         setLoading(true);
@@ -65,7 +68,8 @@ const NotesheetBuilder = () => {
             if (ns.content && ns.content.is_blank) {
                 setIsBlankNotesheet(true);
             }
-            setStep(3);
+            const initialStep = stepParam ? parseInt(stepParam) : 3;
+            setStep(initialStep);
         } catch (err) {
             console.error('Edit load error:', err);
             setError('Failed to load notesheet draft for editing.');
@@ -334,14 +338,60 @@ const NotesheetBuilder = () => {
     };
 
     const handleSubmitForApproval = async () => {
-        const nsId = generatedNotesheet?.notesheet?.id || generatedNotesheet?.data?.id;
+        const nsId = generatedNotesheet?.notesheet?.id || generatedNotesheet?.data?.id || generatedNotesheet?.id;
         if (!nsId) return;
         setLoading(true);
         try {
             await api.post(`/notesheets/${nsId}/submit`);
             setSuccess('Notesheet submitted for approval successfully! 🎉');
+            setGeneratedNotesheet(prev => {
+                if (!prev) return null;
+                const updatedStatus = 'submitted';
+                return prev.notesheet 
+                    ? { ...prev, status: updatedStatus, notesheet: { ...prev.notesheet, status: updatedStatus } }
+                    : { ...prev, status: updatedStatus };
+            });
         } catch (err) {
             setError(err.response?.data?.message || 'Submission failed');
+        } finally { setLoading(false); }
+    };
+
+    const handleApprove = async () => {
+        const nsId = generatedNotesheet?.notesheet?.id || generatedNotesheet?.data?.id || generatedNotesheet?.id;
+        if (!nsId) return;
+        setLoading(true);
+        try {
+            await api.post(`/notesheets/${nsId}/approve`);
+            setSuccess('Notesheet approved successfully! 🎉');
+            setGeneratedNotesheet(prev => {
+                if (!prev) return null;
+                const updatedStatus = 'approved';
+                return prev.notesheet 
+                    ? { ...prev, status: updatedStatus, notesheet: { ...prev.notesheet, status: updatedStatus } }
+                    : { ...prev, status: updatedStatus };
+            });
+        } catch (err) {
+            setError(err.response?.data?.message || 'Approval failed');
+        } finally { setLoading(false); }
+    };
+
+    const handleReject = async () => {
+        const nsId = generatedNotesheet?.notesheet?.id || generatedNotesheet?.data?.id || generatedNotesheet?.id;
+        if (!nsId) return;
+        if (!confirm('Are you sure you want to reject this notesheet?')) return;
+        setLoading(true);
+        try {
+            await api.post(`/notesheets/${nsId}/reject`);
+            setSuccess('Notesheet rejected successfully.');
+            setGeneratedNotesheet(prev => {
+                if (!prev) return null;
+                const updatedStatus = 'rejected';
+                return prev.notesheet 
+                    ? { ...prev, status: updatedStatus, notesheet: { ...prev.notesheet, status: updatedStatus } }
+                    : { ...prev, status: updatedStatus };
+            });
+        } catch (err) {
+            setError(err.response?.data?.message || 'Rejection failed');
         } finally { setLoading(false); }
     };
 
@@ -475,13 +525,13 @@ const NotesheetBuilder = () => {
                                         <Col md={4} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Owner Name</Form.Label>
-                                                <Form.Control name="owner_name" className="form-control-dark" required placeholder="e.g. BISAN BAI SAHU" value={newVehicleData.owner_name} onChange={handleNewVehicleChange} />
+                                                <Form.Control name="owner_name" className="form-control-dark" placeholder="e.g. BISAN BAI SAHU" value={newVehicleData.owner_name} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                         <Col md={4} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Father/Husband Name</Form.Label>
-                                                <Form.Control name="owner_father_name" className="form-control-dark" required placeholder="e.g. SUKHLAL SAHU" value={newVehicleData.owner_father_name} onChange={handleNewVehicleChange} />
+                                                <Form.Control name="owner_father_name" className="form-control-dark" placeholder="e.g. SUKHLAL SAHU" value={newVehicleData.owner_father_name} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -490,7 +540,7 @@ const NotesheetBuilder = () => {
                                         <Col md={8} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Owner Address</Form.Label>
-                                                <Form.Control name="owner_address" className="form-control-dark" required placeholder="e.g. VILLAGE POTIYADIH, DISTRICT DHAMTARI (C.G.)" value={newVehicleData.owner_address} onChange={handleNewVehicleChange} />
+                                                <Form.Control name="owner_address" className="form-control-dark" placeholder="e.g. VILLAGE POTIYADIH, DISTRICT DHAMTARI (C.G.)" value={newVehicleData.owner_address} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                         <Col md={4} className="mb-3">
@@ -517,7 +567,6 @@ const NotesheetBuilder = () => {
                                                     <Form.Control 
                                                         name="vehicle_type" 
                                                         className="form-control-dark" 
-                                                        required 
                                                         placeholder="e.g. LMV/CAR (BOLERO)" 
                                                         value={customVehicleType} 
                                                         onChange={handleCustomVehicleTypeChange} 
@@ -531,19 +580,19 @@ const NotesheetBuilder = () => {
                                         <Col md={3} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Model / Year</Form.Label>
-                                                <Form.Control name="model_year" className="form-control-dark" required placeholder="e.g. 2017" value={newVehicleData.model_year} onChange={handleNewVehicleChange} />
+                                                <Form.Control name="model_year" className="form-control-dark" placeholder="e.g. 2017" value={newVehicleData.model_year} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                         <Col md={4} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Chassis Number</Form.Label>
-                                                <Form.Control name="chassis_number" className="form-control-dark" required placeholder="e.g. MA1XX2XXJG8K27517" value={newVehicleData.chassis_number} onChange={handleNewVehicleChange} />
+                                                <Form.Control name="chassis_number" className="form-control-dark" placeholder="e.g. MA1XX2XXJG8K27517" value={newVehicleData.chassis_number} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                         <Col md={5} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Engine Number</Form.Label>
-                                                <Form.Control name="engine_number" className="form-control-dark" required placeholder="e.g. MDI3200T89512" value={newVehicleData.engine_number} onChange={handleNewVehicleChange} />
+                                                <Form.Control name="engine_number" className="form-control-dark" placeholder="e.g. MDI3200T89512" value={newVehicleData.engine_number} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -552,25 +601,25 @@ const NotesheetBuilder = () => {
                                         <Col md={3} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Fitness Validity</Form.Label>
-                                                <Form.Control type="date" name="fitness_validity" className="form-control-dark" required value={newVehicleData.fitness_validity} onChange={handleNewVehicleChange} />
+                                                <Form.Control type="date" name="fitness_validity" className="form-control-dark" value={newVehicleData.fitness_validity} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                         <Col md={3} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Insurance Validity</Form.Label>
-                                                <Form.Control type="date" name="insurance_validity" className="form-control-dark" required value={newVehicleData.insurance_validity} onChange={handleNewVehicleChange} />
+                                                <Form.Control type="date" name="insurance_validity" className="form-control-dark" value={newVehicleData.insurance_validity} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                         <Col md={3} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Tax Amount (₹)</Form.Label>
-                                                <Form.Control type="number" name="tax_amount" className="form-control-dark" required placeholder="e.g. 11612" value={newVehicleData.tax_amount} onChange={handleNewVehicleChange} />
+                                                <Form.Control type="number" name="tax_amount" className="form-control-dark" placeholder="e.g. 11612" value={newVehicleData.tax_amount} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                         <Col md={3} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Tax Paid Date</Form.Label>
-                                                <Form.Control type="date" name="tax_paid_date" className="form-control-dark" required value={newVehicleData.tax_paid_date} onChange={handleNewVehicleChange} />
+                                                <Form.Control type="date" name="tax_paid_date" className="form-control-dark" value={newVehicleData.tax_paid_date} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -632,12 +681,12 @@ const NotesheetBuilder = () => {
                             </div>
                             <Table borderless size="sm" className="text-secondary mb-0">
                                 <tbody>
-                                    <tr><td width="200">Owner</td><td className="text-white fw-medium">{vehicle.owner_name}</td></tr>
-                                    <tr><td>Father's Name</td><td className="text-white">{vehicle.owner_father_name}</td></tr>
-                                    <tr><td>Address</td><td className="text-white">{vehicle.owner_address}</td></tr>
-                                    <tr><td>Vehicle Type</td><td className="text-white">{vehicle.vehicle_type}</td></tr>
-                                    <tr><td>Model Year</td><td className="text-white">{vehicle.model_year}</td></tr>
-                                    <tr><td>Current HP</td><td><Badge bg={vehicle.current_hpa === 'NA' ? 'secondary' : 'warning'} text={vehicle.current_hpa !== 'NA' ? 'dark' : undefined}>{vehicle.current_hpa}</Badge></td></tr>
+                                    <tr><td width="200">Owner</td><td className="text-white fw-medium">{vehicle.owner_name || 'N/A'}</td></tr>
+                                    <tr><td>Father's Name</td><td className="text-white">{vehicle.owner_father_name || 'N/A'}</td></tr>
+                                    <tr><td>Address</td><td className="text-white">{vehicle.owner_address || 'N/A'}</td></tr>
+                                    <tr><td>Vehicle Type</td><td className="text-white">{vehicle.vehicle_type || 'N/A'}</td></tr>
+                                    <tr><td>Model Year</td><td className="text-white">{vehicle.model_year || 'N/A'}</td></tr>
+                                    <tr><td>Current HP</td><td><Badge bg={(!vehicle.current_hpa || vehicle.current_hpa === 'NA') ? 'secondary' : 'warning'} text={vehicle.current_hpa && vehicle.current_hpa !== 'NA' ? 'dark' : undefined}>{vehicle.current_hpa || 'N/A'}</Badge></td></tr>
                                 </tbody>
                             </Table>
                         </Card.Body>
@@ -672,7 +721,17 @@ const NotesheetBuilder = () => {
                 <div>
                     <NotesheetPreview notesheet={generatedNotesheet.notesheet || generatedNotesheet} />
                     <div className="d-flex justify-content-center gap-3 mt-4 no-print">
-                        {!success && (
+                        {user?.role === 'admin' && (generatedNotesheet?.status === 'submitted' || generatedNotesheet?.notesheet?.status === 'submitted') && (
+                            <>
+                                <Button className="btn-success-gradient px-4 py-2 rounded-3" onClick={handleApprove} disabled={loading}>
+                                    <i className="bi bi-check-circle me-2"></i> Approve (स्वीकार करें)
+                                </Button>
+                                <Button variant="outline-danger" className="px-4 py-2 rounded-3" onClick={handleReject} disabled={loading}>
+                                    <i className="bi bi-x-circle me-2"></i> Reject (अस्वीकार करें)
+                                </Button>
+                            </>
+                        )}
+                        {!success && (generatedNotesheet?.status === 'draft' || generatedNotesheet?.notesheet?.status === 'draft' || (!generatedNotesheet?.status && !generatedNotesheet?.notesheet?.status)) && (
                             <Button className="btn-primary-gradient px-4 py-2 rounded-3" onClick={handleSubmitForApproval} disabled={loading}>
                                 {loading ? <Spinner size="sm" className="me-2" /> : <i className="bi bi-send me-2"></i>}
                                 Submit for Approval

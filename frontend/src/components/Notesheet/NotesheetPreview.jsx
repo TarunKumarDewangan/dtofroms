@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Card, Button, Form } from 'react-bootstrap';
 
 const NotesheetPreview = ({ notesheet }) => {
     if (!notesheet) return null;
@@ -8,6 +8,26 @@ const NotesheetPreview = ({ notesheet }) => {
     const vehicle = data.vehicle;
     const content = data.content || {};
     const works = data.combined_works || [];
+
+    const [rowVisibility, setRowVisibility] = useState({
+        1: true, 2: true, 3: true, 4: true, 5: true,
+        6: true, 7: true, 8: true, 9: true, 10: true,
+        11: true, 12: true, 13: true, 14: true, 15: true
+    });
+
+    const toggleRow = (num) => {
+        setRowVisibility(prev => ({
+            ...prev,
+            [num]: !prev[num]
+        }));
+    };
+
+    let currentSNo = 1;
+    const getSNo = (num) => {
+        if (!rowVisibility[num]) return '--.';
+        const sno = currentSNo++;
+        return String(sno).padStart(2, '0') + '.';
+    };
 
     const isBlankNotesheet = content.is_blank === true || data.is_blank === true || notesheet.is_blank === true || vehicle?.is_blank_notesheet || vehicle?.owner_name === '.....................';
 
@@ -69,7 +89,7 @@ const NotesheetPreview = ({ notesheet }) => {
     if (hasConversion) workLabels.push("वाहन वर्ग रूपांतरण (Conversion)");
 
     const selectedWorksText = workLabels.join(" / ");
-
+    currentSNo = 1;
     return (
         <div className="animate-fade-in">
             {/* Inline CSS styling to guarantee print output matches the image layout */}
@@ -157,6 +177,14 @@ const NotesheetPreview = ({ notesheet }) => {
                     font-weight: bold;
                     margin-top: 25px;
                     padding-right: 15px;
+                    margin-bottom: 100px;
+                }
+                .row-disabled td:not(.toggle-cell) {
+                    opacity: 0.35;
+                    background-color: #f8f9fa !important;
+                }
+                .toggle-cell {
+                    background-color: #ffffff !important;
                 }
                 
                 @media print {
@@ -180,6 +208,9 @@ const NotesheetPreview = ({ notesheet }) => {
                     .no-print {
                         display: none !important;
                     }
+                    .row-disabled {
+                        display: none !important;
+                    }
                     body .print-container {
                         padding: 0 !important;
                         margin: 0 !important;
@@ -188,6 +219,8 @@ const NotesheetPreview = ({ notesheet }) => {
                     }
                     .notesheet-outer-border {
                         border: 1px solid #000000 !important;
+                        border-bottom: none !important;
+                        min-height: 265mm !important;
                         padding: 25px 25px !important; /* Normal padding to fill the page nicely */
                         width: 100% !important;
                         max-width: 100% !important;
@@ -226,6 +259,7 @@ const NotesheetPreview = ({ notesheet }) => {
                     }
                     .notesheet-signature {
                         margin-top: 20px !important;
+                        margin-bottom: 80px !important;
                     }
                     @page {
                         size: A4;
@@ -257,7 +291,7 @@ const NotesheetPreview = ({ notesheet }) => {
 
                     {/* Subject Line */}
                     <div className="notesheet-subject">
-                        विषय:-वाहन क्रमांक {vehicle.registration_number} ({vehicle.vehicle_type}) का {selectedWorksText} बाबत्।
+                        विषय:-वाहन क्रमांक {vehicle.registration_number}{vehicle.vehicle_type ? ` (${vehicle.vehicle_type})` : ''} का {selectedWorksText} बाबत्।
                     </div>
 
                     <div className="notesheet-divider"></div>
@@ -265,22 +299,28 @@ const NotesheetPreview = ({ notesheet }) => {
                     {/* Paragraph 1: Ownership Transfer */}
                     {hasTransfer && (
                         <div className="notesheet-paragraph">
-                            उक्त वाहन को वाहन स्वामी श्री <strong>{content.buyer_name || '.....................'}</strong> आ. श्री <strong>{content.buyer_father || '.....................'}</strong> निवासी <strong>{content.buyer_address || '.....................'}</strong> ने वाहन स्वामी श्री <strong>{getVal(vehicle.owner_name)}</strong> आ. श्री <strong>{getVal(vehicle.owner_father_name)}</strong> से क्रय कर स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 29(2 प्रति में) एवं फार्म नं. 30 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.transfer_fee || '.....................'}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
+                            उक्त वाहन को वाहन स्वामी श्री <strong>{content.buyer_name || '..................................................'}</strong> आ. श्री <strong>{content.buyer_father || '..................................................'}</strong> निवासी <strong>{content.buyer_address || '................................................................................'}</strong> ने वाहन स्वामी श्री <strong>{getVal(vehicle.owner_name, '..................................................')}</strong> आ. श्री <strong>{getVal(vehicle.owner_father_name, '..................................................')}</strong> से क्रय कर स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 29(2 प्रति में) एवं फार्म नं. 30 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.transfer_fee || '.....................'}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
                         </div>
                     )}
 
-                    {/* Paragraph 2: HPA Register, HPA Cancel, Address Change */}
-                    {(hasHPRegister || hasHPCancel || hasAddressChange) && (
+                    {/* Paragraph 2a: HP Register */}
+                    {hasHPRegister && (
                         <div className="notesheet-paragraph">
-                            {hasHPRegister && (
-                                <span>एच.पी. दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 34 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.hp_fee || '.....................'}</strong> दिनांक <strong>{formatDate(content.hp_date)}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है। </span>
-                            )}
-                            {hasHPCancel && (
-                                <span>एच.पी. निरस्त किये जाने हेतु निर्धारित प्रारूप फार्म नं. 35 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.hp_cancel_fee || '.....................'}</strong> दिनांक <strong>{formatDate(content.cancel_date)}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है। </span>
-                            )}
-                            {hasAddressChange && (
-                                <span>पता परिवर्तन दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 33 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.address_fee || '.....................'}</strong> दिनांक <strong>{formatDate(content.application_date)}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है। </span>
-                            )}
+                            एच.पी. दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 34 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.hp_fee || '.....................'}</strong> दिनांक <strong>{formatDate(content.hp_date)}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
+                        </div>
+                    )}
+
+                    {/* Paragraph 2b: HP Cancel */}
+                    {hasHPCancel && (
+                        <div className="notesheet-paragraph">
+                            एच.पी. निरस्त किये जाने हेतु निर्धारित प्रारूप फार्म नं. 35 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.hp_cancel_fee || '.....................'}</strong> दिनांक <strong>{formatDate(content.cancel_date)}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
+                        </div>
+                    )}
+
+                    {/* Paragraph 2c: Address Change */}
+                    {hasAddressChange && (
+                        <div className="notesheet-paragraph">
+                            पता परिवर्तन दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 33 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.address_fee || '.....................'}</strong> दिनांक <strong>{formatDate(content.application_date)}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
                         </div>
                     )}
 
@@ -294,7 +334,7 @@ const NotesheetPreview = ({ notesheet }) => {
                     {/* Paragraph 4: Transfer after Death */}
                     {hasTransferDeath && (
                         <div className="notesheet-paragraph">
-                            मूल वाहन स्वामी श्री <strong>{vehicle.owner_name}</strong> की मृत्यु हो जाने के कारण उनके विधिक वारिस श्री <strong>{content.applicant_name || '.....................'}</strong> आ. श्री <strong>{content.applicant_father || '.....................'}</strong> निवासी <strong>{content.applicant_address || '.....................'}</strong> द्वारा स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 31 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.death_transfer_fee || '.....................'}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
+                            मूल वाहन स्वामी श्री <strong>{vehicle.owner_name}</strong> की मृत्यु हो जाने के कारण उनके विधिक वारिस श्री <strong>{content.applicant_name || '..................................................'}</strong> आ. श्री <strong>{content.applicant_father || '..................................................'}</strong> निवासी <strong>{content.applicant_address || '................................................................................'}</strong> द्वारा स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 31 में विहित् ऑनलाईन शुल्क राशि रू. <strong>{content.death_transfer_fee || '.....................'}</strong> को जमा कर आवेदन दिनांक <strong>{formatDate(content.application_date)}</strong> को कार्यालय में प्रस्तुत किया गया है।
                         </div>
                     )}
 
@@ -327,60 +367,126 @@ const NotesheetPreview = ({ notesheet }) => {
                     {/* 14-Row Table */}
                     <table className="notesheet-table">
                         <tbody>
-                            <tr>
-                                <td className="sno">01.</td>
+                            <tr className={!rowVisibility[1] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-1"
+                                        checked={rowVisibility[1]} 
+                                        onChange={() => toggleRow(1)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(1)}</td>
                                 <td className="label-cell">वर्तमान वाहन स्वामी/विक्रेता का नाम पिता व वर्तमान पता</td>
-                                <td className="value-cell">
-                                    श्री {getVal(vehicle.owner_name)} आ. श्री {getVal(vehicle.owner_father_name)} निवासी {getVal(vehicle.owner_address)}
+                                <td className="value-cell" style={{ lineHeight: '1.8' }}>
+                                    <div>{(!isBlankNotesheet && (vehicle.owner_name || vehicle.owner_father_name)) ? `${vehicle.owner_name || ''} ${vehicle.owner_father_name || ''}` : <>&nbsp;</>}</div>
+                                    <div>{(!isBlankNotesheet && vehicle.owner_address) ? vehicle.owner_address : <>&nbsp;</>}</div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">02.</td>
+                            <tr className={!rowVisibility[2] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-2"
+                                        checked={rowVisibility[2]} 
+                                        onChange={() => toggleRow(2)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(2)}</td>
                                 <td className="label-cell">प्रस्तावित वाहन स्वामी/क्रेता का नाम पिता व वर्तमान पता</td>
-                                <td className="value-cell">
+                                <td className="value-cell" style={{ lineHeight: '1.8' }}>
                                     {isBlankNotesheet ? (
                                         (hasTransfer || hasTransferDeath) ? (
-                                            <span>श्री ..................... आ. श्री ..................... निवासी .....................</span>
+                                            <>
+                                                <div>&nbsp;</div>
+                                                <div>&nbsp;</div>
+                                            </>
                                         ) : (
                                             <span>लागू नहीं (NA)</span>
                                         )
                                     ) : hasTransfer ? (
-                                        <span>श्री {content.buyer_name || '.......'} आ. श्री {content.buyer_father || '.......'} निवासी {content.buyer_address || '.......'}</span>
+                                        <>
+                                            <div>{(content.buyer_name || content.buyer_father) ? `${content.buyer_name || ''} ${content.buyer_father || ''}` : <>&nbsp;</>}</div>
+                                            <div>{content.buyer_address || <>&nbsp;</>}</div>
+                                        </>
                                     ) : hasTransferDeath ? (
-                                        <span>श्री {content.applicant_name || '.......'} आ. श्री {content.applicant_father || '.......'} निवासी {content.applicant_address || '.......'}</span>
+                                        <>
+                                            <div>{(content.applicant_name || content.applicant_father) ? `${content.applicant_name || ''} ${content.applicant_father || ''}` : <>&nbsp;</>}</div>
+                                            <div>{content.applicant_address || <>&nbsp;</>}</div>
+                                        </>
                                     ) : (
                                         <span>लागू नहीं (NA)</span>
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">03.</td>
+                            <tr className={!rowVisibility[3] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-3"
+                                        checked={rowVisibility[3]} 
+                                        onChange={() => toggleRow(3)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(3)}</td>
                                 <td className="label-cell">वाहन का पंजीयन दिनांक</td>
                                 <td className="value-cell">{getRegistrationDate(vehicle)}</td>
                             </tr>
-                            <tr>
-                                <td className="sno">04.</td>
+                            <tr className={!rowVisibility[4] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-4"
+                                        checked={rowVisibility[4]} 
+                                        onChange={() => toggleRow(4)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(4)}</td>
                                 <td className="label-cell">चेसिस क्रमांक</td>
                                 <td className="value-cell">{getVal(vehicle.chassis_number)}</td>
                             </tr>
-                            <tr>
-                                <td className="sno">05.</td>
+                            <tr className={!rowVisibility[5] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-5"
+                                        checked={rowVisibility[5]} 
+                                        onChange={() => toggleRow(5)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(5)}</td>
                                 <td className="label-cell">इंजन क्रमांक</td>
                                 <td className="value-cell">{getVal(vehicle.engine_number)}</td>
                             </tr>
-                            <tr>
-                                <td className="sno">06.</td>
+                            <tr className={!rowVisibility[6] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-6"
+                                        checked={rowVisibility[6]} 
+                                        onChange={() => toggleRow(6)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(6)}</td>
                                 <td className="label-cell">वाहन का मोटरयान कर की जमा दिनांक</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
                                         <span>दिनांक ..................... (कर राशि रु. ...................../-)</span>
                                     ) : (
-                                        <span>दिनांक {formatDate(vehicle.tax_paid_date)} (शुल्क ₹{Number(vehicle.tax_amount).toLocaleString('en-IN')}/-)</span>
+                                        <span>दिनांक {formatDate(vehicle.tax_paid_date)} (शुल्क {vehicle.tax_amount ? `₹${Number(vehicle.tax_amount).toLocaleString('en-IN')}` : '.....................'}/-)</span>
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">07.</td>
+                            <tr className={!rowVisibility[7] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-7"
+                                        checked={rowVisibility[7]} 
+                                        onChange={() => toggleRow(7)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(7)}</td>
                                 <td className="label-cell">वाहन का परमिट (यदि लागू हो तो)</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -390,8 +496,16 @@ const NotesheetPreview = ({ notesheet }) => {
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">08.</td>
+                            <tr className={!rowVisibility[8] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-8"
+                                        checked={rowVisibility[8]} 
+                                        onChange={() => toggleRow(8)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(8)}</td>
                                 <td className="label-cell">वाहन का फिटनेस/पंजीयन प्रमाण पत्र की वैधता</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -401,8 +515,16 @@ const NotesheetPreview = ({ notesheet }) => {
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">09.</td>
+                            <tr className={!rowVisibility[9] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-9"
+                                        checked={rowVisibility[9]} 
+                                        onChange={() => toggleRow(9)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(9)}</td>
                                 <td className="label-cell">वाहन का प्रदूषण जांच प्रमाण पत्र की वैधता</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -412,8 +534,16 @@ const NotesheetPreview = ({ notesheet }) => {
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">10.</td>
+                            <tr className={!rowVisibility[10] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-10"
+                                        checked={rowVisibility[10]} 
+                                        onChange={() => toggleRow(10)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(10)}</td>
                                 <td className="label-cell">वित्त-पोषक का नाम</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -433,8 +563,16 @@ const NotesheetPreview = ({ notesheet }) => {
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">11.</td>
+                            <tr className={!rowVisibility[11] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-11"
+                                        checked={rowVisibility[11]} 
+                                        onChange={() => toggleRow(11)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(11)}</td>
                                 <td className="label-cell">पुलिस जांच/चोरी संबंधी स्थिति एन.सी.आर.बी. रिपोर्ट</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -444,8 +582,16 @@ const NotesheetPreview = ({ notesheet }) => {
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">12.</td>
+                            <tr className={!rowVisibility[12] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-12"
+                                        checked={rowVisibility[12]} 
+                                        onChange={() => toggleRow(12)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(12)}</td>
                                 <td className="label-cell">एफ.आई.आर. की प्रति</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -455,8 +601,16 @@ const NotesheetPreview = ({ notesheet }) => {
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">13.</td>
+                            <tr className={!rowVisibility[13] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-13"
+                                        checked={rowVisibility[13]} 
+                                        onChange={() => toggleRow(13)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(13)}</td>
                                 <td className="label-cell">वाहन स्वामी एवं क्रेता द्वारा वाहन संबंधी समस्त जवाबदारी लेते हुए शपथपत्र प्रस्तुत किया गया है।</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -466,8 +620,16 @@ const NotesheetPreview = ({ notesheet }) => {
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">14.</td>
+                            <tr className={!rowVisibility[14] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-14"
+                                        checked={rowVisibility[14]} 
+                                        onChange={() => toggleRow(14)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(14)}</td>
                                 <td className="label-cell">वाहन का भौतिक सत्यापन दिनांक</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -477,8 +639,16 @@ const NotesheetPreview = ({ notesheet }) => {
                                     )}
                                 </td>
                             </tr>
-                            <tr>
-                                <td className="sno">15.</td>
+                            <tr className={!rowVisibility[15] ? 'row-disabled' : ''}>
+                                <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                    <Form.Check 
+                                        type="switch" 
+                                        id="toggle-row-15"
+                                        checked={rowVisibility[15]} 
+                                        onChange={() => toggleRow(15)} 
+                                    />
+                                </td>
+                                <td className="sno">{getSNo(15)}</td>
                                 <td className="label-cell">हस्ताक्षर मिलान हेतु मूल नस्ती संलग्न है।</td>
                                 <td className="value-cell">
                                     {isBlankNotesheet ? (
@@ -493,27 +663,17 @@ const NotesheetPreview = ({ notesheet }) => {
 
                     {/* Closing Paragraph */}
                     <div className="notesheet-closing">
-                        वाहन क्रमांक <strong>{vehicle.registration_number}</strong> का <strong>{selectedWorksText}</strong>
+                        अतः वाहन क्रमांक <strong>{vehicle.registration_number}</strong> का <strong>{selectedWorksText}</strong>
                         {(content.original_file_attached === 'no' || content.original_file_attached === false) ? (
-                            <span> किये जाने हेतु <strong>मूल नस्ति प्राप्त नहीं होने की फार्म-20 में नोटरी द्वारा सत्यापित कर</strong></span>
+                            <span> किये जाने हेतु <strong>मूल नस्ती प्राप्त नहीं होने की स्थिति में फार्म-20 में नोटरी द्वारा सत्यापित कर</strong></span>
                         ) : (
                             <span> करने हेतु <strong>मूल नस्ती सहित</strong></span>
-                        )} प्रकरण अवलोकनार्थ एवं आदेशार्थ प्रस्तुत है।
+                        )} नियमानुसार अवलोकनार्थ एवं उचित आदेशार्थ सादर प्रस्तुत है।
                     </div>
 
                     {/* Signature */}
                     <div className="notesheet-signature">
                         शाखा प्रभारी
-                    </div>
-
-                    {/* DTO Comment and Signature Section */}
-                    <div className="notesheet-dto-section" style={{ marginTop: '30px', borderTop: '1px dotted #000000', paddingTop: '15px' }}>
-                        <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '10px' }}>जिला परिवहन अधिकारी (DTO) आदेश / टिप्पणी:</div>
-                        <div style={{ height: '120px' }}></div> {/* Spacious spacer for handwriting comments and signature */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: 'bold' }}>
-                            <span>दिनांक: ....................</span>
-                            <span>हस्ताक्षर जिला परिवहन अधिकारी</span>
-                        </div>
                     </div>
                 </div>
             </div>

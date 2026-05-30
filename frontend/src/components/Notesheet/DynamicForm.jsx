@@ -91,7 +91,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                         <Col md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="text-secondary">आवेदन दिनांक (Application Date)</Form.Label>
-                                <Form.Control type="date" name="application_date" className="form-control-dark" value={formData.application_date} onChange={handleChange} required={!isBlankNotesheet} />
+                                <Form.Control type="date" name="application_date" className="form-control-dark" value={formData.application_date} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -107,31 +107,31 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">खरीदार का नाम (Buyer Name)</Form.Label>
-                                    <TransliteratedInput name="buyer_name" className="form-control form-control-dark" placeholder="e.g. DILESHWAR" value={formData.buyer_name} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput name="buyer_name" className="form-control form-control-dark" placeholder="e.g. DILESHWAR" value={formData.buyer_name} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">पिता/पति का नाम (Father's Name)</Form.Label>
-                                    <TransliteratedInput name="buyer_father" className="form-control form-control-dark" placeholder="e.g. PUNURAM" value={formData.buyer_father} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput name="buyer_father" className="form-control form-control-dark" placeholder="e.g. PUNURAM" value={formData.buyer_father} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={12}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">खरीदार का पता (Buyer Address)</Form.Label>
-                                    <TransliteratedInput as="textarea" rows={2} name="buyer_address" className="form-control form-control-dark" placeholder="e.g. TENDUKONA, DHAMTARI" value={formData.buyer_address} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput as="textarea" rows={2} name="buyer_address" className="form-control form-control-dark" placeholder="e.g. TENDUKONA, DHAMTARI" value={formData.buyer_address} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">विक्रय दिनांक (Sale Date)</Form.Label>
-                                    <Form.Control type="date" name="sale_date" className="form-control-dark" value={formData.sale_date} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="date" name="sale_date" className="form-control-dark" value={formData.sale_date} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹ (Transfer Fee)</Form.Label>
-                                    <Form.Control type="number" name="transfer_fee" className="form-control-dark" placeholder="11612" value={formData.transfer_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="transfer_fee" className="form-control-dark" placeholder="11612" value={formData.transfer_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -148,25 +148,25 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">आवेदक का नाम</Form.Label>
-                                    <TransliteratedInput name="applicant_name" className="form-control form-control-dark" value={formData.applicant_name} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput name="applicant_name" className="form-control form-control-dark" value={formData.applicant_name} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">पिता का नाम</Form.Label>
-                                    <TransliteratedInput name="applicant_father" className="form-control form-control-dark" value={formData.applicant_father} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput name="applicant_father" className="form-control form-control-dark" value={formData.applicant_father} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={12}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">पता</Form.Label>
-                                    <TransliteratedInput as="textarea" rows={2} name="applicant_address" className="form-control form-control-dark" value={formData.applicant_address} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput as="textarea" rows={2} name="applicant_address" className="form-control form-control-dark" value={formData.applicant_address} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">मृतक से संबंध (Relation)</Form.Label>
-                                    <Form.Select name="relation_to_deceased" className="form-select-dark" value={formData.relation_to_deceased} onChange={handleChange} required={!isBlankNotesheet}>
+                                    <Form.Select name="relation_to_deceased" className="form-select-dark" value={formData.relation_to_deceased} onChange={handleChange}>
                                         <option value="">-- Select --</option>
                                         <option value="पुत्र">पुत्र (Son)</option>
                                         <option value="पुत्री">पुत्री (Daughter)</option>
@@ -179,13 +179,13 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">मृत्यु दिनांक (Death Date)</Form.Label>
-                                    <Form.Control type="date" name="death_date" className="form-control-dark" value={formData.death_date} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="date" name="death_date" className="form-control-dark" value={formData.death_date} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹</Form.Label>
-                                    <Form.Control type="number" name="death_transfer_fee" className="form-control-dark" placeholder="5000" value={formData.death_transfer_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="death_transfer_fee" className="form-control-dark" placeholder="5000" value={formData.death_transfer_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -202,19 +202,19 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">बैंक/फाइनेंस कंपनी</Form.Label>
-                                    <TransliteratedInput name="hp_bank_name" className="form-control form-control-dark" placeholder="e.g. EQUITAS SMALL FINANCE BANK" value={formData.hp_bank_name} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput name="hp_bank_name" className="form-control form-control-dark" placeholder="e.g. EQUITAS SMALL FINANCE BANK" value={formData.hp_bank_name} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹</Form.Label>
-                                    <Form.Control type="number" name="hp_fee" className="form-control-dark" placeholder="11612" value={formData.hp_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="hp_fee" className="form-control-dark" placeholder="11612" value={formData.hp_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">दिनांक</Form.Label>
-                                    <Form.Control type="date" name="hp_date" className="form-control-dark" value={formData.hp_date} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="date" name="hp_date" className="form-control-dark" value={formData.hp_date} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -231,19 +231,19 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">बैंक/फाइनेंसर का नाम</Form.Label>
-                                    <TransliteratedInput name="cancel_bank_name" className="form-control form-control-dark" value={formData.cancel_bank_name} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput name="cancel_bank_name" className="form-control form-control-dark" value={formData.cancel_bank_name} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹</Form.Label>
-                                    <Form.Control type="number" name="hp_cancel_fee" className="form-control-dark" placeholder="500" value={formData.hp_cancel_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="hp_cancel_fee" className="form-control-dark" placeholder="500" value={formData.hp_cancel_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">दिनांक</Form.Label>
-                                    <Form.Control type="date" name="cancel_date" className="form-control-dark" value={formData.cancel_date} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="date" name="cancel_date" className="form-control-dark" value={formData.cancel_date} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -260,13 +260,13 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={8}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">नया पता (New Address)</Form.Label>
-                                    <TransliteratedInput as="textarea" rows={2} name="new_address" className="form-control form-control-dark" value={formData.new_address} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <TransliteratedInput as="textarea" rows={2} name="new_address" className="form-control form-control-dark" value={formData.new_address} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹</Form.Label>
-                                    <Form.Control type="number" name="address_fee" className="form-control-dark" placeholder="200" value={formData.address_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="address_fee" className="form-control-dark" placeholder="200" value={formData.address_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
@@ -304,7 +304,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹</Form.Label>
-                                    <Form.Control type="number" name="duplicate_rc_fee" className="form-control-dark" placeholder="1000" value={formData.duplicate_rc_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="duplicate_rc_fee" className="form-control-dark" placeholder="1000" value={formData.duplicate_rc_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -321,7 +321,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹ (Renewal Fee)</Form.Label>
-                                    <Form.Control type="number" name="renewal_fee" className="form-control-dark" placeholder="e.g. 1000" value={formData.renewal_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="renewal_fee" className="form-control-dark" placeholder="e.g. 1000" value={formData.renewal_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -361,7 +361,6 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                                                     newItems[idx] = e.target.value;
                                                     setAlterationItems(newItems);
                                                 }} 
-                                                required={!isBlankNotesheet} 
                                             />
                                             {alterationItems.length > 1 && (
                                                 <Button 
@@ -383,7 +382,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹ (Alteration Fee)</Form.Label>
-                                    <Form.Control type="number" name="alteration_fee" className="form-control-dark" placeholder="e.g. 500" value={formData.alteration_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="alteration_fee" className="form-control-dark" placeholder="e.g. 500" value={formData.alteration_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -405,7 +404,6 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                                         className="form-select-dark" 
                                         value={formData.conversion_from} 
                                         onChange={handleChange} 
-                                        required={!isBlankNotesheet}
                                     >
                                         <option value="">-- चुनें (Select) --</option>
                                         <option value="परिवहन">परिवहन (Transport)</option>
@@ -421,7 +419,6 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                                         className="form-select-dark" 
                                         value={formData.conversion_to} 
                                         onChange={handleChange} 
-                                        required={!isBlankNotesheet}
                                     >
                                         <option value="">-- चुनें (Select) --</option>
                                         <option value="परिवहन">परिवहन (Transport)</option>
@@ -438,14 +435,13 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                                         placeholder="e.g. Motor Car" 
                                         value={formData.new_vehicle_class} 
                                         onChange={handleChange} 
-                                        required={!isBlankNotesheet} 
                                     />
                                 </Form.Group>
                             </Col>
                             <Col md={3}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">शुल्क राशि ₹ (Conversion Fee)</Form.Label>
-                                    <Form.Control type="number" name="conversion_fee" className="form-control-dark" placeholder="e.g. 1000" value={formData.conversion_fee} onChange={handleChange} required={!isBlankNotesheet} />
+                                    <Form.Control type="number" name="conversion_fee" className="form-control-dark" placeholder="e.g. 1000" value={formData.conversion_fee} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
