@@ -71,6 +71,7 @@ const Sidebar = () => {
             {/* Ad Banner placement */}
             <div className="px-3 py-1">
                 <AdBanner 
+                    slot="5240613762"
                     fallbackTitle="RTO Partner Sponsor"
                     fallbackDesc="Fast RC verification, tax dues checking & HP status check online."
                 />

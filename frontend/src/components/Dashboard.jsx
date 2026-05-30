@@ -148,6 +148,7 @@ const Dashboard = () => {
 
             {/* Horizontal Ad Placement */}
             <AdBanner 
+                slot="8227693587"
                 fallbackTitle="Need Instant Support or Custom Integrations?"
                 fallbackDesc="Partner with our recommended services for bulk notesheet templates, database integrations, and official parivahan tools support."
             />

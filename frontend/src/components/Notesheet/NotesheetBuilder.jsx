@@ -510,6 +510,7 @@ const NotesheetBuilder = () => {
 
                     {/* Ad Banner placement inside vehicle search step */}
                     <AdBanner 
+                        slot="8227693587"
                         fallbackTitle="RC Verification Sponsor"
                         fallbackDesc="Get verified vehicle details instantly. Support official notesheet generation."
                     />
