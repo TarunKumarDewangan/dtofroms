@@ -13,7 +13,7 @@ import { Card, Badge } from 'react-bootstrap';
  */
 const AdBanner = ({
     slot = '',
-    adClient = 'ca-pub-XXXXXXXXXXXXX', // Replace with your AdSense Publisher ID
+    adClient = 'ca-pub-4958656244080025', // Your AdSense Publisher ID
     format = 'auto',
     responsive = true,
     fallbackTitle = 'Quick Vehicle Verification Partner',
