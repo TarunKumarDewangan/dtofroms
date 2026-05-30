@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { Row, Col, Card, Badge, Spinner } from 'react-bootstrap';
+import AdBanner from './Common/AdBanner';
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -144,6 +145,12 @@ const Dashboard = () => {
                     </Card>
                 </Col>
             </Row>
+
+            {/* Horizontal Ad Placement */}
+            <AdBanner 
+                fallbackTitle="Need Instant Support or Custom Integrations?"
+                fallbackDesc="Partner with our recommended services for bulk notesheet templates, database integrations, and official parivahan tools support."
+            />
         </div>
     );
 };

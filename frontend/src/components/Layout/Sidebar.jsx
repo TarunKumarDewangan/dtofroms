@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from 'react-bootstrap';
+import AdBanner from '../Common/AdBanner';
 
 const Sidebar = () => {
     const { user, logout } = useAuth();
@@ -65,6 +66,14 @@ const Sidebar = () => {
                         </>
                     )}
                 </div>
+            </div>
+
+            {/* Ad Banner placement */}
+            <div className="px-3 py-1">
+                <AdBanner 
+                    fallbackTitle="RTO Partner Sponsor"
+                    fallbackDesc="Fast RC verification, tax dues checking & HP status check online."
+                />
             </div>
 
             {/* Logout Action */}

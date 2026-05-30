@@ -5,6 +5,7 @@ import api from '../../services/api';
 import WorkSelector from './WorkSelector';
 import DynamicForm from './DynamicForm';
 import NotesheetPreview from './NotesheetPreview';
+import AdBanner from '../Common/AdBanner';
 import { Card, Button, Alert, Spinner, Row, Col, Badge, Table, Form } from 'react-bootstrap';
 
 const NotesheetBuilder = () => {
@@ -506,6 +507,12 @@ const NotesheetBuilder = () => {
                             </p>
                         </Card.Body>
                     </Card>
+
+                    {/* Ad Banner placement inside vehicle search step */}
+                    <AdBanner 
+                        fallbackTitle="RC Verification Sponsor"
+                        fallbackDesc="Get verified vehicle details instantly. Support official notesheet generation."
+                    />
 
                     {showAddForm && (
                         <Card className="glass-card border-0 animate-fade-in">
