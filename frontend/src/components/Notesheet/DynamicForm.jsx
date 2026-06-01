@@ -20,8 +20,8 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
         cancel_date: initialData?.cancel_date || '',
         new_address: initialData?.new_address || '', 
         address_fee: initialData?.address_fee || '', 
-        address_proof_type: initialData?.address_proof_type || 'आधार कार्ड',
-        duplicate_reason: initialData?.duplicate_reason || 'गुम हो जाने', 
+        address_proof_type: initialData?.address_proof_type ?? '',
+        duplicate_reason: initialData?.duplicate_reason ?? '', 
         duplicate_rc_fee: initialData?.duplicate_rc_fee || '',
         applicant_name: initialData?.applicant_name || '', 
         applicant_father: initialData?.applicant_father || '', 
@@ -30,8 +30,8 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
         death_date: initialData?.death_date || '', 
         death_transfer_fee: initialData?.death_transfer_fee || '',
         physical_verification_date: initialData?.physical_verification_date || '',
-        affidavit_attached: initialData?.affidavit_attached || 'yes', 
-        ncrb_report: initialData?.ncrb_report || 'no',
+        affidavit_attached: initialData?.affidavit_attached ?? '', 
+        ncrb_report: initialData?.ncrb_report ?? '',
         original_file_attached: initialData?.original_file_attached || 'yes',
         renewal_fee: initialData?.renewal_fee || '',
         alteration_details: initialData?.alteration_details || '',
@@ -273,6 +273,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">पता प्रमाण पत्र</Form.Label>
                                     <Form.Select name="address_proof_type" className="form-select-dark" value={formData.address_proof_type} onChange={handleChange}>
+                                        <option value="">-- चुनें (Select) --</option>
                                         <option value="आधार कार्ड">आधार कार्ड</option>
                                         <option value="निवास प्रमाण पत्र">निवास प्रमाण पत्र</option>
                                         <option value="बिजली बिल">बिजली बिल</option>
@@ -295,6 +296,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">कारण (Reason)</Form.Label>
                                     <Form.Select name="duplicate_reason" className="form-select-dark" value={formData.duplicate_reason} onChange={handleChange}>
+                                        <option value="">-- चुनें (Select) --</option>
                                         <option value="गुम हो जाने">गुम हो जाने (Lost)</option>
                                         <option value="फट जाने">फट जाने (Damaged)</option>
                                         <option value="चोरी हो जाने">चोरी हो जाने (Stolen)</option>
@@ -458,6 +460,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Form.Group className="mb-3">
                                 <Form.Label className="text-secondary">शपथपत्र (Affidavit)</Form.Label>
                                 <Form.Select name="affidavit_attached" className="form-select-dark" value={formData.affidavit_attached} onChange={handleChange}>
+                                    <option value="">-- चुनें (Select) --</option>
                                     <option value="yes">हाँ - संलग्न है</option>
                                     <option value="no">नहीं</option>
                                 </Form.Select>
@@ -467,6 +470,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
                             <Form.Group className="mb-3">
                                 <Form.Label className="text-secondary">NCRB रिपोर्ट</Form.Label>
                                 <Form.Select name="ncrb_report" className="form-select-dark" value={formData.ncrb_report} onChange={handleChange}>
+                                    <option value="">-- चुनें (Select) --</option>
                                     <option value="yes">संलग्न है</option>
                                     <option value="no">नहीं है</option>
                                 </Form.Select>

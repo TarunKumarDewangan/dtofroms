@@ -123,8 +123,8 @@ const NotesheetBuilder = () => {
                 cancel_bank_name: fd.financier_name || '',
                 hp_cancel_fee: fd.hp_cancel_fee || '',
                 cancel_date: fd.termination_date || '',
-                affidavit_attached: 'yes',
-                ncrb_report: 'no'
+                affidavit_attached: '',
+                ncrb_report: ''
             };
 
             setGeneratedNotesheet({

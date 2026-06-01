@@ -585,7 +585,7 @@ const NotesheetPreview = ({ notesheet, onBack }) => {
                                     {isBlankNotesheet ? (
                                         <span>.....................</span>
                                     ) : (
-                                        content.ncrb_report === 'yes' ? 'चोरी/अपराध में संलिप्त नहीं (एन.सी.आर.बी. रिपोर्ट संलग्न)' : 'संलग्न नहीं'
+                                        content.ncrb_report === 'yes' ? 'चोरी/अपराध में संलिप्त नहीं (एन.सी.आर.बी. रिपोर्ट संलग्न)' : (content.ncrb_report === 'no' ? 'संलग्न नहीं' : '.....................')
                                     )}
                                 </td>
                             </tr>
@@ -623,7 +623,7 @@ const NotesheetPreview = ({ notesheet, onBack }) => {
                                     {isBlankNotesheet ? (
                                         <span>.....................</span>
                                     ) : (
-                                        content.affidavit_attached === 'yes' ? 'हाँ, शपथपत्र संलग्न है' : 'संलग्न नहीं'
+                                        content.affidavit_attached === 'yes' ? 'हाँ, शपथपत्र संलग्न है' : (content.affidavit_attached === 'no' ? 'संलग्न नहीं' : '.....................')
                                     )}
                                 </td>
                             </tr>
