@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Card, Alert } from 'react-bootstrap';
 import TransliteratedInput from '../Common/TransliteratedInput';
 
-const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
+const DynamicForm = ({ selectedWorks, vehicle, onSubmit, onChange, initialData }) => {
     const isBlankNotesheet = vehicle?.is_blank_notesheet || vehicle?.owner_name === '.....................' || initialData?.is_blank === true;
 
     const [formData, setFormData] = useState({
@@ -49,6 +49,17 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, initialData }) => {
         }
         return [''];
     });
+
+    useEffect(() => {
+        if (onChange) {
+            const finalDetails = alterationItems.filter(Boolean).join(', ');
+            onChange({
+                ...formData,
+                alteration_details: finalDetails,
+                alteration_items: alterationItems
+            });
+        }
+    }, [formData, alterationItems, onChange]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

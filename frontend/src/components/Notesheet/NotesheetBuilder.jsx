@@ -20,7 +20,25 @@ const NotesheetBuilder = () => {
     const [selectedWorks, setSelectedWorks] = useState([]);
     const [isBlankNotesheet, setIsBlankNotesheet] = useState(false);
     const [generatedNotesheet, setGeneratedNotesheet] = useState(null);
+    const [liveContent, setLiveContent] = useState({});
     const [workOptions, setWorkOptions] = useState([]);
+
+    const handleFormChange = (newContent) => {
+        setLiveContent(newContent);
+    };
+
+    const getLiveNotesheet = () => {
+        return {
+            vehicle: vehicle,
+            content: {
+                ...liveContent,
+                is_blank: isBlankNotesheet
+            },
+            combined_works: selectedWorks,
+            notesheet_number: generatedNotesheet?.notesheet_number || generatedNotesheet?.notesheet?.notesheet_number || 'NS/DHAM/2026/XXX',
+            status: generatedNotesheet?.status || generatedNotesheet?.notesheet?.status || 'draft'
+        };
+    };
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -66,6 +84,7 @@ const NotesheetBuilder = () => {
             setRegNumber(ns.vehicle.registration_number);
             setSelectedWorks(ns.combined_works);
             setGeneratedNotesheet(ns);
+            setLiveContent(ns.content || {});
             if (ns.content && ns.content.is_blank) {
                 setIsBlankNotesheet(true);
             }
@@ -130,6 +149,7 @@ const NotesheetBuilder = () => {
             setGeneratedNotesheet({
                 content: initialContent
             });
+            setLiveContent(initialContent);
 
             if (regNo) {
                 try {
@@ -402,6 +422,7 @@ const NotesheetBuilder = () => {
         setRegNumber('');
         setSelectedWorks([]);
         setGeneratedNotesheet(null);
+        setLiveContent({});
         setError('');
         setSuccess('');
         setIsBlankNotesheet(false);
@@ -710,22 +731,65 @@ const NotesheetBuilder = () => {
                 </div>
             )}
 
-            {/* STEP 3: Dynamic Form */}
+            {/* STEP 3: Dynamic Form & Live Preview */}
             {step === 3 && (
                 <div>
+                    <style>{`
+                        @media (min-width: 992px) {
+                            .sticky-preview {
+                                position: sticky;
+                                top: 20px;
+                                max-height: calc(100vh - 40px);
+                                overflow-y: auto;
+                                padding-right: 5px;
+                            }
+                            .sticky-preview::-webkit-scrollbar {
+                                width: 4px;
+                            }
+                            .sticky-preview::-webkit-scrollbar-track {
+                                background: transparent;
+                            }
+                            .sticky-preview::-webkit-scrollbar-thumb {
+                                background: #cbd5e1;
+                                border-radius: 2px;
+                            }
+                        }
+                    `}</style>
                     <div className="d-flex justify-content-between align-items-center mb-3 no-print">
-                        <h5 className="text-white fw-semibold mb-0">चरण 3: विवरण भरें (Fill Details)</h5>
+                        <h5 className="text-white fw-semibold mb-0">चरण 3: विवरण भरें और लाइव पूर्वावलोकन (Fill Details & Live Preview)</h5>
                         <Button variant="outline-secondary" size="sm" className="rounded-3" onClick={() => setStep(2)}>
                             <i className="bi bi-arrow-left me-1"></i> Back
                         </Button>
                     </div>
-                    <DynamicForm selectedWorks={selectedWorks} vehicle={vehicle} onSubmit={handleFormSubmit} initialData={generatedNotesheet?.content || generatedNotesheet?.notesheet?.content} />
-                    {loading && (
-                        <div className="text-center py-4">
-                            <Spinner animation="border" variant="info" />
-                            <p className="text-secondary mt-2">Generating notesheet...</p>
-                        </div>
-                    )}
+                    
+                    <Row className="g-4">
+                        {/* Left Column: Live Preview */}
+                        <Col lg={7} xl={8} className="order-2 order-lg-1">
+                            <div className="sticky-preview">
+                                <NotesheetPreview 
+                                    notesheet={getLiveNotesheet()} 
+                                    onBack={() => setStep(2)}
+                                />
+                            </div>
+                        </Col>
+                        
+                        {/* Right Column: Interactive Form */}
+                        <Col lg={5} xl={4} className="order-1 order-lg-2 no-print">
+                            <DynamicForm 
+                                selectedWorks={selectedWorks} 
+                                vehicle={vehicle} 
+                                onSubmit={handleFormSubmit} 
+                                onChange={handleFormChange}
+                                initialData={generatedNotesheet?.content || generatedNotesheet?.notesheet?.content} 
+                            />
+                            {loading && (
+                                <div className="text-center py-4">
+                                    <Spinner animation="border" variant="info" />
+                                    <p className="text-secondary mt-2">Generating notesheet...</p>
+                                </div>
+                            )}
+                        </Col>
+                    </Row>
                 </div>
             )}
 

@@ -288,7 +288,7 @@ const NotesheetPreview = ({ notesheet, onBack }) => {
             </Card>
 
             {/* NoteSheet Border Container */}
-            <div className="print-container">
+            <div className="print-container" style={{ overflowX: 'auto' }}>
                 <div className="notesheet-outer-border">
                     {/* Header */}
                     <div className="notesheet-header">जिला परिवहन कार्यालय, धमतरी, छ०ग०</div>
