@@ -732,7 +732,7 @@ const NotesheetBuilder = () => {
             {/* STEP 4: Preview */}
             {step === 4 && generatedNotesheet && (
                 <div>
-                    <NotesheetPreview notesheet={generatedNotesheet.notesheet || generatedNotesheet} />
+                    <NotesheetPreview notesheet={generatedNotesheet.notesheet || generatedNotesheet} onBack={() => setStep(3)} />
                     <div className="d-flex justify-content-center gap-3 mt-4 no-print">
                         <Button variant="outline-secondary" className="px-4 py-2 rounded-3" onClick={() => setStep(3)}>
                             <i className="bi bi-arrow-left me-2"></i> Back to Edit

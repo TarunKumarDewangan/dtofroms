@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
 
-const NotesheetPreview = ({ notesheet }) => {
+const NotesheetPreview = ({ notesheet, onBack }) => {
     if (!notesheet) return null;
 
     const data = notesheet.data || notesheet;
@@ -270,10 +270,17 @@ const NotesheetPreview = ({ notesheet }) => {
 
             <Card className="glass-card border-0 mb-4 no-print">
                 <Card.Body className="p-4 d-flex justify-content-between align-items-center">
-                    <h5 className="text-white fw-semibold mb-0">
-                        <i className="bi bi-file-earmark-check text-success me-2"></i>
-                        नोटशीट पूर्वावलोकन (Official NoteSheet Template)
-                    </h5>
+                    <div className="d-flex align-items-center gap-3">
+                        {onBack && (
+                            <Button variant="outline-secondary" size="sm" className="rounded-3" onClick={onBack}>
+                                <i className="bi bi-arrow-left me-1"></i> Back
+                            </Button>
+                        )}
+                        <h5 className="text-white fw-semibold mb-0">
+                            <i className="bi bi-file-earmark-check text-success me-2"></i>
+                            नोटशीट पूर्वावलोकन (Official NoteSheet Template)
+                        </h5>
+                    </div>
                     <span className="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 px-3 py-2 rounded-pill font-monospace">
                         {data.notesheet_number}
                     </span>
