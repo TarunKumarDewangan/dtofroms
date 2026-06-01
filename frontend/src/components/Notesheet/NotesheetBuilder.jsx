@@ -700,7 +700,12 @@ const NotesheetBuilder = () => {
                         </Card.Body>
                     </Card>
 
-                    <h5 className="text-white fw-semibold mb-3">चरण 2: कार्य चुनें (Select Works)</h5>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h5 className="text-white fw-semibold mb-0">चरण 2: कार्य चुनें (Select Works)</h5>
+                        <Button variant="outline-secondary" size="sm" className="rounded-3" onClick={() => setStep(1)}>
+                            <i className="bi bi-arrow-left me-1"></i> Back
+                        </Button>
+                    </div>
                     <WorkSelector works={workOptions} onSelect={handleWorkSelection} />
                 </div>
             )}
@@ -729,6 +734,9 @@ const NotesheetBuilder = () => {
                 <div>
                     <NotesheetPreview notesheet={generatedNotesheet.notesheet || generatedNotesheet} />
                     <div className="d-flex justify-content-center gap-3 mt-4 no-print">
+                        <Button variant="outline-secondary" className="px-4 py-2 rounded-3" onClick={() => setStep(3)}>
+                            <i className="bi bi-arrow-left me-2"></i> Back to Edit
+                        </Button>
                         {user?.role === 'admin' && (generatedNotesheet?.status === 'submitted' || generatedNotesheet?.notesheet?.status === 'submitted') && (
                             <>
                                 <Button className="btn-success-gradient px-4 py-2 rounded-3" onClick={handleApprove} disabled={loading}>
