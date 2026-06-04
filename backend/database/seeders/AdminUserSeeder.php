@@ -12,10 +12,10 @@ class AdminUserSeeder extends Seeder
     {
         // Admin
         User::updateOrCreate(
-            ['mobile_no' => '9999999999'],
+            ['email' => 'admin@example.com'],
             [
+                'mobile_no' => '9999999999',
                 'name' => 'Admin User',
-                'email' => 'admin@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'admin',
                 'status' => true,
@@ -25,10 +25,10 @@ class AdminUserSeeder extends Seeder
 
         // Standard User
         User::updateOrCreate(
-            ['mobile_no' => '8888888888'],
+            ['email' => 'user@example.com'],
             [
+                'mobile_no' => '8888888888',
                 'name' => 'DTO User',
-                'email' => 'user@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'user',
                 'status' => true,
