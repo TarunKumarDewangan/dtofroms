@@ -709,7 +709,7 @@ const NotesheetPreview = ({
                                         let parts = [];
                                         if (name) parts.push(name);
                                         if (father) parts.push(`S/o ${father}`);
-                                        if (addr) parts.push(addr);
+                                        if (addr) parts.push(`Address ${addr}`);
                                         return parts.join(', ');
                                     })()}
                                 </td>
@@ -749,7 +749,7 @@ const NotesheetPreview = ({
                                             let parts = [];
                                             if (name) parts.push(name);
                                             if (father) parts.push(`S/o ${father}`);
-                                            if (addr) parts.push(addr);
+                                            if (addr) parts.push(`Address ${addr}`);
                                             return parts.join(', ');
                                         })()
                                     ) : hasTransferDeath ? (
@@ -763,7 +763,7 @@ const NotesheetPreview = ({
                                             let parts = [];
                                             if (name) parts.push(name);
                                             if (father) parts.push(`S/o ${father}`);
-                                            if (addr) parts.push(addr);
+                                            if (addr) parts.push(`Address ${addr}`);
                                             return parts.join(', ');
                                         })()
                                     ) : hasAddressChange ? (
