@@ -152,7 +152,7 @@ const NotesheetPreview = ({
 
 
     const formatDate = (dateStr) => {
-        if (!dateStr || dateStr === '1970-01-01' || dateStr.startsWith('1970')) return '.....................';
+        if (!dateStr || dateStr.startsWith('1970-01-01')) return '.....................';
         const date = new Date(dateStr);
         if (isNaN(date.getTime())) return dateStr;
         const day = String(date.getDate()).padStart(2, '0');
@@ -164,7 +164,7 @@ const NotesheetPreview = ({
     // Registration date calculation (15 years before fitness validity)
     const getRegistrationDate = (v) => {
         if (v.registration_date) return formatDate(v.registration_date);
-        if (!v.fitness_validity || v.fitness_validity === '1970-01-01' || v.fitness_validity.startsWith('1970')) return '.....................';
+        if (!v.fitness_validity || v.fitness_validity.startsWith('1970-01-01')) return '.....................';
         const date = new Date(v.fitness_validity);
         date.setFullYear(date.getFullYear() - 15);
         return formatDate(date.toISOString().split('T')[0]);
@@ -910,7 +910,9 @@ const NotesheetPreview = ({
                                 <td className="sno">{getSNo(6)}</td>
                                 <td className="label-cell">वाहन का मोटरयान कर की जमा दिनांक</td>
                                 <td className="value-cell">
-                                    {isBlankNotesheet ? (
+                                    {((vehicle.tax_paid_date && !vehicle.tax_paid_date.startsWith('1970-01-01')) || (vehicle.tax_amount && Number(vehicle.tax_amount) > 0)) ? (
+                                        <span>दिनांक {formatDate(vehicle.tax_paid_date)} (शुल्क {vehicle.tax_amount ? `₹${Number(vehicle.tax_amount).toLocaleString('en-IN')}` : '.....................'}/-)</span>
+                                    ) : isBlankNotesheet ? (
                                         <span>दिनांक ..................... (कर राशि रु. ...................../-)</span>
                                     ) : (
                                         <span>दिनांक {formatDate(vehicle.tax_paid_date)} (शुल्क {vehicle.tax_amount ? `₹${Number(vehicle.tax_amount).toLocaleString('en-IN')}` : '.....................'}/-)</span>
@@ -939,7 +941,9 @@ const NotesheetPreview = ({
                                 <td className="sno">{getSNo(7)}</td>
                                 <td className="label-cell">वाहन का परमिट (यदि लागू हो तो)</td>
                                 <td className="value-cell">
-                                    {isBlankNotesheet ? (
+                                    {vehicle.permit_validity && !vehicle.permit_validity.startsWith('1970-01-01') ? (
+                                        <span>वैधता दिनांक {formatDate(vehicle.permit_validity)}</span>
+                                    ) : isBlankNotesheet ? (
                                         <span>वैधता दिनांक .....................</span>
                                     ) : (
                                         <span>{vehicle.permit_validity ? `वैधता दिनांक ${formatDate(vehicle.permit_validity)}` : 'लागू नहीं (NA)'}</span>
