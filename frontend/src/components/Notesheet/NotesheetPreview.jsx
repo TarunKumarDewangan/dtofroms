@@ -22,6 +22,17 @@ const NotesheetPreview = ({
     // Get creator's code or fallback to current user's code
     const creatorCode = data.creator?.code || notesheet.creator?.code || user?.code || '';
 
+    const hasWork = (code) => works.some(w => w.work_code === code);
+    const hasTransfer = hasWork('OWN_TRANSFER');
+    const hasHPRegister = hasWork('HP_REGISTER');
+    const hasHPCancel = hasWork('HP_CANCEL');
+    const hasAddressChange = hasWork('ADDRESS_CHANGE');
+    const hasDuplicateRC = hasWork('DUPLICATE_RC');
+    const hasTransferDeath = hasWork('TRANSFER_DEATH');
+    const hasRenewal = hasWork('REG_RENEWAL');
+    const hasAlteration = hasWork('VEHICLE_ALTERATION');
+    const hasConversion = hasWork('VEHICLE_CONVERSION');
+
     const handleVehicleChange = (field, value) => {
         if (onVehicleChange) {
             onVehicleChange({
@@ -42,9 +53,9 @@ const NotesheetPreview = ({
 
     const [rowVisibility, setRowVisibility] = useState(() => {
         return content?.row_visibility || {
-            1: true, 2: true, 3: true, 4: true, 5: true,
+            1: true, 2: hasTransfer, 3: true, 4: true, 5: true,
             6: true, 7: true, 8: true, 9: true, 10: true,
-            11: true, 12: true, 13: true, 14: true, 15: true
+            11: true, 12: true, 13: hasTransfer, 14: true, 15: true
         };
     });
 
@@ -53,12 +64,12 @@ const NotesheetPreview = ({
             setRowVisibility(content.row_visibility);
         } else {
             setRowVisibility({
-                1: true, 2: true, 3: true, 4: true, 5: true,
+                1: true, 2: hasTransfer, 3: true, 4: true, 5: true,
                 6: true, 7: true, 8: true, 9: true, 10: true,
-                11: true, 12: true, 13: true, 14: true, 15: true
+                11: true, 12: true, 13: hasTransfer, 14: true, 15: true
             });
         }
-    }, [notesheet?.id, notesheet?.notesheet_number]);
+    }, [notesheet?.id, notesheet?.notesheet_number, hasTransfer]);
 
     const toggleRow = (num) => {
         const nextVisibility = {
@@ -108,16 +119,7 @@ const NotesheetPreview = ({
         );
     }
 
-    const hasWork = (code) => works.some(w => w.work_code === code);
-    const hasTransfer = hasWork('OWN_TRANSFER');
-    const hasHPRegister = hasWork('HP_REGISTER');
-    const hasHPCancel = hasWork('HP_CANCEL');
-    const hasAddressChange = hasWork('ADDRESS_CHANGE');
-    const hasDuplicateRC = hasWork('DUPLICATE_RC');
-    const hasTransferDeath = hasWork('TRANSFER_DEATH');
-    const hasRenewal = hasWork('REG_RENEWAL');
-    const hasAlteration = hasWork('VEHICLE_ALTERATION');
-    const hasConversion = hasWork('VEHICLE_CONVERSION');
+
 
     const formatDate = (dateStr) => {
         if (!dateStr || dateStr === '1970-01-01' || dateStr.startsWith('1970')) return '.....................';
