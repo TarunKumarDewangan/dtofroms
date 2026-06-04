@@ -36,7 +36,7 @@ const AppLayout = ({ children }) => {
     return (
         <div className="d-flex">
             <Sidebar />
-            <div className="flex-grow-1 d-flex flex-column" style={{ minHeight: '100vh' }}>
+            <div className="flex-grow-1 d-flex flex-column main-layout-wrapper" style={{ minHeight: '100vh', marginLeft: '260px' }}>
                 <NavbarTop />
                 <div className="main-content flex-grow-1">
                     {children}

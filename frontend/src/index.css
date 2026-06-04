@@ -56,16 +56,16 @@ body {
 /* Sidebar Styling */
 .sidebar {
   background: var(--sidebar-gradient);
-  min-height: 100vh;
+  height: 100vh;
   border-right: 1px solid #cbd5e1;
   position: fixed;
   width: 260px;
   z-index: 1000;
   transition: all 0.3s ease;
+  overflow-y: auto;
 }
 
 .main-content {
-  margin-left: 260px;
   padding: 30px;
   min-height: 100vh;
   transition: all 0.3s ease;
@@ -247,6 +247,10 @@ body {
     min-height: 0 !important;
     overflow: visible !important;
     position: static !important;
+  }
+
+  .main-layout-wrapper {
+    margin-left: 0 !important;
   }
 
   body {

@@ -24,6 +24,18 @@ const AdBanner = ({
 
     useEffect(() => {
         if (slot) {
+            // Dynamically inject Google AdSense script if not already present
+            const scriptId = 'adsense-script';
+            let script = document.getElementById(scriptId);
+            if (!script) {
+                script = document.createElement('script');
+                script.id = scriptId;
+                script.async = true;
+                script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`;
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+            }
+
             try {
                 // Initialize Google AdSense block
                 (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -32,7 +44,7 @@ const AdBanner = ({
                 setAdFailed(true);
             }
         }
-    }, [slot]);
+    }, [slot, adClient]);
 
     // Render Google AdSense Block if slot is provided and AdSense hasn't failed
     if (slot && !adFailed) {

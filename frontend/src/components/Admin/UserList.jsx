@@ -7,7 +7,7 @@ const UserList = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editUser, setEditUser] = useState(null);
-    const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'user', status: true });
+    const [formData, setFormData] = useState({ name: '', email: '', mobile_no: '', code: '', password: '', role: 'user', status: true });
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [saving, setSaving] = useState(false);
@@ -41,7 +41,7 @@ const UserList = () => {
 
     const openCreate = () => {
         setEditUser(null);
-        setFormData({ name: '', email: '', password: '', role: 'user', status: true });
+        setFormData({ name: '', email: '', mobile_no: '', code: '', password: '', role: 'user', status: true });
         setShowPassword(false);
         setError('');
         setShowModal(true);
@@ -51,7 +51,7 @@ const UserList = () => {
         setEditUser(user);
         // Normalize status to boolean
         const initialStatus = user.status === true || user.status === 1 || user.status === '1';
-        setFormData({ name: user.name, email: user.email, password: '', role: user.role, status: initialStatus });
+        setFormData({ name: user.name, email: user.email || '', mobile_no: user.mobile_no || '', code: user.code || '', password: '', role: user.role, status: initialStatus });
         setShowPassword(false);
         setError('');
         setShowModal(true);
@@ -118,7 +118,8 @@ const UserList = () => {
     // Filtered users calculation
     const filteredUsers = users.filter(u => {
         const matchesSearch = u.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                              u.email.toLowerCase().includes(searchTerm.toLowerCase());
+                              (u.email && u.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                              (u.mobile_no && u.mobile_no.includes(searchTerm));
         const matchesRole = roleFilter === 'all' || u.role === roleFilter;
         
         const isUserActive = u.status === true || u.status === 1 || u.status === '1';
@@ -204,7 +205,8 @@ const UserList = () => {
                             <tr className="text-white border-bottom border-secondary border-opacity-25">
                                 <th className="py-3 px-4" style={{ width: '60px' }}>#</th>
                                 <th className="py-3">Name</th>
-                                <th className="py-3">Email</th>
+                                <th className="py-3">Mobile No</th>
+                                <th className="py-3">RTO Code</th>
                                 <th className="py-3">Role</th>
                                 <th className="py-3">Status</th>
                                 <th className="py-3">Created By</th>
@@ -214,7 +216,7 @@ const UserList = () => {
                         <tbody>
                             {filteredUsers.length === 0 ? (
                                 <tr>
-                                    <td colSpan={7} className="text-center py-5 text-secondary">
+                                    <td colSpan={8} className="text-center py-5 text-secondary">
                                         <i className="bi bi-people fs-2 d-block mb-2 opacity-50"></i>
                                         No users found matching your filters.
                                     </td>
@@ -226,7 +228,8 @@ const UserList = () => {
                                         <tr key={u.id} className="border-bottom border-secondary border-opacity-10 align-middle">
                                             <td className="py-3 px-4">{idx + 1}</td>
                                             <td className="py-3 text-white fw-medium">{u.name}</td>
-                                            <td className="py-3">{u.email}</td>
+                                            <td className="py-3 font-monospace">{u.mobile_no}</td>
+                                            <td className="py-3"><Badge bg="dark" className="border border-secondary border-opacity-25">{u.code}</Badge></td>
                                             <td className="py-3">
                                                 <Badge bg={u.role === 'admin' ? 'danger' : 'primary'} className="text-capitalize px-2 py-1">{u.role}</Badge>
                                             </td>
@@ -279,13 +282,36 @@ const UserList = () => {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label className="text-secondary fw-medium">Email</Form.Label>
+                            <Form.Label className="text-secondary fw-medium">Mobile Number (Login ID)</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                className="form-control-dark font-monospace" 
+                                value={formData.mobile_no} 
+                                onChange={e => setFormData({ ...formData, mobile_no: e.target.value })} 
+                                required 
+                                pattern="[0-9]{10}"
+                                title="10-digit mobile number"
+                                placeholder="Enter mobile number"
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-secondary fw-medium">RTO Code</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                className="form-control-dark" 
+                                value={formData.code} 
+                                onChange={e => setFormData({ ...formData, code: e.target.value })} 
+                                required 
+                                placeholder="e.g. CG05"
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-secondary fw-medium">Email (Optional)</Form.Label>
                             <Form.Control 
                                 type="email" 
                                 className="form-control-dark" 
                                 value={formData.email} 
                                 onChange={e => setFormData({ ...formData, email: e.target.value })} 
-                                required 
                                 placeholder="Enter email address"
                             />
                         </Form.Group>
@@ -352,23 +378,30 @@ const UserList = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-white mb-1 fw-bold">{selectedUser.name}</h4>
-                                    <span className="text-secondary">{selectedUser.email}</span>
+                                    <span className="text-secondary font-monospace">{selectedUser.mobile_no}</span>
+                                    {selectedUser.email && <div className="text-muted small">{selectedUser.email}</div>}
                                 </div>
                             </div>
                             
                             <hr className="border-secondary border-opacity-25 my-2" />
 
                             <Row className="g-3">
-                                <Col xs={6}>
+                                <Col xs={4}>
                                     <div className="small text-secondary">Role</div>
                                     <div className="mt-1">
                                         <Badge bg={selectedUser.role === 'admin' ? 'danger' : 'primary'} className="text-capitalize px-2 py-1.5 fs-7">{selectedUser.role}</Badge>
                                     </div>
                                 </Col>
-                                <Col xs={6}>
+                                <Col xs={4}>
                                     <div className="small text-secondary">Status</div>
                                     <div className="mt-1">
                                         <Badge bg={selectedUser.status ? 'success' : 'secondary'} className="px-2 py-1.5 fs-7">{selectedUser.status ? 'Active' : 'Inactive'}</Badge>
+                                    </div>
+                                </Col>
+                                <Col xs={4}>
+                                    <div className="small text-secondary">RTO Code</div>
+                                    <div className="mt-1">
+                                        <Badge bg="dark" className="border border-secondary border-opacity-25 px-2 py-1.5 fs-7 text-info">{selectedUser.code}</Badge>
                                     </div>
                                 </Col>
                                 <Col xs={12}>
@@ -399,6 +432,41 @@ const UserList = () => {
                                     </div>
                                 </Col>
                             </Row>
+
+                            {/* Code Change logs */}
+                            <div className="mt-3">
+                                <h6 className="text-white fw-bold mb-2"><i className="bi bi-clock-history text-info me-2"></i>RTO Code Audit Log</h6>
+                                <div className="table-responsive rounded border border-secondary border-opacity-10">
+                                    <Table size="sm" borderless hover className="mb-0 text-secondary" style={{ fontSize: '12px' }}>
+                                        <thead>
+                                            <tr className="text-white bg-dark bg-opacity-20 border-bottom border-secondary border-opacity-10">
+                                                <th className="py-2 px-2">From</th>
+                                                <th className="py-2 px-2">To</th>
+                                                <th className="py-2 px-2">Active Duration</th>
+                                                <th className="py-2 px-2">Changed By</th>
+                                                <th className="py-2 px-2">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {!selectedUser.code_logs || selectedUser.code_logs.length === 0 ? (
+                                                <tr>
+                                                    <td colSpan={5} className="text-center py-3 text-muted">No history found.</td>
+                                                </tr>
+                                            ) : (
+                                                selectedUser.code_logs.map(log => (
+                                                    <tr key={log.id} className="border-bottom border-secondary border-opacity-5 align-middle">
+                                                        <td className="py-2 px-2 font-monospace">{log.old_code || '-'}</td>
+                                                        <td className="py-2 px-2 font-monospace text-info">{log.new_code}</td>
+                                                        <td className="py-2 px-2">{log.active_duration}</td>
+                                                        <td className="py-2 px-2">{log.admin ? log.admin.name : (log.changed_by ? `User ID ${log.changed_by}` : 'User (Signup)')}</td>
+                                                        <td className="py-2 px-2 text-nowrap">{formatDateTime(log.created_at)}</td>
+                                                    </tr>
+                                                ))
+                                            )}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </Modal.Body>
@@ -418,7 +486,7 @@ const UserList = () => {
                             <i className="bi bi-exclamation-triangle-fill text-danger fs-1 mb-3 d-block"></i>
                             <h5 className="text-white mb-2">Are you sure you want to delete this user?</h5>
                             <p className="text-secondary mb-0">
-                                This action will delete <strong>{userToDelete.name}</strong> ({userToDelete.email}) permanently.
+                                This action will delete <strong>{userToDelete.name}</strong> ({userToDelete.mobile_no}) permanently.
                             </p>
                         </div>
                     )}

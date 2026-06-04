@@ -1,140 +1,869 @@
+<?php
+$articles = [
+    [
+        'id' => 'form-29-30-ownership-transfer',
+        'title' => 'Understanding RTO Form 29 & 30 for Vehicle Ownership Transfer',
+        'category' => 'Ownership Transfer',
+        'read_time' => '5 min read',
+        'date' => 'May 20, 2026',
+        'excerpt' => 'A comprehensive guide on RTO Form 29 and Form 30, the mandatory documents required for vehicle ownership transfer in India.',
+        'content' => "RTO Form 29 and Form 30 are the core legal pillars for transferring vehicle ownership in India. Whenever a registered vehicle is sold or transferred, the seller must submit Form 29 to notify the RTO about the sale, while the buyer must submit Form 30 to report the transfer and request registration under their name.<br><br><strong>What is RTO Form 29?</strong><br>Form 29 serves as the 'Notice of Transfer of Ownership of a Motor Vehicle'. It is filled out and signed by the seller. The seller declares that they have sold the vehicle, handed over the registration certificate (RC), and delivered possession to the buyer. This document protects the seller from any future legal liabilities associated with the vehicle after the sale date.<br><br><strong>What is RTO Form 30?</strong><br>Form 30 is the 'Report of Transfer of Ownership of a Motor Vehicle'. It is filled by both the buyer and the seller. The buyer declares that they have purchased the vehicle and request that the transfer be recorded in the RTO database. This form must be submitted within 14 days of transfer for local RTOs, or 45 days if the buyer resides in another RTO jurisdiction.<br><br><strong>Key Documents Needed alongside Form 29 & 30:</strong><br><ul><li>Original Registration Certificate (RC)</li><li>Valid Insurance Certificate</li><li>Pollution Under Control (PUC) Certificate</li><li>Address proof of the buyer (Aadhaar, Voter ID, Utility bill)</li><li>Passport-sized photographs</li><li>Active Tax Clearance details</li></ul>"
+    ],
+    [
+        'id' => 'how-to-check-vehicle-owner-details',
+        'title' => 'How to Check Vehicle Owner Details and RTO Registration Online',
+        'category' => 'Vehicle Lookup',
+        'read_time' => '4 min read',
+        'date' => 'May 21, 2026',
+        'excerpt' => 'A step-by-step guide to verifying vehicle details, owner names, and registration status using online portal search tools.',
+        'content' => "With the digitization of the Ministry of Road Transport and Highways (MoRTH), checking vehicle registration details and owner names in India has become extremely easy. The centralized database called VAHAN stores all registration details of vehicles across almost all states and union territories.<br><br><strong>How to search on Vahan Portal:</strong><br>1. Visit the official Vahan Citizen Services website.<br>2. Enter the vehicle registration number (e.g., CG05AC5898) in the search box.<br>3. Complete the verification check.<br>4. View details such as owner name, maker/model, fuel type, fitness validity, and hypothecation status.<br><br><strong>Using the mParivahan Mobile App:</strong><br>For mobile users, the mParivahan app provides virtual registration certificates (RC) and driving licenses (DL) that are legally recognized. By entering the registration number on the app dashboard, users can view all pertinent details instantly. This is helpful when buying used vehicles to verify that details match what the seller claims."
+    ],
+    [
+        'id' => 'hypothecation-termination-form-35',
+        'title' => 'Step-by-Step Guide to Hypothecation Termination (RTO Form 35)',
+        'category' => 'Hypothecation',
+        'read_time' => '5 min read',
+        'date' => 'May 22, 2026',
+        'excerpt' => 'Learn how to remove a bank loan hypothecation (HPA) from your vehicle registration certificate using Form 35.',
+        'content' => "When you buy a vehicle using a bank loan, the vehicle is hypothecated to the bank. This is indicated as 'HPA' (Hypothecation Addition) on the registration certificate. Once the loan is fully repaid, it is necessary to terminate this hypothecation from RTO records using RTO Form 35.<br><br><strong>Step 1: Obtain NOC from the Bank</strong><br>After your final EMI payment, the bank will issue a No Objection Certificate (NOC) confirming that the loan has been closed. Along with the NOC, the bank will send two copies of Form 35 signed by the bank manager.<br><br><strong>Step 2: Submit to the RTO</strong><br>You need to submit the following documents to the RTO where the vehicle is registered:<br><ul><li>Two copies of Form 35</li><li>Original NOC from the bank</li><li>Original Registration Certificate (RC)</li><li>Valid insurance copy</li><li>Valid Pollution Under Control (PUC) certificate</li><li>Fee receipt for Hypothecation Termination</li></ul><br>Once the RTO verifies the documents, they will issue a new Registration Certificate without the bank name."
+    ],
+    [
+        'id' => 'change-address-rc-form-33',
+        'title' => 'How to Change Your Address in Vehicle Registration (RTO Form 33)',
+        'category' => 'RC Changes',
+        'read_time' => '4 min read',
+        'date' => 'May 23, 2026',
+        'excerpt' => 'Detailed procedure, forms, and address proofs required to update your home address in vehicle registration records.',
+        'content' => "Under Section 49 of the Motor Vehicles Act, 1988, if a vehicle owner changes their residence, they must report the new address to the RTO within 30 days. Failing to do so can result in penalties and issues with insurance claims or RC renewals.<br><br><strong>Procedure for Address Change:</strong><br>To change the address on your vehicle's Registration Certificate, you need to submit RTO Form 33. The application must be sent to the RTO in whose jurisdiction you now reside.<br><br><strong>Required Documents:</strong><br><ul><li>RTO Form 33 (Application for intimation of change of address)</li><li>Original Registration Certificate (RC)</li><li>New Address Proof (Aadhaar Card, Election Card, LIC Policy, or Utility Bill)</li><li>Valid Insurance Certificate</li><li>Valid PUC Certificate</li><li>Chassis Print of the vehicle</li></ul><br>If the vehicle is under a loan, you must also obtain a No Objection Certificate (NOC) from the financier to change the address."
+    ],
+    [
+        'id' => 'apply-duplicate-rc-guide',
+        'title' => 'Procedure to Apply for a Duplicate RC (Registration Certificate)',
+        'category' => 'RC Changes',
+        'read_time' => '5 min read',
+        'date' => 'May 24, 2026',
+        'excerpt' => 'What to do when you lose or damage your RC. Steps for police report, RTO Form 26, and required documents.',
+        'content' => "Losing or damaging your vehicle's Registration Certificate (RC) is a stressful experience, but the RTO provides a straightforward procedure to get a duplicate RC under Section 26 of the Motor Vehicles Act.<br><br><strong>Step 1: File a Police Report (FIR / Lost Report)</strong><br>Immediately file a lost report or FIR at the nearest police station or online police portal. You must obtain a copy of this report containing the vehicle registration number and chassis number.<br><br><strong>Step 2: Obtain RTO Form 26</strong><br>Form 26 is the application form for a duplicate RC. It must be filled out and signed by the owner. If the vehicle is hypothecated, the bank must sign and stamp the form to grant permission.<br><br><strong>Required Documents to Submit:</strong><br><ul><li>Form 26 (in duplicate if hypothecated)</li><li>Copy of Police FIR/Lost Report</li><li>NCRB (National Crime Records Bureau) clearance report</li><li>Valid PUC Certificate copy</li><li>Valid Insurance copy</li><li>Chassis number pencil print</li><li>Address proof of owner</li></ul>"
+    ],
+    [
+        'id' => 'vehicle-fitness-validity-renewal',
+        'title' => 'Understanding Vehicle Fitness Certificate Validity and Renewal Rules',
+        'category' => 'Vehicle Rules',
+        'read_time' => '5 min read',
+        'date' => 'May 25, 2026',
+        'excerpt' => 'A detailed guide on vehicle fitness validity terms for private and commercial vehicles and the renewal inspection process.',
+        'content' => "A vehicle fitness certificate is a document issued by the RTO stating that the vehicle is fit to run on public roads without causing environmental hazards or safety risks. The validity rules differ significantly between private (non-transport) and commercial (transport) vehicles.<br><br><strong>Private Vehicles (Cars & Bikes):</strong><br>For private vehicles, the registration certificate (RC) itself serves as the fitness certificate for the first 15 years. After 15 years, the owner must renew the registration and get a fitness test done. Once renewed, the fitness certificate is valid for 5 years, after which it must be renewed again.<br><br><strong>Commercial Vehicles (Trucks, Cabs, Buses):</strong><br>Commercial vehicles require regular fitness checks. Under current rules, a new commercial vehicle is issued a fitness certificate valid for 2 years. After 8 years of age, the commercial vehicle must undergo an annual fitness inspection and renewal process.<br><br><strong>Renewal Inspection Process:</strong><br>During inspection, the RTO inspector checks vehicle safety parts, including headlamps, tail lamps, indicators, brakes, tyres, exhaust emission levels, reflector tapes, and general engine body structure."
+    ],
+    [
+        'id' => 'what-is-ncrb-report-rto',
+        'title' => 'What is an NCRB Report and Why is it Required for RTO Processes?',
+        'category' => 'Security',
+        'read_time' => '3 min read',
+        'date' => 'May 26, 2026',
+        'excerpt' => 'Learn the significance of the National Crime Records Bureau check in vehicle transactions and duplicate RC applications.',
+        'content' => "NCRB stands for the National Crime Records Bureau. When applying for certain RTO services, such as a duplicate RC or state-to-state transfer, the RTO requires an NCRB clearance report.<br><br><strong>Why is it required?</strong><br>The NCRB report acts as a verification certificate proving that the vehicle is not blacklisted, has not been reported as stolen, and is not involved in any ongoing criminal investigation, theft cases, or court disputes. It ensures that fraudulent transactions of stolen vehicles are blocked.<br><br><strong>How to get it:</strong><br>Vehicle owners or agents can check and download the vehicle NOC/clearance status online via the Digital Police portal or the local police department. The report checks the engine and chassis numbers against national criminal databases. The RTO will not process duplicate RC requests or transfer NOCs without a clear NCRB status report."
+    ],
+    [
+        'id' => 'hypothecation-addition-form-34',
+        'title' => 'Guide to Hypothecation Addition (RTO Form 34) on New Vehicle Loan',
+        'category' => 'Hypothecation',
+        'read_time' => '4 min read',
+        'date' => 'May 27, 2026',
+        'excerpt' => 'Learn how to register bank hypothecation on your new vehicle registration using RTO Form 34.',
+        'content' => "When purchasing a vehicle through finance, the financier (bank or lending institution) retains a legal claim over the vehicle until the loan is fully repaid. This legal claim is called hypothecation and must be registered in RTO records under Form 34.<br><br><strong>How Hypothecation is added:</strong><br>At the time of new vehicle registration, the dealer submits RTO Form 34 along with the loan agreement documents. Form 34 is signed by both the owner of the vehicle and the financier representative. The RTO records the bank as the hypothecated owner, which appears on your RC card as 'Hypothecated to [Bank Name]'. This prevents you from selling the vehicle or changing its key registration details without the bank's NOC."
+    ],
+    [
+        'id' => 'transfer-ownership-after-death',
+        'title' => 'How to Transfer Vehicle Ownership After the Owner\'s Demise',
+        'category' => 'Ownership Transfer',
+        'read_time' => '5 min read',
+        'date' => 'May 28, 2026',
+        'excerpt' => 'Understanding RTO Form 31 and the succession procedure for transferring a deceased person\'s vehicle to their legal heir.',
+        'content' => "In the unfortunate event of a vehicle owner's demise, the ownership of the vehicle must be transferred to the legal heir or successor. Under Section 50 of the Motor Vehicles Act, the successor must inform the RTO of their intent to use the vehicle within 30 days, and apply for a formal transfer within 3 months using RTO Form 31.<br><br><strong>Key Documents Required:</strong><br><ul><li>RTO Form 31 (Application for transfer of ownership in name of successor)</li><li>Original Death Certificate of the owner</li><li>Succession Certificate or Legal Heir Certificate issued by authority</li><li>No Objection Declaration from other family members/heirs</li><li>Original RC</li><li>Valid Insurance and PUC certificates</li><li>Address proof of the successor</li></ul>"
+    ],
+    [
+        'id' => 'road-tax-rules-chhattisgarh',
+        'title' => 'A Complete Guide to Road Tax Rules and Validity in Chhattisgarh',
+        'category' => 'Vehicle Rules',
+        'read_time' => '4 min read',
+        'date' => 'May 29, 2026',
+        'excerpt' => 'Understand how road tax is calculated, paid, and verified in Chhattisgarh for private and commercial vehicles.',
+        'content' => "Road tax is a state-level tax levied on vehicles to maintain highway infrastructure. In Chhattisgarh, road tax must be paid at the time of purchase and verified during vehicle inspections.<br><br><strong>Private Vehicles:</strong><br>Private cars and two-wheelers are subject to 'One-Time Tax' valid for 15 years from the date of registration. The tax rate is calculated as a percentage of the vehicle's ex-showroom price (ranging from 6% to 10% depending on engine capacity and fuel type). After 15 years, during RC renewal, tax is paid in blocks of 5 years.<br><br><strong>Commercial Vehicles:</strong><br>Commercial vehicles pay quarterly, half-yearly, or annual tax based on gross vehicle weight (GVW) or seating capacity. Chhattisgarh transport department provides an online portal (cgtransport.gov.in) to pay road tax and check validity."
+    ],
+    [
+        'id' => 'pollution-under-control-rules',
+        'title' => 'Understanding Pollution Under Control (PUC) Certificate Rules',
+        'category' => 'Vehicle Rules',
+        'read_time' => '3 min read',
+        'date' => 'May 30, 2026',
+        'excerpt' => 'Importance of emission checks, PUC validity norms, and fines for non-compliance under the Motor Vehicles Act.',
+        'content' => "A Pollution Under Control (PUC) certificate is mandatory for all vehicles operating on Indian roads. It indicates that the vehicle's emissions comply with environmental standards and do not exceed safety levels.<br><br><strong>Validity Norms:</strong><br>- For new vehicles, a PUC certificate is issued valid for 1 year from the date of registration.<br>- After the first year, all vehicles (BS4 & BS6 compliant) must undergo testing every 6 months or 1 year depending on state rules.<br>- Testing is done at authorized pollution check centers using smoke analyzer probes.<br><br><strong>Fines & Penalties:</strong><br>Driving a vehicle without a valid PUC certificate is a serious offence, attracting a fine of ₹10,000 under Section 190(2) of the Motor Vehicles Act, along with suspension of the driving license for 3 months."
+    ],
+    [
+        'id' => 'transfer-registration-between-states',
+        'title' => 'How to Transfer Vehicle Registration from One State to Another',
+        'category' => 'Ownership Transfer',
+        'read_time' => '6 min read',
+        'date' => 'May 31, 2026',
+        'excerpt' => 'Detailed process for moving your vehicle to a new state, obtaining an NOC, and paying tax in the destination state.',
+        'content' => "If you move to a new state and intend to keep your vehicle there for more than a year, you must register it in the new state and get a new registration number. This involves a two-part process: obtaining an NOC from the parent RTO and re-registering at the destination RTO.<br><br><strong>Part 1: NOC from Parent RTO</strong><br>Apply for a No Objection Certificate (NOC) in RTO Form 28 at your current RTO. The RTO will verify that there are no pending taxes, traffic challans, or crime cases on the vehicle and issue the NOC.<br><br><strong>Part 2: Re-registration & Tax Payment</strong><br>Submit the NOC, Form 27 (Application for new registration mark), and address proof to the new RTO. You must pay road tax in the new state. Once registered, you can apply for a road tax refund from your previous state RTO."
+    ],
+    [
+        'id' => 'private-vs-commercial-rules',
+        'title' => 'Difference between Private and Commercial Vehicle Registration Rules',
+        'category' => 'Vehicle Rules',
+        'read_time' => '5 min read',
+        'date' => 'Jun 01, 2026',
+        'excerpt' => 'A comparison of tax, permit, fitness certificate validity, and licensing rules for private vs commercial vehicles.',
+        'content' => "Vehicles in India are broadly classified into non-transport (private) and transport (commercial) classes, distinguished by plate colors (white plates with black text vs yellow plates with black text).<br><br><strong>1. Permits & Taxes:</strong><br>Private vehicles do not require a permit and pay a lifetime road tax. Commercial vehicles must hold valid national or state permits (goods/passenger) and pay recurring road taxes.<br><br><strong>2. Driver Licensing:</strong><br>To drive a commercial vehicle, drivers must hold a commercial driving license (trans endorsement), which requires annual or triennial renewals. Private licenses are valid for up to 20 years or till the age of 40.<br><br><strong>3. Inspection Frequencies:</strong><br>Private vehicles undergo fitness checks after 15 years, whereas commercial vehicles require annual fitness certifications to verify brake and load parameters."
+    ],
+    [
+        'id' => 'vehicle-alteration-approval-rules',
+        'title' => 'Guide to Vehicle Alteration and RTO Approval Rules',
+        'category' => 'Vehicle Rules',
+        'read_time' => '4 min read',
+        'date' => 'Jun 02, 2026',
+        'excerpt' => 'Which modifications are legal and how to get official RTO approval under RTO Forms 22C and 22D.',
+        'content' => "Modifying a vehicle without RTO permission is illegal in India and can lead to registration cancellation. The Supreme Court has ruled that the structural details of a vehicle cannot be altered from its original manufacturer specifications.<br><br><strong>What is permitted with RTO approval:</strong><br>- Color change of the vehicle body.<br>- Installation of CNG/LPG fuel kits.<br>- Engine replacement of the same make and capacity.<br>- Fitting handicap-adaptive controls.<br><br><strong>Process for Alteration Approval:</strong><br>Apply in writing to the RTO before making modifications. Once the RTO issues permission, get the alterations done at an authorized workshop. Submit Form 22C and Form 22D along with original bills and certificates to get the changes updated in the RC."
+    ],
+    [
+        'id' => 'vehicle-class-conversion-guide',
+        'title' => 'Vehicle Class Conversion: Moving from Commercial to Private Class',
+        'category' => 'Vehicle Rules',
+        'read_time' => '5 min read',
+        'date' => 'Jun 02, 2026',
+        'excerpt' => 'Learn how to de-register a commercial vehicle and convert it to a private vehicle class.',
+        'content' => "Converting a vehicle's registration class from transport (commercial) to non-transport (private) is common for taxi owners who want to use their old cabs as private family cars. This class conversion is allowed by the RTO under strict guidelines.<br><br><strong>Conversion Process:</strong><br>1. Surrender the commercial permit to the RTO and obtain a permit cancellation certificate.<br>2. Clear all outstanding commercial taxes.<br>3. Apply for conversion in RTO format along with class conversion fees.<br>4. The RTO will recalculate the road tax based on private rates, subtracting the depreciated value of taxes already paid.<br>5. Inspect the vehicle (it must have the yellow commercial board repainted to a white private number plate) and get a new RC card."
+    ],
+    [
+        'id' => 'rto-notesheet-purpose-office',
+        'title' => 'The Purpose of RTO Notesheets in Regional Transport Offices',
+        'category' => 'RTO Processes',
+        'read_time' => '4 min read',
+        'date' => 'Jun 02, 2026',
+        'excerpt' => 'Understand the role of notesheets in internal file approvals, documentation checks, and RTO clerk workflows.',
+        'content' => "In Regional Transport Offices (RTOs) across India, files are processed using official documents called Notesheets. A notesheet acts as the audit log and decision-making record for every application file submitted by a vehicle owner or RTO partner.<br><br><strong>Clerk Verification:</strong><br>When a file (like ownership transfer or loan termination) is submitted, the clerk reviews all documents, checks tax validity, and compiles the vehicle's parameters. These details are written down in a standard 15-row notesheet. The notesheet details the owner name, chassis number, fitness date, permit status, tax paid status, and original document checklists.<br><br><strong>Approval Hierarchy:</strong><br>The clerk records their verification findings, signs the notesheet, and forwards it to the branch head or RTO officer. The officer reads the notesheet summary and grants approval or requests clarifications. The notesheet serves as the legal record of approval, safeguarding RTO processes."
+    ]
+];
+
+$activeArticle = null;
+if (request()->query('article')) {
+    $articleId = request()->query('article');
+    foreach ($articles as $art) {
+        if ($art['id'] === $articleId) {
+            $activeArticle = $art;
+            break;
+        }
+    }
+}
+
+$activePage = request()->query('page');
+$pageTitle = 'RTODataHub - RTO Forms, Guides & Notesheet Tools';
+$pageDesc = 'Find detailed RTO guides, official form rules, and use our smart tools to check vehicle details and generate transport office notesheets.';
+
+if ($activeArticle) {
+    $pageTitle = $activeArticle['title'] . ' | RTODataHub';
+    $pageDesc = $activeArticle['excerpt'];
+} elseif ($activePage) {
+    if ($activePage === 'about-us') {
+        $pageTitle = 'About Us | RTODataHub';
+        $pageDesc = 'Learn more about RTODataHub, our mission, and the smart notesheet tools we build for RTO partners and transporters.';
+    } elseif ($activePage === 'contact-us') {
+        $pageTitle = 'Contact Us | RTODataHub';
+        $pageDesc = 'Get in touch with the RTODataHub support team. Send your inquiries or feedback.';
+    } elseif ($activePage === 'privacy-policy') {
+        $pageTitle = 'Privacy Policy | RTODataHub';
+        $pageDesc = 'Read the privacy guidelines and data protection policies of RTODataHub.';
+    } elseif ($activePage === 'terms') {
+        $pageTitle = 'Terms & Conditions | RTODataHub';
+        $pageDesc = 'Terms of service and usage conditions for the RTODataHub website and generator tool.';
+    } elseif ($activePage === 'disclaimer') {
+        $pageTitle = 'Disclaimer | RTODataHub';
+        $pageDesc = 'Official disclaimer regarding RTODataHub data sources and non-affiliation with government transport departments.';
+    }
+}
+?>
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= e($pageTitle) ?></title>
+    <meta name="description" content="<?= e($pageDesc) ?>">
+    
+    <?php if (!$activePage): ?>
+        <!-- Google AdSense -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2430201189761283" crossorigin="anonymous"></script>
+    <?php endif; ?>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Premium Styles -->
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 24, 39, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --accent-color: #6366f1;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
 
-        <title>Laravel</title>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-        <!-- Styles -->
-        <style>
-            /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Figtree, sans-serif;font-feature-settings:normal}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mx-6{margin-left:1.5rem;margin-right:1.5rem}.ml-4{margin-left:1rem}.mt-16{margin-top:4rem}.mt-6{margin-top:1.5rem}.mt-4{margin-top:1rem}.-mt-px{margin-top:-1px}.mr-1{margin-right:0.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.h-16{height:4rem}.h-7{height:1.75rem}.h-6{height:1.5rem}.h-5{height:1.25rem}.min-h-screen{min-height:100vh}.w-auto{width:auto}.w-16{width:4rem}.w-7{width:1.75rem}.w-6{width:1.5rem}.w-5{width:1.25rem}.max-w-7xl{max-width:80rem}.shrink-0{flex-shrink:0}.scale-100{--tw-scale-x:1;--tw-scale-y:1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.items-center{align-items:center}.justify-center{justify-content:center}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.self-center{align-self:center}.rounded-lg{border-radius:0.5rem}.rounded-full{border-radius:9999px}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity))}.bg-dots-darker{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E")}.from-gray-700\/50{--tw-gradient-from:rgb(55 65 81 / 0.5);--tw-gradient-to:rgb(55 65 81 / 0);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0);--tw-gradient-stops:var(--tw-gradient-from), transparent, var(--tw-gradient-to)}.bg-center{background-position:center}.stroke-red-500{stroke:#ef4444}.stroke-gray-400{stroke:#9ca3af}.p-6{padding:1.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.text-center{text-align:center}.text-right{text-align:right}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-gray-500\/20{--tw-shadow-color:rgb(107 114 128 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\:bg-red-500 *::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.selection\:bg-red-500::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.hover\:text-gray-900:hover{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.hover\:text-gray-700:hover{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.focus\:rounded-sm:focus{border-radius:0.125rem}.focus\:outline:focus{outline-style:solid}.focus\:outline-2:focus{outline-width:2px}.focus\:outline-red-500:focus{outline-color:#ef4444}.group:hover .group-hover\:stroke-gray-600{stroke:#4b5563}@media (prefers-reduced-motion: no-preference){.motion-safe\:hover\:scale-\[1\.01\]:hover{--tw-scale-x:1.01;--tw-scale-y:1.01;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}@media (prefers-color-scheme: dark){.dark\:bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:bg-gray-800\/50{background-color:rgb(31 41 55 / 0.5)}.dark\:bg-red-800\/20{background-color:rgb(153 27 27 / 0.2)}.dark\:bg-dots-lighter{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E")}.dark\:bg-gradient-to-bl{background-image:linear-gradient(to bottom left, var(--tw-gradient-stops))}.dark\:stroke-gray-600{stroke:#4b5563}.dark\:text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:shadow-none{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.dark\:ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.dark\:ring-inset{--tw-ring-inset:inset}.dark\:ring-white\/5{--tw-ring-color:rgb(255 255 255 / 0.05)}.dark\:hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.group:hover .dark\:group-hover\:stroke-gray-400{stroke:#9ca3af}}@media (min-width: 640px){.sm\:fixed{position:fixed}.sm\:top-0{top:0px}.sm\:right-0{right:0px}.sm\:ml-0{margin-left:0px}.sm\:flex{display:flex}.sm\:items-center{align-items:center}.sm\:justify-center{justify-content:center}.sm\:justify-between{justify-content:space-between}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:gap-8{gap:2rem}.lg\:p-8{padding:2rem}}
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-            @if (Route::has('login'))
-                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
-                    @auth
-                        <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+        h1, h2, h3, h4, h5 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: #ffffff;
+        }
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
 
-            <div class="max-w-7xl mx-auto p-6 lg:p-8">
-                <div class="flex justify-center">
-                    <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto bg-gray-100 dark:bg-gray-900">
-                        <path d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z" fill="#FF2D20"/>
-                    </svg>
-                </div>
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-                <div class="mt-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                        <a href="https://laravel.com/docs" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                                    </svg>
-                                </div>
+        /* Navbar */
+        header {
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 0;
+        }
 
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Documentation</h2>
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-                                </p>
-                            </div>
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .btn-cta {
+            background: var(--primary-gradient);
+            color: #ffffff !important;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px 0;
+            text-align: center;
+            background: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+        }
+
+        .hero-title {
+            font-size: 45px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+        }
+
+        /* Cards Grid */
+        .section-title {
+            font-size: 26px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 12px;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+            margin-bottom: 80px;
+        }
+
+        .blog-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .card-category {
+            color: #a855f7;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .card-excerpt {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-link {
+            color: var(--accent-color);
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-link:hover {
+            color: #ffffff;
+        }
+
+        /* Detail Page */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding: 40px 0 80px 0;
+        }
+
+        @media (min-width: 992px) {
+            .main-layout {
+                grid-template-columns: 2.5fr 1fr;
+            }
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 35px;
+            backdrop-filter: blur(8px);
+        }
+
+        .article-title {
+            font-size: 32px;
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .article-body {
+            font-size: 16px;
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+
+        .article-body h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .article-body ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .article-body li {
+            margin-bottom: 8px;
+        }
+
+        .article-body strong {
+            color: #ffffff;
+        }
+
+        /* Sidebar Widget */
+        .widget-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+
+        .widget-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .widget-links {
+            list-style: none;
+        }
+
+        .widget-links li {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .widget-links a {
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .widget-links a:hover {
+            color: var(--accent-color);
+            transform: translateX(3px);
+        }
+
+        .widget-cta {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px dashed rgba(99, 102, 241, 0.4);
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background-color: #060910;
+            padding: 40px 0 20px 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .footer-col h5 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        /* Policy & Forms styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .btn-submit {
+            background: var(--primary-gradient);
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header>
+        <div class="container navbar-content">
+            <a href="<?= url('/') ?>" class="logo">
+                <i class="bi bi-card-checklist"></i> RTODataHub
+            </a>
+            <ul class="nav-links">
+                <li><a href="<?= url('/') ?>" class="<?= !$activeArticle && !$activePage ? 'active' : '' ?>">Home</a></li>
+                <li><a href="?page=about-us" class="<?= $activePage === 'about-us' ? 'active' : '' ?>">About Us</a></li>
+                <li><a href="?page=contact-us" class="<?= $activePage === 'contact-us' ? 'active' : '' ?>">Contact Us</a></li>
+                <li><a href="<?= url('/notesheet') ?>" class="btn-cta"><i class="bi bi-box-arrow-in-right"></i> Open Tool App</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <?php if (!$activeArticle && !$activePage): ?>
+        <!-- Hero Section (Home Only) -->
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">RTO Notesheet & Form Filler Hub</h1>
+                <p class="hero-desc">Your ultimate public portal for official RTO guidelines, transport office procedures, and smart tools to verify vehicle registration and generate notesheets.</p>
+                <a href="<?= url('/notesheet') ?>" class="btn-cta" style="padding: 12px 28px; font-size: 16px; border-radius: 25px;">
+                    <i class="bi bi-gear-wide-connected me-1"></i> Start Generating Notesheets Now
+                </a>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <main class="container">
+        <div class="main-layout">
+            
+            <!-- Left Side: Main Content -->
+            <div>
+                <?php if ($activeArticle): ?>
+                    <!-- Article View -->
+                    <div class="content-card">
+                        <a href="<?= url('/') ?>" style="color: var(--accent-color); font-size: 14px; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 5px;">
+                            <i class="bi bi-arrow-left"></i> Back to All Articles
                         </a>
-
-                        <a href="https://laracasts.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laracasts</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                </p>
-                            </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <a href="https://laravel-news.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laravel News</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                </p>
-                            </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Forge</a>, <a href="https://vapor.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Vapor</a>, <a href="https://nova.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Nova</a>, and <a href="https://envoyer.io" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Telescope</a>, and more.
-                                </p>
-                            </div>
+                        <h1 class="article-title"><?= e($activeArticle['title']) ?></h1>
+                        <div class="article-meta">
+                            <span><i class="bi bi-folder-fill" style="color: #a855f7;"></i> <?= e($activeArticle['category']) ?></span>
+                            <span><i class="bi bi-calendar3"></i> <?= e($activeArticle['date']) ?></span>
+                            <span><i class="bi bi-clock"></i> <?= e($activeArticle['read_time']) ?></span>
+                        </div>
+                        <div class="article-body">
+                            <?= $activeArticle['content'] ?>
                         </div>
                     </div>
-                </div>
-
-                <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
-                        <div class="flex items-center gap-4">
-                            <a href="https://github.com/sponsors/taylorotwell" class="group inline-flex items-center hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="-mt-px mr-1 w-5 h-5 stroke-gray-400 dark:stroke-gray-600 group-hover:stroke-gray-600 dark:group-hover:stroke-gray-400">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                </svg>
-                                Sponsor
-                            </a>
+                
+                <?php elseif ($activePage === 'about-us'): ?>
+                    <!-- About Us Page -->
+                    <div class="content-card">
+                        <h1 class="article-title">About Us</h1>
+                        <div class="article-body">
+                            <p>Welcome to <strong>RTODataHub</strong>, a dedicated platform committed to simplifying complex regional transport office (RTO) documentation and verification procedures.</p>
+                            <br>
+                            <p>Our primary mission is to support transport department partners, vehicle owners, and administrative staff by providing reliable, easy-to-use digital utility utilities. RTODataHub helps bridge the gap between administrative processes and transport paperwork through detailed procedural instructions, regulatory compliance guides, and automatic formatting solutions.</p>
+                            <br>
+                            <h3>Our Core Features Include:</h3>
+                            <ul>
+                                <li><strong>Procedural Guides:</strong> Step-by-step instructions on transferring vehicle ownership, hypothecation additions/cancellations, permit extensions, and registration renewals.</li>
+                                <li><strong>Automated Forms:</strong> Guidance on standard MoRTH forms (including Forms 26, 29, 30, 33, 34, 35) to prevent filing rejections.</li>
+                                <li><strong>Notesheet Generation:</strong> High-quality formatting templates allowing verified clerks to record checklists and submit files for approval.</li>
+                            </ul>
+                            <br>
+                            <p>All information and resources provided on RTODataHub are meticulously checked against the latest guidelines from the Ministry of Road Transport and Highways (MoRTH) to ensure accuracy. If you have any inquiries, suggestions, or comments, please feel free to reach out via our Contact page.</p>
                         </div>
                     </div>
 
-                    <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                <?php elseif ($activePage === 'contact-us'): ?>
+                    <!-- Contact Us Page -->
+                    <div class="content-card">
+                        <h1 class="article-title">Contact Us</h1>
+                        <div class="article-body">
+                            <p class="mb-4">Have questions about RTO procedures, or feedback regarding our notesheet generator tools? Drop us a line using the form below, and we will get back to you as soon as possible.</p>
+                            <br>
+                            
+                            <?php if (request()->isMethod('post')): ?>
+                                <div class="alert-success">
+                                    <i class="bi bi-check-circle-fill"></i> Thank you! Your message has been sent successfully. We will contact you soon.
+                                </div>
+                            <?php endif; ?>
+
+                            <form action="?page=contact-us" method="POST">
+                                <?php csrf_field() ?>
+                                <div class="form-group">
+                                    <label class="form-label" for="contact_name">Full Name</label>
+                                    <input type="text" id="contact_name" class="form-input" placeholder="Enter your name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="contact_email">Email Address</label>
+                                    <input type="email" id="contact_email" class="form-input" placeholder="name@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="contact_subject">Subject</label>
+                                    <input type="text" id="contact_subject" class="form-input" placeholder="How can we help you?" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="contact_message">Your Message</label>
+                                    <textarea id="contact_message" class="form-input" rows="5" placeholder="Write your message here..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn-submit"><i class="bi bi-send"></i> Send Message</button>
+                            </form>
+                        </div>
                     </div>
+
+                <?php elseif ($activePage === 'privacy-policy'): ?>
+                    <!-- Privacy Policy Page -->
+                    <div class="content-card">
+                        <h1 class="article-title">Privacy Policy</h1>
+                        <div class="article-body">
+                            <p>At RTODataHub, accessible from rtodatahub.in, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by RTODataHub and how we use it.</p>
+                            <br>
+                            <h3>Log Files</h3>
+                            <p>RTODataHub follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics. The information collected by log files include internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.</p>
+                            <br>
+                            <h3>Google DoubleClick DART Cookie</h3>
+                            <p>Google is one of a third-party vendor on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to rtodatahub.in and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy.</p>
+                            <br>
+                            <h3>Privacy Policies</h3>
+                            <p>Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on RTODataHub, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.</p>
+                            <p>Note that RTODataHub has no access to or control over these cookies that are used by third-party advertisers.</p>
+                        </div>
+                    </div>
+
+                <?php elseif ($activePage === 'terms'): ?>
+                    <!-- Terms and Conditions Page -->
+                    <div class="content-card">
+                        <h1 class="article-title">Terms & Conditions</h1>
+                        <div class="article-body">
+                            <p>Welcome to RTODataHub!</p>
+                            <br>
+                            <p>These terms and conditions outline the rules and regulations for the use of RTODataHub's Website, located at rtodatahub.in.</p>
+                            <br>
+                            <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use RTODataHub if you do not agree to take all of the terms and conditions stated on this page.</p>
+                            <br>
+                            <h3>License</h3>
+                            <p>Unless otherwise stated, RTODataHub and/or its licensors own the intellectual property rights for all material on RTODataHub. All intellectual property rights are reserved. You may access this from RTODataHub for your own personal use subjected to restrictions set in these terms and conditions.</p>
+                            <p>You must not:</p>
+                            <ul>
+                                <li>Republish material from RTODataHub</li>
+                                <li>Sell, rent or sub-license material from RTODataHub</li>
+                                <li>Reproduce, duplicate or copy material from RTODataHub</li>
+                                <li>Redistribute content from RTODataHub</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                <?php elseif ($activePage === 'disclaimer'): ?>
+                    <!-- Disclaimer Page -->
+                    <div class="content-card">
+                        <h1 class="article-title">Disclaimer</h1>
+                        <div class="article-body">
+                            <p>If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email.</p>
+                            <br>
+                            <h3>Disclaimers for RTODataHub</h3>
+                            <p>All the information on this website - rtodatahub.in - is published in good faith and for general information purpose only. RTODataHub does not make any warranties about the completeness, reliability and accuracy of this information. Any action you take upon the information you find on this website (RTODataHub), is strictly at your own risk. RTODataHub will not be liable for any losses and/or damages in connection with the use of our website.</p>
+                            <br>
+                            <p><strong>Non-Affiliation with Government:</strong> Please note that RTODataHub is an independent private educational and informational platform. We are NOT affiliated with, sponsored by, or associated with any Regional Transport Office (RTO), State Transport Department, VAHAN/PARIVAHAN system, or the Ministry of Road Transport and Highways (MoRTH) of India. For official applications, please visit the official Parivahan website at parivahan.gov.in.</p>
+                        </div>
+                    </div>
+
+                <?php else: ?>
+                    <!-- Home View: Articles List -->
+                    <h2 class="section-title">Official RTO Registration Guides & Articles</h2>
+                    <div class="blog-grid">
+                        <?php foreach ($articles as $art): ?>
+                            <div class="blog-card">
+                                <div>
+                                    <div class="card-meta">
+                                        <span class="card-category"><?= e($art['category']) ?></span>
+                                        <span><?= e($art['read_time']) ?></span>
+                                    </div>
+                                    <h3 class="card-title"><?= e($art['title']) ?></h3>
+                                    <p class="card-excerpt"><?= e($art['excerpt']) ?></p>
+                                </div>
+                                <a href="?article=<?= e($art['id']) ?>" class="card-link">
+                                    Read Full Guide <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <!-- Right Side: Sidebar Widget -->
+            <div>
+                <div class="widget-card widget-cta">
+                    <h4 style="margin-bottom: 12px; font-size: 20px;">RTO Generator App</h4>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Are you a transport consultant or RTO agent? Use our smart utility app to generate error-free print sheets in seconds.</p>
+                    <a href="<?= url('/notesheet') ?>" class="btn-cta" style="display: block; width: 100%;"><i class="bi bi-box-arrow-in-right"></i> Go to App Login</a>
+                </div>
+                
+                <div class="widget-card">
+                    <h4 class="widget-title">Important Guides</h4>
+                    <ul class="widget-links">
+                        <?php 
+                        $quickLinks = array_slice($articles, 0, 5);
+                        foreach ($quickLinks as $link): 
+                        ?>
+                            <li><a href="?article=<?= e($link['id']) ?>"><i class="bi bi-file-text me-1"></i> <?= e($link['title']) ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                
+                <div class="widget-card">
+                    <h4 class="widget-title">RTO Forms List</h4>
+                    <ul class="widget-links" style="color: var(--text-muted); font-size: 13px;">
+                        <li><i class="bi bi-file-earmark-arrow-down me-1"></i> <strong>Form 26:</strong> Duplicate RC Application</li>
+                        <li><i class="bi bi-file-earmark-arrow-down me-1"></i> <strong>Form 29:</strong> Notice of Ownership Transfer</li>
+                        <li><i class="bi bi-file-earmark-arrow-down me-1"></i> <strong>Form 30:</strong> Report of Ownership Transfer</li>
+                        <li><i class="bi bi-file-earmark-arrow-down me-1"></i> <strong>Form 33:</strong> Address Change Notification</li>
+                        <li><i class="bi bi-file-earmark-arrow-down me-1"></i> <strong>Form 34:</strong> Hypothecation Registration</li>
+                        <li><i class="bi bi-file-earmark-arrow-down me-1"></i> <strong>Form 35:</strong> Hypothecation Termination</li>
+                    </ul>
                 </div>
             </div>
+
         </div>
-    </body>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo"><i class="bi bi-card-checklist text-info"></i> RTODataHub</div>
+                <p>Private resources and notesheet generation utilities designed to streamline administrative transport documentation in India.</p>
+            </div>
+            <div class="footer-col">
+                <h5>RTO Guides</h5>
+                <ul class="footer-links">
+                    <li><a href="?article=form-29-30-ownership-transfer">Ownership Transfer</a></li>
+                    <li><a href="?article=hypothecation-termination-form-35">Hypothecation Cancellation</a></li>
+                    <li><a href="?article=apply-duplicate-rc-guide">Duplicate RC Application</a></li>
+                    <li><a href="?article=vehicle-fitness-validity-renewal">Fitness Certificate Renewal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Legals & Policies</h5>
+                <ul class="footer-links">
+                    <li><a href="?page=privacy-policy">Privacy Policy</a></li>
+                    <li><a href="?page=terms">Terms & Conditions</a></li>
+                    <li><a href="?page=disclaimer">Disclaimer</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Contact</h5>
+                <ul class="footer-links">
+                    <li><a href="?page=contact-us">Support Ticket</a></li>
+                    <li>Email: support@rtodatahub.in</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; <?= date('Y') ?> RTODataHub.in. All rights reserved. This site is privately owned and not affiliated with any official transport authority or government department.</p>
+        </div>
+    </footer>
+
+</body>
 </html>

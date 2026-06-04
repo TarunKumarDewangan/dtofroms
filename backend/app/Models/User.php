@@ -24,6 +24,8 @@ class User extends Authenticatable
         'role',
         'status',
         'created_by',
+        'mobile_no',
+        'code',
     ];
 
     /**
@@ -48,5 +50,10 @@ class User extends Authenticatable
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function codeLogs()
+    {
+        return $this->hasMany(UserCodeLog::class, 'user_id')->orderBy('created_at', 'desc');
     }
 }

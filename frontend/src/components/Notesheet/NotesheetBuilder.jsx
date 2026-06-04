@@ -18,13 +18,17 @@ const NotesheetBuilder = () => {
     const [vehicle, setVehicle] = useState(null);
     const [regNumber, setRegNumber] = useState('');
     const [selectedWorks, setSelectedWorks] = useState([]);
-    const [isBlankNotesheet, setIsBlankNotesheet] = useState(false);
+    const [isBlankNotesheet, setIsBlankNotesheet] = useState(true);
     const [generatedNotesheet, setGeneratedNotesheet] = useState(null);
     const [liveContent, setLiveContent] = useState({});
     const [workOptions, setWorkOptions] = useState([]);
 
     const handleFormChange = (newContent) => {
         setLiveContent(newContent);
+    };
+
+    const handleVehicleChange = (updatedVehicle) => {
+        setVehicle(updatedVehicle);
     };
 
     const getLiveNotesheet = () => {
@@ -87,6 +91,8 @@ const NotesheetBuilder = () => {
             setLiveContent(ns.content || {});
             if (ns.content && ns.content.is_blank) {
                 setIsBlankNotesheet(true);
+            } else {
+                setIsBlankNotesheet(false);
             }
             const initialStep = stepParam ? parseInt(stepParam) : 3;
             setStep(initialStep);
@@ -150,6 +156,7 @@ const NotesheetBuilder = () => {
                 content: initialContent
             });
             setLiveContent(initialContent);
+            setIsBlankNotesheet(false);
 
             if (regNo) {
                 try {
@@ -317,6 +324,11 @@ const NotesheetBuilder = () => {
         setLoading(true);
         setError('');
         try {
+            // First, update vehicle details in the database
+            if (vehicle && vehicle.id) {
+                await api.put(`/vehicles/${vehicle.id}`, vehicle);
+            }
+
             let nsId = editId;
             if (!nsId) {
                 // Step 1: Create notesheet draft
@@ -425,7 +437,7 @@ const NotesheetBuilder = () => {
         setLiveContent({});
         setError('');
         setSuccess('');
-        setIsBlankNotesheet(false);
+        setIsBlankNotesheet(true);
     };
 
     const stepLabels = [
@@ -763,31 +775,16 @@ const NotesheetBuilder = () => {
                     </div>
                     
                     <Row className="g-4">
-                        {/* Left Column: Live Preview */}
-                        <Col lg={7} xl={8} className="order-2 order-lg-1">
-                            <div className="sticky-preview">
-                                <NotesheetPreview 
-                                    notesheet={getLiveNotesheet()} 
-                                    onBack={() => setStep(2)}
-                                />
-                            </div>
-                        </Col>
-                        
-                        {/* Right Column: Interactive Form */}
-                        <Col lg={5} xl={4} className="order-1 order-lg-2 no-print">
-                            <DynamicForm 
-                                selectedWorks={selectedWorks} 
-                                vehicle={vehicle} 
-                                onSubmit={handleFormSubmit} 
-                                onChange={handleFormChange}
-                                initialData={generatedNotesheet?.content || generatedNotesheet?.notesheet?.content} 
+                        <Col xs={12}>
+                            <NotesheetPreview 
+                                notesheet={getLiveNotesheet()} 
+                                onBack={() => setStep(2)}
+                                isEditable={true}
+                                onContentChange={handleFormChange}
+                                onVehicleChange={handleVehicleChange}
+                                onSave={handleFormSubmit}
+                                loading={loading}
                             />
-                            {loading && (
-                                <div className="text-center py-4">
-                                    <Spinner animation="border" variant="info" />
-                                    <p className="text-secondary mt-2">Generating notesheet...</p>
-                                </div>
-                            )}
                         </Col>
                     </Row>
                 </div>

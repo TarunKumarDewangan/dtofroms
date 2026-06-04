@@ -1,13 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from 'react-bootstrap';
 import AdBanner from '../Common/AdBanner';
 
 const Sidebar = () => {
     const { user, logout } = useAuth();
+    const location = useLocation();
 
     if (!user) return null;
+
+    const hideAd = location.pathname.startsWith('/build') || location.pathname.startsWith('/forms/fill');
 
     return (
         <div className="sidebar no-print d-flex flex-column justify-content-between">
@@ -27,9 +30,16 @@ const Sidebar = () => {
                     <div className="d-flex align-items-center">
                         <div className="flex-grow-1 overflow-hidden">
                             <h6 className="text-white mb-0 text-truncate font-weight-bold">{user.name}</h6>
-                            <span className={`badge ${user.role === 'admin' ? 'bg-danger' : 'bg-success'} text-capitalize mt-1`} style={{ fontSize: '10px' }}>
-                                {user.role}
-                            </span>
+                            <div className="d-flex align-items-center gap-1 mt-1">
+                                <span className={`badge ${user.role === 'admin' ? 'bg-danger' : 'bg-success'} text-capitalize`} style={{ fontSize: '10px' }}>
+                                    {user.role}
+                                </span>
+                                {user.code && (
+                                    <span className="badge bg-dark border border-secondary border-opacity-25 text-info" style={{ fontSize: '10px' }}>
+                                        {user.code}
+                                    </span>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,13 +79,15 @@ const Sidebar = () => {
             </div>
 
             {/* Ad Banner placement */}
-            <div className="px-3 py-1">
-                <AdBanner 
-                    slot="5240613762"
-                    fallbackTitle="RTO Partner Sponsor"
-                    fallbackDesc="Fast RC verification, tax dues checking & HP status check online."
-                />
-            </div>
+            {!hideAd && (
+                <div className="px-3 py-1">
+                    <AdBanner 
+                        slot="5240613762"
+                        fallbackTitle="RTO Partner Sponsor"
+                        fallbackDesc="Fast RC verification, tax dues checking & HP status check online."
+                    />
+                </div>
+            )}
 
             {/* Logout Action */}
             <div className="p-3 border-top border-secondary border-opacity-25">

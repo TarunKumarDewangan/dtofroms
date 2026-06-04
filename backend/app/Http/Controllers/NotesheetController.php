@@ -87,7 +87,7 @@ class NotesheetController extends Controller
 
     public function generate(Request $request, $id)
     {
-        $notesheet = Notesheet::with('vehicle')->findOrFail($id);
+        $notesheet = Notesheet::with(['vehicle', 'creator'])->findOrFail($id);
         
         $request->validate([
             'content' => 'required|array',
