@@ -35,6 +35,17 @@ const FormFiller = () => {
         11: true, 12: true, 13: true, 14: true, 15: true
     });
 
+    useEffect(() => {
+        if (formType === 'Note Sheet (Hindi)') {
+            const hasTransfer = !!formData.include_transfer;
+            setRowVisibility(prev => ({
+                ...prev,
+                2: hasTransfer,
+                13: hasTransfer
+            }));
+        }
+    }, [formData.include_transfer, formType]);
+
     const toggleRow = (num) => {
         setRowVisibility(prev => ({
             ...prev,

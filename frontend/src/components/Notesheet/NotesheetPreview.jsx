@@ -52,23 +52,36 @@ const NotesheetPreview = ({
     };
 
     const [rowVisibility, setRowVisibility] = useState(() => {
-        return content?.row_visibility || {
+        const baseVisibility = content?.row_visibility ? { ...content.row_visibility } : {
             1: true, 2: hasTransfer, 3: true, 4: true, 5: true,
             6: true, 7: true, 8: true, 9: true, 10: true,
             11: true, 12: true, 13: hasTransfer, 14: true, 15: true
         };
+        baseVisibility[2] = hasTransfer;
+        baseVisibility[13] = hasTransfer;
+        return baseVisibility;
     });
 
     useEffect(() => {
-        if (content?.row_visibility) {
-            setRowVisibility(content.row_visibility);
-        } else {
-            setRowVisibility({
-                1: true, 2: hasTransfer, 3: true, 4: true, 5: true,
-                6: true, 7: true, 8: true, 9: true, 10: true,
-                11: true, 12: true, 13: hasTransfer, 14: true, 15: true
+        const baseVisibility = content?.row_visibility ? { ...content.row_visibility } : {
+            1: true, 2: hasTransfer, 3: true, 4: true, 5: true,
+            6: true, 7: true, 8: true, 9: true, 10: true,
+            11: true, 12: true, 13: hasTransfer, 14: true, 15: true
+        };
+        const needsUpdate = !content?.row_visibility || 
+                            content.row_visibility[2] !== hasTransfer || 
+                            content.row_visibility[13] !== hasTransfer;
+        
+        baseVisibility[2] = hasTransfer;
+        baseVisibility[13] = hasTransfer;
+        
+        if (needsUpdate && onContentChange) {
+            onContentChange({
+                ...content,
+                row_visibility: baseVisibility
             });
         }
+        setRowVisibility(baseVisibility);
     }, [notesheet?.id, notesheet?.notesheet_number, hasTransfer]);
 
     const toggleRow = (num) => {
