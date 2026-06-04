@@ -48,18 +48,23 @@ const FormFiller = () => {
     }, [formData.include_transfer, formData.include_death, formType]);
 
     const toggleRow = (num) => {
+        const hasTransfer = !!(formData.include_transfer || formData.include_death);
+        const defaultValue = (num === 2 || num === 12 || num === 13) ? hasTransfer : true;
+        const currentValue = rowVisibility[num] ?? defaultValue;
         setRowVisibility(prev => ({
             ...prev,
-            [num]: !prev[num]
+            [num]: !currentValue
         }));
     };
 
     const isRowVisible = (num) => {
         const hasTransfer = !!(formData.include_transfer || formData.include_death);
+        const defaultValue = (num === 2 || num === 12 || num === 13) ? hasTransfer : true;
+        const isVisible = rowVisibility[num] ?? defaultValue;
         if (num === 2 || num === 12 || num === 13) {
-            return !!(rowVisibility[num] && hasTransfer);
+            return !!(isVisible && hasTransfer);
         }
-        return !!rowVisibility[num];
+        return !!isVisible;
     };
 
     let currentSNo = 1;
@@ -698,23 +703,40 @@ const FormFiller = () => {
                             {/* Table */}
                             <table className="notesheet-table">
                                 <tbody>
-                                    <tr className={!rowVisibility[1] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(1) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-1"
-                                                checked={rowVisibility[1]} 
+                                                checked={isRowVisible(1)} 
                                                 onChange={() => toggleRow(1)} 
                                             />
                                         </td>
                                         <td className="sno">{getSNo(1)}</td>
                                         <td className="label-cell">वर्तमान वाहन स्वामी/विक्रेता का नाम पिता व वर्तमान पता</td>
                                         <td className="value-cell" style={{ lineHeight: '1.8' }}>
-                                            <div className="d-flex gap-2 mb-1">
-                                                <div style={{ flex: 1 }}><TransliteratedInput name="owner_name" className="rto-input w-100" placeholder="स्वामी का नाम" value={formData.owner_name || ''} onChange={handleInputChange} /></div>
-                                                <div style={{ flex: 1 }}><TransliteratedInput name="owner_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.owner_father || ''} onChange={handleInputChange} /></div>
+                                            <div className="no-print">
+                                                <div className="d-flex gap-2 mb-1">
+                                                    <div style={{ flex: 1 }}><TransliteratedInput name="owner_name" className="rto-input w-100" placeholder="स्वामी का नाम" value={formData.owner_name || ''} onChange={handleInputChange} /></div>
+                                                    <div style={{ flex: 1 }}><TransliteratedInput name="owner_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.owner_father || ''} onChange={handleInputChange} /></div>
+                                                </div>
+                                                <div><TransliteratedInput name="owner_address" className="rto-input w-100" placeholder="पता" value={formData.owner_address || ''} onChange={handleInputChange} /></div>
                                             </div>
-                                            <div><TransliteratedInput name="owner_address" className="rto-input w-100" placeholder="पता" value={formData.owner_address || ''} onChange={handleInputChange} /></div>
+                                            <div className="print-only">
+                                                {(() => {
+                                                    const name = formData.owner_name?.trim();
+                                                    const father = formData.owner_father?.trim();
+                                                    const addr = formData.owner_address?.trim();
+                                                    if (!name && !father && !addr) {
+                                                        return '................................................................................';
+                                                    }
+                                                    let parts = [];
+                                                    if (name) parts.push(name);
+                                                    if (father) parts.push(`S/o ${father}`);
+                                                    if (addr) parts.push(addr);
+                                                    return parts.join(', ');
+                                                })()}
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(2) ? 'row-disabled' : ''}>
@@ -730,31 +752,48 @@ const FormFiller = () => {
                                         <td className="sno">{getSNo(2)}</td>
                                         <td className="label-cell">प्रस्तावित वाहन स्वामी/क्रेता का नाम पिता व वर्तमान पता</td>
                                         <td className="value-cell" style={{ lineHeight: '1.8' }}>
-                                            {formData.include_death ? (
-                                                <>
-                                                    <div className="d-flex gap-2 mb-1">
-                                                        <div style={{ flex: 1 }}><TransliteratedInput name="applicant_name" className="rto-input w-100" placeholder="वारिस का नाम" value={formData.applicant_name || ''} onChange={handleInputChange} /></div>
-                                                        <div style={{ flex: 1 }}><TransliteratedInput name="applicant_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.applicant_father || ''} onChange={handleInputChange} /></div>
-                                                    </div>
-                                                    <div><TransliteratedInput name="applicant_address" className="rto-input w-100" placeholder="पता" value={formData.applicant_address || ''} onChange={handleInputChange} /></div>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <div className="d-flex gap-2 mb-1">
-                                                        <div style={{ flex: 1 }}><TransliteratedInput name="buyer_name" className="rto-input w-100" placeholder="क्रेता का नाम" value={formData.buyer_name || ''} onChange={handleInputChange} /></div>
-                                                        <div style={{ flex: 1 }}><TransliteratedInput name="buyer_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.buyer_father || ''} onChange={handleInputChange} /></div>
-                                                    </div>
-                                                    <div><TransliteratedInput name="buyer_address" className="rto-input w-100" placeholder="पता" value={formData.buyer_address || ''} onChange={handleInputChange} /></div>
-                                                </>
-                                            )}
+                                            <div className="no-print">
+                                                {formData.include_death ? (
+                                                    <>
+                                                        <div className="d-flex gap-2 mb-1">
+                                                            <div style={{ flex: 1 }}><TransliteratedInput name="applicant_name" className="rto-input w-100" placeholder="वारिस का नाम" value={formData.applicant_name || ''} onChange={handleInputChange} /></div>
+                                                            <div style={{ flex: 1 }}><TransliteratedInput name="applicant_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.applicant_father || ''} onChange={handleInputChange} /></div>
+                                                        </div>
+                                                        <div><TransliteratedInput name="applicant_address" className="rto-input w-100" placeholder="पता" value={formData.applicant_address || ''} onChange={handleInputChange} /></div>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className="d-flex gap-2 mb-1">
+                                                            <div style={{ flex: 1 }}><TransliteratedInput name="buyer_name" className="rto-input w-100" placeholder="क्रेता का नाम" value={formData.buyer_name || ''} onChange={handleInputChange} /></div>
+                                                            <div style={{ flex: 1 }}><TransliteratedInput name="buyer_father" className="rto-input w-100" placeholder="पिता का नाम" value={formData.buyer_father || ''} onChange={handleInputChange} /></div>
+                                                        </div>
+                                                        <div><TransliteratedInput name="buyer_address" className="rto-input w-100" placeholder="पता" value={formData.buyer_address || ''} onChange={handleInputChange} /></div>
+                                                    </>
+                                                )}
+                                            </div>
+                                            <div className="print-only">
+                                                {(() => {
+                                                    const name = (formData.include_death ? formData.applicant_name : formData.buyer_name)?.trim();
+                                                    const father = (formData.include_death ? formData.applicant_father : formData.buyer_father)?.trim();
+                                                    const addr = (formData.include_death ? formData.applicant_address : formData.buyer_address)?.trim();
+                                                    if (!name && !father && !addr) {
+                                                        return '................................................................................';
+                                                    }
+                                                    let parts = [];
+                                                    if (name) parts.push(name);
+                                                    if (father) parts.push(`S/o ${father}`);
+                                                    if (addr) parts.push(addr);
+                                                    return parts.join(', ');
+                                                })()}
+                                            </div>
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[3] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(3) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-3"
-                                                checked={rowVisibility[3]} 
+                                                checked={isRowVisible(3)} 
                                                 onChange={() => toggleRow(3)} 
                                             />
                                         </td>
@@ -764,12 +803,12 @@ const FormFiller = () => {
                                             <input name="registration_date" className="rto-input" style={{ width: getInputWidth(formData.registration_date, "पंजीयन दिनांक", 100) }} placeholder="e.g. 24-05-2018" value={formData.registration_date || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[4] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(4) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-4"
-                                                checked={rowVisibility[4]} 
+                                                checked={isRowVisible(4)} 
                                                 onChange={() => toggleRow(4)} 
                                             />
                                         </td>
@@ -779,12 +818,12 @@ const FormFiller = () => {
                                             <input name="chassis_number" className="rto-input" style={{ width: getInputWidth(formData.chassis_number, "चेसिस क्रमांक", 160) }} placeholder="चेसिस क्रमांक" value={formData.chassis_number || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[5] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(5) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-5"
-                                                checked={rowVisibility[5]} 
+                                                checked={isRowVisible(5)} 
                                                 onChange={() => toggleRow(5)} 
                                             />
                                         </td>
@@ -794,12 +833,12 @@ const FormFiller = () => {
                                             <input name="engine_number" className="rto-input" style={{ width: getInputWidth(formData.engine_number, "इंजन क्रमांक", 130) }} placeholder="इंजन क्रमांक" value={formData.engine_number || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[6] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(6) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-6"
-                                                checked={rowVisibility[6]} 
+                                                checked={isRowVisible(6)} 
                                                 onChange={() => toggleRow(6)} 
                                             />
                                         </td>
@@ -809,12 +848,12 @@ const FormFiller = () => {
                                             दिनांक <input name="tax_paid_date" className="rto-input" style={{ width: getInputWidth(formData.tax_paid_date, "टैक्स जमा दिनांक", 100) }} placeholder="e.g. 15-02-2025" value={formData.tax_paid_date || ''} onChange={handleInputChange} /> (शुल्क ₹<input name="tax_amount" className="rto-input" style={{ width: getInputWidth(formData.tax_amount, "कर राशि", 70) }} placeholder="कर राशि" value={formData.tax_amount || ''} onChange={handleInputChange} />/-)
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[7] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(7) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-7"
-                                                checked={rowVisibility[7]} 
+                                                checked={isRowVisible(7)} 
                                                 onChange={() => toggleRow(7)} 
                                             />
                                         </td>
@@ -824,12 +863,12 @@ const FormFiller = () => {
                                             <input name="permit_validity" className="rto-input" style={{ width: getInputWidth(formData.permit_validity, "वैधता दिनांक", 160) }} placeholder="e.g. 10-12-2027" value={formData.permit_validity || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[8] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(8) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-8"
-                                                checked={rowVisibility[8]} 
+                                                checked={isRowVisible(8)} 
                                                 onChange={() => toggleRow(8)} 
                                             />
                                         </td>
@@ -839,12 +878,12 @@ const FormFiller = () => {
                                             वैधता दिनांक <input name="fitness_validity" className="rto-input" style={{ width: getInputWidth(formData.fitness_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 23-05-2033" value={formData.fitness_validity || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[9] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(9) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-9"
-                                                checked={rowVisibility[9]} 
+                                                checked={isRowVisible(9)} 
                                                 onChange={() => toggleRow(9)} 
                                             />
                                         </td>
@@ -854,12 +893,12 @@ const FormFiller = () => {
                                             वैता दिनांक <input name="pollution_validity" className="rto-input" style={{ width: getInputWidth(formData.pollution_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 14-11-2026" value={formData.pollution_validity || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[10] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(10) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-10"
-                                                checked={rowVisibility[10]} 
+                                                checked={isRowVisible(10)} 
                                                 onChange={() => toggleRow(10)} 
                                             />
                                         </td>
@@ -869,12 +908,12 @@ const FormFiller = () => {
                                             <div className="d-inline-block" style={{ width: getInputWidth(formData.current_hpa, "फाइनेंसर का नाम", 160) }}><TransliteratedInput name="current_hpa" className="rto-input" placeholder="e.g. NA / SBI" value={formData.current_hpa || ''} onChange={handleInputChange} /></div>
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[11] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(11) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-11"
-                                                checked={rowVisibility[11]} 
+                                                checked={isRowVisible(11)} 
                                                 onChange={() => toggleRow(11)} 
                                             />
                                         </td>
@@ -925,12 +964,12 @@ const FormFiller = () => {
                                             </Form.Select>
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[14] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(14) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-14"
-                                                checked={rowVisibility[14]} 
+                                                checked={isRowVisible(14)} 
                                                 onChange={() => toggleRow(14)} 
                                             />
                                         </td>
@@ -940,12 +979,12 @@ const FormFiller = () => {
                                             दिनांक <input name="physical_verification_date" className="rto-input" style={{ width: getInputWidth(formData.physical_verification_date, "सत्यापन दिनांक", 100) }} placeholder="e.g. 26-05-2026" value={formData.physical_verification_date || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[15] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(15) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-15"
-                                                checked={rowVisibility[15]} 
+                                                checked={isRowVisible(15)} 
                                                 onChange={() => toggleRow(15)} 
                                             />
                                         </td>

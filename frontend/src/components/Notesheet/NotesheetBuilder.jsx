@@ -120,21 +120,50 @@ const NotesheetBuilder = () => {
                 'Form 34': 'HP_REGISTER',
                 'Form 35': 'HP_CANCEL'
             };
-            const targetCode = typeMapping[form.form_type];
 
             let activeWorks = [];
-            if (targetCode) {
-                const resOpts = await api.get('/works');
-                const matchedWork = resOpts.data.find(w => w.work_code === targetCode);
-                if (matchedWork) {
-                    activeWorks = [matchedWork];
-                    setSelectedWorks(activeWorks);
+            const resOpts = await api.get('/works');
+            const allWorks = resOpts.data;
+            const fd = form.form_data || {};
+
+            if (form.form_type === 'Note Sheet (Hindi)') {
+                if (fd.include_transfer) {
+                    const w = allWorks.find(x => x.work_code === 'OWN_TRANSFER');
+                    if (w) activeWorks.push(w);
+                }
+                if (fd.include_death) {
+                    const w = allWorks.find(x => x.work_code === 'TRANSFER_DEATH');
+                    if (w) activeWorks.push(w);
+                }
+                if (fd.include_hp_reg) {
+                    const w = allWorks.find(x => x.work_code === 'HP_REGISTER');
+                    if (w) activeWorks.push(w);
+                }
+                if (fd.include_hp_cancel) {
+                    const w = allWorks.find(x => x.work_code === 'HP_CANCEL');
+                    if (w) activeWorks.push(w);
+                }
+                if (fd.include_address) {
+                    const w = allWorks.find(x => x.work_code === 'ADDRESS_CHANGE');
+                    if (w) activeWorks.push(w);
+                }
+                if (fd.include_duplicate) {
+                    const w = allWorks.find(x => x.work_code === 'DUPLICATE_RC');
+                    if (w) activeWorks.push(w);
+                }
+            } else {
+                const targetCode = typeMapping[form.form_type];
+                if (targetCode) {
+                    const matchedWork = allWorks.find(w => w.work_code === targetCode);
+                    if (matchedWork) {
+                        activeWorks = [matchedWork];
+                    }
                 }
             }
+            setSelectedWorks(activeWorks);
 
-            const fd = form.form_data || {};
             const initialContent = {
-                application_date: new Date().toISOString().split('T')[0],
+                application_date: fd.application_date || new Date().toISOString().split('T')[0],
                 buyer_name: fd.buyer_name || '',
                 buyer_father: fd.buyer_father || '',
                 buyer_address: fd.buyer_address || '',
@@ -142,14 +171,23 @@ const NotesheetBuilder = () => {
                 transfer_fee: fd.transfer_fee || '',
                 new_address: fd.new_address || '',
                 address_fee: fd.address_fee || '',
-                hp_bank_name: fd.financier_name || '',
+                hp_bank_name: fd.hp_bank_name || fd.financier_name || '',
                 hp_fee: fd.hp_fee || '',
-                hp_date: fd.agreement_date || '',
-                cancel_bank_name: fd.financier_name || '',
+                hp_date: fd.hp_date || fd.agreement_date || '',
+                cancel_bank_name: fd.cancel_bank_name || fd.financier_name || '',
                 hp_cancel_fee: fd.hp_cancel_fee || '',
-                cancel_date: fd.termination_date || '',
-                affidavit_attached: '',
-                ncrb_report: ''
+                cancel_date: fd.cancel_date || fd.termination_date || '',
+                applicant_name: fd.applicant_name || '',
+                applicant_father: fd.applicant_father || '',
+                applicant_address: fd.applicant_address || '',
+                death_transfer_fee: fd.death_transfer_fee || '',
+                death_date: fd.death_date || '',
+                duplicate_rc_fee: fd.duplicate_rc_fee || '',
+                duplicate_date: fd.duplicate_date || '',
+                affidavit_attached: fd.affidavit_attached || '',
+                ncrb_report: fd.ncrb_report || '',
+                fir_attached: fd.fir_attached || '',
+                original_file_attached: fd.original_file_attached || '',
             };
 
             setGeneratedNotesheet({
@@ -161,7 +199,25 @@ const NotesheetBuilder = () => {
             if (regNo) {
                 try {
                     const vehRes = await api.get(`/vehicles/search/${regNo}`);
-                    setVehicle(vehRes.data);
+                    const dbVehicle = vehRes.data;
+                    const mergedVehicle = {
+                        ...dbVehicle,
+                        owner_name: fd.owner_name || dbVehicle.owner_name || '',
+                        owner_father_name: fd.owner_father || dbVehicle.owner_father_name || '',
+                        owner_address: fd.owner_address || dbVehicle.owner_address || '',
+                        vehicle_type: fd.vehicle_type || dbVehicle.vehicle_type || '',
+                        model_year: fd.model_year || dbVehicle.model_year || '',
+                        chassis_number: fd.chassis_number || dbVehicle.chassis_number || '',
+                        engine_number: fd.engine_number || dbVehicle.engine_number || '',
+                        registration_date: fd.registration_date || dbVehicle.registration_date || '',
+                        fitness_validity: fd.fitness_validity || dbVehicle.fitness_validity || '',
+                        pollution_validity: fd.pollution_validity || dbVehicle.pollution_validity || '',
+                        tax_amount: fd.tax_amount || dbVehicle.tax_amount || '',
+                        tax_paid_date: fd.tax_paid_date || dbVehicle.tax_paid_date || '',
+                        permit_validity: fd.permit_validity || dbVehicle.permit_validity || '',
+                        current_hpa: fd.current_hpa || dbVehicle.current_hpa || 'NA',
+                    };
+                    setVehicle(mergedVehicle);
                     setStep(3);
                 } catch (vehErr) {
                     setError('वाहन डेटाबेस में नहीं मिला। कृपया नोटशीट बनाने से पहले नीचे दिए गए फॉर्म का उपयोग करके इसे डेटाबेस में जोड़ें।');

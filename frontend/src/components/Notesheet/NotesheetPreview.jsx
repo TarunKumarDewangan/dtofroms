@@ -55,24 +55,38 @@ const NotesheetPreview = ({
     };
 
     const isRowVisible = (num) => {
+        const defaultValue = (num === 2 || num === 12 || num === 13) ? isTransferTaken : true;
+        const isVisible = rowVisibility[num] ?? defaultValue;
         if (num === 2 || num === 12 || num === 13) {
-            return !!(rowVisibility[num] && isTransferTaken);
+            return !!(isVisible && isTransferTaken);
         }
-        return !!rowVisibility[num];
+        return !!isVisible;
     };
 
     const [rowVisibility, setRowVisibility] = useState(() => {
-        return content?.row_visibility || {
+        const defaults = {
             1: true, 2: isTransferTaken, 3: true, 4: true, 5: true,
             6: true, 7: true, 8: true, 9: true, 10: true,
             11: true, 12: isTransferTaken, 13: isTransferTaken, 14: true, 15: true
         };
+        return {
+            ...defaults,
+            ...(content?.row_visibility || {})
+        };
     });
 
     useEffect(() => {
+        const defaults = {
+            1: true, 2: isTransferTaken, 3: true, 4: true, 5: true,
+            6: true, 7: true, 8: true, 9: true, 10: true,
+            11: true, 12: isTransferTaken, 13: isTransferTaken, 14: true, 15: true
+        };
         if (content?.row_visibility) {
             setRowVisibility(prev => {
-                const nextVis = { ...content.row_visibility };
+                const nextVis = {
+                    ...defaults,
+                    ...content.row_visibility
+                };
                 if (!isTransferTaken) {
                     nextVis[2] = false;
                     nextVis[12] = false;
@@ -81,18 +95,16 @@ const NotesheetPreview = ({
                 return nextVis;
             });
         } else {
-            setRowVisibility({
-                1: true, 2: isTransferTaken, 3: true, 4: true, 5: true,
-                6: true, 7: true, 8: true, 9: true, 10: true,
-                11: true, 12: isTransferTaken, 13: isTransferTaken, 14: true, 15: true
-            });
+            setRowVisibility(defaults);
         }
     }, [notesheet?.id, notesheet?.notesheet_number, isTransferTaken, content?.row_visibility]);
 
     const toggleRow = (num) => {
+        const defaultValue = (num === 2 || num === 12 || num === 13) ? isTransferTaken : true;
+        const currentValue = rowVisibility[num] ?? defaultValue;
         const nextVisibility = {
             ...rowVisibility,
-            [num]: !rowVisibility[num]
+            [num]: !currentValue
         };
         setRowVisibility(nextVisibility);
         if (onContentChange) {
@@ -673,13 +685,13 @@ const NotesheetPreview = ({
                                     <td style={{ width: '250px' }}>बदलाव करें (Edit / Input Box)</td>
                                 </tr>
                             )}
-                            <tr className={!rowVisibility[1] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(1) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-1"
-                                            checked={rowVisibility[1]} 
+                                            checked={isRowVisible(1)} 
                                             onChange={() => toggleRow(1)} 
                                         />
                                     </td>
@@ -687,8 +699,19 @@ const NotesheetPreview = ({
                                 <td className="sno">{getSNo(1)}</td>
                                 <td className="label-cell">वर्तमान वाहन स्वामी/विक्रेता का नाम पिता व वर्तमान पता</td>
                                 <td className="value-cell" style={{ lineHeight: '1.8' }}>
-                                    <div>{getVal((cleanInputVal(vehicle.owner_name) || cleanInputVal(vehicle.owner_father_name)) ? `${vehicle.owner_name || ''} ${vehicle.owner_father_name || ''}`.trim() : '', '..................................................')}</div>
-                                    <div>{getVal(vehicle.owner_address, '................................................................................')}</div>
+                                    {(() => {
+                                        const name = cleanInputVal(vehicle.owner_name);
+                                        const father = cleanInputVal(vehicle.owner_father_name);
+                                        const addr = cleanInputVal(vehicle.owner_address);
+                                        if (!name && !father && !addr) {
+                                            return '................................................................................';
+                                        }
+                                        let parts = [];
+                                        if (name) parts.push(name);
+                                        if (father) parts.push(`S/o ${father}`);
+                                        if (addr) parts.push(addr);
+                                        return parts.join(', ');
+                                    })()}
                                 </td>
                                 {isEditable && (
                                     <td className="no-print edit-cell">
@@ -716,19 +739,35 @@ const NotesheetPreview = ({
                                 <td className="label-cell">प्रस्तावित वाहन स्वामी/क्रेता का नाम पिता व वर्तमान पता</td>
                                 <td className="value-cell" style={{ lineHeight: '1.8' }}>
                                     {hasTransfer ? (
-                                        <>
-                                            <div>{getVal((cleanInputVal(content.buyer_name) || cleanInputVal(content.buyer_father)) ? `${content.buyer_name || ''} ${content.buyer_father || ''}`.trim() : '', '..................................................')}</div>
-                                            <div>{getVal(content.buyer_address, '................................................................................')}</div>
-                                        </>
+                                        (() => {
+                                            const name = cleanInputVal(content.buyer_name);
+                                            const father = cleanInputVal(content.buyer_father);
+                                            const addr = cleanInputVal(content.buyer_address);
+                                            if (!name && !father && !addr) {
+                                                return '................................................................................';
+                                            }
+                                            let parts = [];
+                                            if (name) parts.push(name);
+                                            if (father) parts.push(`S/o ${father}`);
+                                            if (addr) parts.push(addr);
+                                            return parts.join(', ');
+                                        })()
                                     ) : hasTransferDeath ? (
-                                        <>
-                                            <div>{getVal((cleanInputVal(content.applicant_name) || cleanInputVal(content.applicant_father)) ? `${content.applicant_name || ''} ${content.applicant_father || ''}`.trim() : '', '..................................................')}</div>
-                                            <div>{getVal(content.applicant_address, '................................................................................')}</div>
-                                        </>
+                                        (() => {
+                                            const name = cleanInputVal(content.applicant_name);
+                                            const father = cleanInputVal(content.applicant_father);
+                                            const addr = cleanInputVal(content.applicant_address);
+                                            if (!name && !father && !addr) {
+                                                return '................................................................................';
+                                            }
+                                            let parts = [];
+                                            if (name) parts.push(name);
+                                            if (father) parts.push(`S/o ${father}`);
+                                            if (addr) parts.push(addr);
+                                            return parts.join(', ');
+                                        })()
                                     ) : hasAddressChange ? (
-                                        <>
-                                            <div>{getVal(content.new_address, '................................................................................')}</div>
-                                        </>
+                                        <div>{getVal(content.new_address, '................................................................................')}</div>
                                     ) : (
                                         <span>लागू नहीं (NA)</span>
                                     )}
@@ -797,13 +836,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[3] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(3) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-3"
-                                            checked={rowVisibility[3]} 
+                                            checked={isRowVisible(3)} 
                                             onChange={() => toggleRow(3)} 
                                         />
                                     </td>
@@ -817,13 +856,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[4] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(4) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-4"
-                                            checked={rowVisibility[4]} 
+                                            checked={isRowVisible(4)} 
                                             onChange={() => toggleRow(4)} 
                                         />
                                     </td>
@@ -837,13 +876,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[5] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(5) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-5"
-                                            checked={rowVisibility[5]} 
+                                            checked={isRowVisible(5)} 
                                             onChange={() => toggleRow(5)} 
                                         />
                                     </td>
@@ -857,13 +896,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[6] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(6) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-6"
-                                            checked={rowVisibility[6]} 
+                                            checked={isRowVisible(6)} 
                                             onChange={() => toggleRow(6)} 
                                         />
                                     </td>
@@ -886,13 +925,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[7] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(7) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-7"
-                                            checked={rowVisibility[7]} 
+                                            checked={isRowVisible(7)} 
                                             onChange={() => toggleRow(7)} 
                                         />
                                     </td>
@@ -914,13 +953,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[8] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(8) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-8"
-                                            checked={rowVisibility[8]} 
+                                            checked={isRowVisible(8)} 
                                             onChange={() => toggleRow(8)} 
                                         />
                                     </td>
@@ -971,13 +1010,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[9] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(9) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-9"
-                                            checked={rowVisibility[9]} 
+                                            checked={isRowVisible(9)} 
                                             onChange={() => toggleRow(9)} 
                                         />
                                     </td>
@@ -995,13 +1034,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[10] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(10) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-10"
-                                            checked={rowVisibility[10]} 
+                                            checked={isRowVisible(10)} 
                                             onChange={() => toggleRow(10)} 
                                         />
                                     </td>
@@ -1052,13 +1091,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[11] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(11) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-11"
-                                            checked={rowVisibility[11]} 
+                                            checked={isRowVisible(11)} 
                                             onChange={() => toggleRow(11)} 
                                         />
                                     </td>
@@ -1160,13 +1199,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[14] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(14) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-14"
-                                            checked={rowVisibility[14]} 
+                                            checked={isRowVisible(14)} 
                                             onChange={() => toggleRow(14)} 
                                         />
                                     </td>
@@ -1184,13 +1223,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[15] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(15) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-15"
-                                            checked={rowVisibility[15]} 
+                                            checked={isRowVisible(15)} 
                                             onChange={() => toggleRow(15)} 
                                         />
                                     </td>
