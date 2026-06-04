@@ -37,14 +37,15 @@ const FormFiller = () => {
 
     useEffect(() => {
         if (formType === 'Note Sheet (Hindi)') {
-            const hasTransfer = !!formData.include_transfer;
+            const hasTransfer = !!(formData.include_transfer || formData.include_death);
             setRowVisibility(prev => ({
                 ...prev,
                 2: hasTransfer,
+                12: hasTransfer,
                 13: hasTransfer
             }));
         }
-    }, [formData.include_transfer, formType]);
+    }, [formData.include_transfer, formData.include_death, formType]);
 
     const toggleRow = (num) => {
         setRowVisibility(prev => ({
@@ -53,9 +54,17 @@ const FormFiller = () => {
         }));
     };
 
+    const isRowVisible = (num) => {
+        const hasTransfer = !!(formData.include_transfer || formData.include_death);
+        if (num === 2 || num === 12 || num === 13) {
+            return !!(rowVisibility[num] && hasTransfer);
+        }
+        return !!rowVisibility[num];
+    };
+
     let currentSNo = 1;
     const getSNo = (num) => {
-        if (!rowVisibility[num]) return '--.';
+        if (!isRowVisible(num)) return '--.';
         const sno = currentSNo++;
         return String(sno).padStart(2, '0') + '.';
     };
@@ -708,13 +717,14 @@ const FormFiller = () => {
                                             <div><TransliteratedInput name="owner_address" className="rto-input w-100" placeholder="पता" value={formData.owner_address || ''} onChange={handleInputChange} /></div>
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[2] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(2) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-2"
-                                                checked={rowVisibility[2]} 
+                                                checked={isRowVisible(2)} 
                                                 onChange={() => toggleRow(2)} 
+                                                disabled={!(formData.include_transfer || formData.include_death)}
                                             />
                                         </td>
                                         <td className="sno">{getSNo(2)}</td>
@@ -877,13 +887,14 @@ const FormFiller = () => {
                                             </Form.Select>
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[12] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(12) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-12"
-                                                checked={rowVisibility[12]} 
+                                                checked={isRowVisible(12)} 
                                                 onChange={() => toggleRow(12)} 
+                                                disabled={!(formData.include_transfer || formData.include_death)}
                                             />
                                         </td>
                                         <td className="sno">{getSNo(12)}</td>
@@ -895,13 +906,14 @@ const FormFiller = () => {
                                             </Form.Select>
                                         </td>
                                     </tr>
-                                    <tr className={!rowVisibility[13] ? 'row-disabled' : ''}>
+                                    <tr className={!isRowVisible(13) ? 'row-disabled' : ''}>
                                         <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                             <Form.Check 
                                                 type="switch" 
                                                 id="toggle-row-13"
-                                                checked={rowVisibility[13]} 
+                                                checked={isRowVisible(13)} 
                                                 onChange={() => toggleRow(13)} 
+                                                disabled={!(formData.include_transfer || formData.include_death)}
                                             />
                                         </td>
                                         <td className="sno">{getSNo(13)}</td>
