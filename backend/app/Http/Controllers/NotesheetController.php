@@ -23,28 +23,40 @@ class NotesheetController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'vehicle_id' => 'required|exists:vehicles,id',
-            'combined_works' => 'required|array|min:1',
-        ]);
+        try {
+            $request->validate([
+                'vehicle_id' => 'required|exists:vehicles,id',
+                'combined_works' => 'required|array|min:1',
+            ]);
 
-        // Auto-generate Notesheet Number
-        $year = Carbon::now()->year;
-        $count = Notesheet::whereYear('created_at', $year)->count() + 1;
-        $notesheetNumber = 'NS/DHAM/' . $year . '/' . str_pad($count, 3, '0', STR_PAD_LEFT);
+            // Auto-generate Notesheet Number
+            $year = Carbon::now()->year;
+            $count = Notesheet::whereYear('created_at', $year)->count() + 1;
+            do {
+                $notesheetNumber = 'NS/DHAM/' . $year . '/' . str_pad($count, 3, '0', STR_PAD_LEFT);
+                $count++;
+            } while (Notesheet::where('notesheet_number', $notesheetNumber)->exists());
 
-        $notesheet = Notesheet::create([
-            'notesheet_number' => $notesheetNumber,
-            'vehicle_id' => $request->vehicle_id,
-            'combined_works' => $request->combined_works,
-            'status' => 'draft',
-            'created_by' => $request->user()->id,
-        ]);
+            $notesheet = Notesheet::create([
+                'notesheet_number' => $notesheetNumber,
+                'vehicle_id' => $request->vehicle_id,
+                'combined_works' => $request->combined_works,
+                'status' => 'draft',
+                'created_by' => $request->user()->id,
+            ]);
 
-        return response()->json([
-            'message' => 'Notesheet draft created',
-            'notesheet' => $notesheet
-        ], 201);
+            return response()->json([
+                'message' => 'Notesheet draft created',
+                'notesheet' => $notesheet
+            ], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create notesheet: ' . $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
     }
 
     public function show($id)
