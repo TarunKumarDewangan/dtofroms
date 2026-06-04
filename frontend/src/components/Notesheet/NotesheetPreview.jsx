@@ -51,37 +51,31 @@ const NotesheetPreview = ({
         }
     };
 
+    const isRowVisible = (num) => {
+        if (num === 2 || num === 13) {
+            return !!(rowVisibility[num] && hasTransfer);
+        }
+        return !!rowVisibility[num];
+    };
+
     const [rowVisibility, setRowVisibility] = useState(() => {
-        const baseVisibility = content?.row_visibility ? { ...content.row_visibility } : {
+        return content?.row_visibility || {
             1: true, 2: hasTransfer, 3: true, 4: true, 5: true,
             6: true, 7: true, 8: true, 9: true, 10: true,
             11: true, 12: true, 13: hasTransfer, 14: true, 15: true
         };
-        baseVisibility[2] = hasTransfer;
-        baseVisibility[13] = hasTransfer;
-        return baseVisibility;
     });
 
     useEffect(() => {
-        const baseVisibility = content?.row_visibility ? { ...content.row_visibility } : {
-            1: true, 2: hasTransfer, 3: true, 4: true, 5: true,
-            6: true, 7: true, 8: true, 9: true, 10: true,
-            11: true, 12: true, 13: hasTransfer, 14: true, 15: true
-        };
-        const needsUpdate = !content?.row_visibility || 
-                            content.row_visibility[2] !== hasTransfer || 
-                            content.row_visibility[13] !== hasTransfer;
-        
-        baseVisibility[2] = hasTransfer;
-        baseVisibility[13] = hasTransfer;
-        
-        if (needsUpdate && onContentChange) {
-            onContentChange({
-                ...content,
-                row_visibility: baseVisibility
+        if (content?.row_visibility) {
+            setRowVisibility(content.row_visibility);
+        } else {
+            setRowVisibility({
+                1: true, 2: hasTransfer, 3: true, 4: true, 5: true,
+                6: true, 7: true, 8: true, 9: true, 10: true,
+                11: true, 12: true, 13: hasTransfer, 14: true, 15: true
             });
         }
-        setRowVisibility(baseVisibility);
     }, [notesheet?.id, notesheet?.notesheet_number, hasTransfer]);
 
     const toggleRow = (num) => {
@@ -100,7 +94,7 @@ const NotesheetPreview = ({
 
     let currentSNo = 1;
     const getSNo = (num) => {
-        if (!rowVisibility[num]) return '--.';
+        if (!isRowVisible(num)) return '--.';
         const sno = currentSNo++;
         return String(sno).padStart(2, '0') + '.';
     };
@@ -695,13 +689,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[2] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(2) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-2"
-                                            checked={rowVisibility[2]} 
+                                            checked={isRowVisible(2)} 
                                             onChange={() => toggleRow(2)} 
                                         />
                                     </td>
@@ -1120,13 +1114,13 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!rowVisibility[13] ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(13) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
                                             id="toggle-row-13"
-                                            checked={rowVisibility[13]} 
+                                            checked={isRowVisible(13)} 
                                             onChange={() => toggleRow(13)} 
                                         />
                                     </td>
@@ -1246,7 +1240,17 @@ const NotesheetPreview = ({
                         )}
                         <Button
                             className="btn-success-gradient px-5 py-2 rounded-3 d-flex align-items-center fs-6"
-                            onClick={() => onSave && onSave(content)}
+                            onClick={() => {
+                                if (onSave) {
+                                    const finalVisibility = { ...rowVisibility };
+                                    finalVisibility[2] = isRowVisible(2);
+                                    finalVisibility[13] = isRowVisible(13);
+                                    onSave({
+                                        ...content,
+                                        row_visibility: finalVisibility
+                                    });
+                                }
+                            }}
                             disabled={loading}
                         >
                             {loading ? (
