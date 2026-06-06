@@ -128,6 +128,12 @@ const NotesheetPreview = ({
         if (!val) return '';
         const trimmed = String(val).trim();
         if (/^[.\s]+$/.test(trimmed)) return '';
+        if (trimmed.startsWith('1970-01-01')) return '';
+        return val;
+    };
+
+    const cleanDateVal = (val) => {
+        if (!val || val.startsWith('1970-01-01')) return '';
         return val;
     };
 
@@ -447,46 +453,46 @@ const NotesheetPreview = ({
                     .notesheet-outer-border {
                         border: 1px solid #000000 !important;
                         border-bottom: none !important;
-                        min-height: 265mm !important;
-                        padding: 25px 25px !important; /* Normal padding to fill the page nicely */
+                        min-height: 235mm !important;
+                        padding: 15px 20px !important; /* Compact padding to leave space at the bottom */
                         width: 100% !important;
                         max-width: 100% !important;
                         box-shadow: none !important;
                         box-sizing: border-box !important;
-                        font-size: 14.5px !important; /* Larger text to occupy full page */
-                        line-height: 1.65 !important;
+                        font-size: 14px !important; /* Slightly smaller text for compact page */
+                        line-height: 1.45 !important;
                     }
                     .notesheet-header {
-                        font-size: 17px !important;
-                        margin-bottom: 3px !important;
+                        font-size: 16px !important;
+                        margin-bottom: 1px !important;
                     }
                     .notesheet-subheader {
-                        font-size: 15px !important;
-                        margin-bottom: 10px !important;
+                        font-size: 14px !important;
+                        margin-bottom: 4px !important;
                     }
                     .notesheet-divider {
-                        margin: 8px -25px !important;
+                        margin: 4px -20px !important;
                     }
                     .notesheet-paragraph, .notesheet-closing {
-                        margin-bottom: 8px !important;
-                        line-height: 1.65 !important;
+                        margin-bottom: 4px !important;
+                        line-height: 1.45 !important;
                         text-indent: 35px !important;
                     }
                     .notesheet-table {
-                        margin-top: 8px !important;
-                        margin-bottom: 8px !important;
+                        margin-top: 4px !important;
+                        margin-bottom: 4px !important;
                     }
                     .notesheet-table th, .notesheet-table td {
-                        padding: 3px 5px !important; /* Professional spacing for table rows */
-                        font-size: 12.5px !important; /* Clear, legible table font size */
-                        line-height: 1.3 !important;
+                        padding: 2px 4px !important; /* Extremely professional tight row spacing */
+                        font-size: 11.5px !important; /* Clear, legible table font size */
+                        line-height: 1.25 !important;
                     }
                     .notesheet-table td.sno {
                         width: 30px !important;
                     }
                     .notesheet-signature {
-                        margin-top: 20px !important;
-                        margin-bottom: 80px !important;
+                        margin-top: 10px !important;
+                        margin-bottom: 40px !important;
                     }
                     .notesheet-user-code {
                         bottom: 12px !important;
@@ -544,7 +550,7 @@ const NotesheetPreview = ({
                                 <div className="no-print mt-2 p-2 border border-info border-opacity-25 rounded bg-light" style={{ maxWidth: '400px' }}>
                                     <Form.Group>
                                         <Form.Label className="text-secondary small fw-bold">विक्रय दिनांक (Sale Date)</Form.Label>
-                                        <Form.Control size="sm" type="date" value={content.sale_date || ''} onChange={(e) => onContentChange({ ...content, sale_date: e.target.value })} />
+                                        <Form.Control size="sm" type="date" value={cleanDateVal(content.sale_date)} onChange={(e) => onContentChange({ ...content, sale_date: e.target.value })} />
                                     </Form.Group>
                                 </div>
                             )}
@@ -633,7 +639,7 @@ const NotesheetPreview = ({
                                         <Col xs={6}>
                                             <Form.Group>
                                                 <Form.Label className="text-secondary small fw-bold">मृत्यु दिनांक (Death Date)</Form.Label>
-                                                <Form.Control size="sm" type="date" value={content.death_date || ''} onChange={(e) => onContentChange({ ...content, death_date: e.target.value })} />
+                                                <Form.Control size="sm" type="date" value={cleanDateVal(content.death_date)} onChange={(e) => onContentChange({ ...content, death_date: e.target.value })} />
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -783,11 +789,11 @@ const NotesheetPreview = ({
                                                 <label className="text-secondary small fw-bold mt-1">पता (Address)</label>
                                                 <textarea className="form-control form-control-sm" rows={2} placeholder="पता" value={cleanInputVal(content.buyer_address)} onChange={(e) => handleContentChange('buyer_address', e.target.value)} />
                                                 <label className="text-secondary small fw-bold mt-1">विक्रय दिनांक (Sale Date)</label>
-                                                <input type="date" className="form-control form-control-sm" value={content.sale_date || ''} onChange={(e) => handleContentChange('sale_date', e.target.value)} />
+                                                <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.sale_date)} onChange={(e) => handleContentChange('sale_date', e.target.value)} />
                                                 <label className="text-secondary small fw-bold mt-1">शुल्क राशि (Fee)</label>
                                                 <input type="number" className="form-control form-control-sm" placeholder="शुल्क राशि ₹" value={content.transfer_fee || ''} onChange={(e) => handleContentChange('transfer_fee', e.target.value)} />
                                                 <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                             </div>
                                         ) : hasTransferDeath ? (
                                             <div className="d-flex flex-column gap-1">
@@ -807,11 +813,11 @@ const NotesheetPreview = ({
                                                     <option value="अन्य वारिस">अन्य वारिस (Other)</option>
                                                 </Form.Select>
                                                 <label className="text-secondary small fw-bold mt-1">मृत्यु दिनांक (Death Date)</label>
-                                                <input type="date" className="form-control form-control-sm" value={content.death_date || ''} onChange={(e) => handleContentChange('death_date', e.target.value)} />
+                                                <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.death_date)} onChange={(e) => handleContentChange('death_date', e.target.value)} />
                                                 <label className="text-secondary small fw-bold mt-1">शुल्क राशि (Fee)</label>
                                                 <input type="number" className="form-control form-control-sm" placeholder="शुल्क राशि ₹" value={content.death_transfer_fee || ''} onChange={(e) => handleContentChange('death_transfer_fee', e.target.value)} />
                                                 <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                             </div>
                                         ) : hasAddressChange ? (
                                             <div className="d-flex flex-column gap-1">
@@ -828,7 +834,7 @@ const NotesheetPreview = ({
                                                 <label className="text-secondary small fw-bold mt-1">शुल्क राशि (Fee)</label>
                                                 <input type="number" className="form-control form-control-sm" placeholder="शुल्क राशि ₹" value={content.address_fee || ''} onChange={(e) => handleContentChange('address_fee', e.target.value)} />
                                                 <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                             </div>
                                         ) : (
                                             <span className="text-secondary small">लागू नहीं</span>
@@ -852,7 +858,7 @@ const NotesheetPreview = ({
                                 <td className="value-cell">{getVal(getRegistrationDate(vehicle), '.....................')}</td>
                                 {isEditable && (
                                     <td className="no-print edit-cell">
-                                        <input type="date" className="form-control form-control-sm" value={vehicle.registration_date || ''} onChange={(e) => handleVehicleChange('registration_date', e.target.value)} />
+                                        <input type="date" className="form-control form-control-sm" value={cleanDateVal(vehicle.registration_date)} onChange={(e) => handleVehicleChange('registration_date', e.target.value)} />
                                     </td>
                                 )}
                             </tr>
@@ -921,7 +927,7 @@ const NotesheetPreview = ({
                                 {isEditable && (
                                     <td className="no-print edit-cell">
                                         <div className="d-flex flex-column gap-1">
-                                            <input type="date" className="form-control form-control-sm" value={vehicle.tax_paid_date || ''} onChange={(e) => handleVehicleChange('tax_paid_date', e.target.value)} />
+                                            <input type="date" className="form-control form-control-sm" value={cleanDateVal(vehicle.tax_paid_date)} onChange={(e) => handleVehicleChange('tax_paid_date', e.target.value)} />
                                             <input type="number" className="form-control form-control-sm" placeholder="कर राशि ₹" value={vehicle.tax_amount || ''} onChange={(e) => handleVehicleChange('tax_amount', e.target.value)} />
                                         </div>
                                     </td>
@@ -952,7 +958,7 @@ const NotesheetPreview = ({
                                 {isEditable && (
                                     <td className="no-print edit-cell">
                                         <div className="d-flex flex-column gap-1">
-                                            <input type="date" className="form-control form-control-sm" value={vehicle.permit_validity || ''} onChange={(e) => handleVehicleChange('permit_validity', e.target.value)} />
+                                            <input type="date" className="form-control form-control-sm" value={cleanDateVal(vehicle.permit_validity)} onChange={(e) => handleVehicleChange('permit_validity', e.target.value)} />
                                         </div>
                                     </td>
                                 )}
@@ -977,13 +983,13 @@ const NotesheetPreview = ({
                                     <td className="no-print edit-cell">
                                         <div className="d-flex flex-column gap-1">
                                             <label className="text-secondary small fw-bold">फिटनेस वैधता दिनांक</label>
-                                            <input type="date" className="form-control form-control-sm" value={vehicle.fitness_validity || ''} onChange={(e) => handleVehicleChange('fitness_validity', e.target.value)} />
+                                            <input type="date" className="form-control form-control-sm" value={cleanDateVal(vehicle.fitness_validity)} onChange={(e) => handleVehicleChange('fitness_validity', e.target.value)} />
                                             {hasRenewal && (
                                                 <div className="mt-2 border-top pt-2">
                                                     <label className="text-secondary small fw-bold">नवीनीकरण शुल्क (Renewal Fee)</label>
                                                     <input type="number" className="form-control form-control-sm mt-1" placeholder="शुल्क राशि ₹" value={content.renewal_fee || ''} onChange={(e) => handleContentChange('renewal_fee', e.target.value)} />
                                                     <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                    <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                    <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                                 </div>
                                             )}
                                             {hasAlteration && (
@@ -993,7 +999,7 @@ const NotesheetPreview = ({
                                                     <label className="text-secondary small fw-bold mt-1">परिवर्तन शुल्क (Alteration Fee)</label>
                                                     <input type="number" className="form-control form-control-sm mt-1" placeholder="शुल्क राशि ₹" value={content.alteration_fee || ''} onChange={(e) => handleContentChange('alteration_fee', e.target.value)} />
                                                     <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                    <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                    <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                                 </div>
                                             )}
                                             {hasConversion && (
@@ -1007,7 +1013,7 @@ const NotesheetPreview = ({
                                                     <label className="text-secondary small fw-bold mt-1">रूपांतरण शुल्क (Conversion Fee)</label>
                                                     <input type="number" className="form-control form-control-sm mt-1" placeholder="शुल्क राशि ₹" value={content.conversion_fee || ''} onChange={(e) => handleContentChange('conversion_fee', e.target.value)} />
                                                     <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                    <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                    <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                                 </div>
                                             )}
                                         </div>
@@ -1039,7 +1045,7 @@ const NotesheetPreview = ({
                                 {isEditable && (
                                     <td className="no-print edit-cell">
                                         <div className="d-flex flex-column gap-1">
-                                            <input type="date" className="form-control form-control-sm" value={vehicle.insurance_validity || ''} onChange={(e) => handleVehicleChange('insurance_validity', e.target.value)} />
+                                            <input type="date" className="form-control form-control-sm" value={cleanDateVal(vehicle.insurance_validity)} onChange={(e) => handleVehicleChange('insurance_validity', e.target.value)} />
                                         </div>
                                     </td>
                                 )}
@@ -1063,7 +1069,7 @@ const NotesheetPreview = ({
                                 {isEditable && (
                                     <td className="no-print edit-cell">
                                         <div className="d-flex flex-column gap-1">
-                                            <input type="date" className="form-control form-control-sm" value={vehicle.pollution_validity || ''} onChange={(e) => handleVehicleChange('pollution_validity', e.target.value)} />
+                                            <input type="date" className="form-control form-control-sm" value={cleanDateVal(vehicle.pollution_validity)} onChange={(e) => handleVehicleChange('pollution_validity', e.target.value)} />
                                         </div>
                                     </td>
                                 )}
@@ -1100,9 +1106,9 @@ const NotesheetPreview = ({
                                                     <label className="text-secondary small fw-bold mt-1">दर्ज शुल्क (HP Fee)</label>
                                                     <input type="number" className="form-control form-control-sm mt-1" placeholder="शुल्क राशि ₹" value={content.hp_fee || ''} onChange={(e) => handleContentChange('hp_fee', e.target.value)} />
                                                     <label className="text-secondary small fw-bold mt-1">एच.पी. दिनांक (HP Date)</label>
-                                                    <input type="date" className="form-control form-control-sm" value={content.hp_date || ''} onChange={(e) => handleContentChange('hp_date', e.target.value)} />
+                                                    <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.hp_date)} onChange={(e) => handleContentChange('hp_date', e.target.value)} />
                                                     <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                    <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                    <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                                 </div>
                                             ) : hasHPCancel ? (
                                                 <div>
@@ -1111,9 +1117,9 @@ const NotesheetPreview = ({
                                                     <label className="text-secondary small fw-bold mt-1">निरस्त शुल्क (HP Cancel Fee)</label>
                                                     <input type="number" className="form-control form-control-sm mt-1" placeholder="शुल्क राशि ₹" value={content.hp_cancel_fee || ''} onChange={(e) => handleContentChange('hp_cancel_fee', e.target.value)} />
                                                     <label className="text-secondary small fw-bold mt-1">निरस्त दिनांक (Cancel Date)</label>
-                                                    <input type="date" className="form-control form-control-sm" value={content.cancel_date || ''} onChange={(e) => handleContentChange('cancel_date', e.target.value)} />
+                                                    <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.cancel_date)} onChange={(e) => handleContentChange('cancel_date', e.target.value)} />
                                                     <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                    <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                    <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                                 </div>
                                             ) : (
                                                 <div>
@@ -1192,7 +1198,7 @@ const NotesheetPreview = ({
                                                 <label className="text-secondary small fw-bold mt-1">द्वितीय प्रति शुल्क (Duplicate Fee)</label>
                                                 <input type="number" className="form-control form-control-sm mt-1" placeholder="शुल्क राशि ₹" value={content.duplicate_rc_fee || ''} onChange={(e) => handleContentChange('duplicate_rc_fee', e.target.value)} />
                                                 <label className="text-secondary small fw-bold mt-1">आवेदन दिनांक (Application Date)</label>
-                                                <input type="date" className="form-control form-control-sm" value={content.application_date || ''} onChange={(e) => handleContentChange('application_date', e.target.value)} />
+                                                <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.application_date)} onChange={(e) => handleContentChange('application_date', e.target.value)} />
                                             </div>
                                         ) : (
                                             <span className="text-secondary small">लागू नहीं</span>
@@ -1252,7 +1258,7 @@ const NotesheetPreview = ({
                                 {isEditable && (
                                     <td className="no-print edit-cell">
                                         <div className="d-flex flex-column gap-1">
-                                            <input type="date" className="form-control form-control-sm" value={content.physical_verification_date || ''} onChange={(e) => handleContentChange('physical_verification_date', e.target.value)} />
+                                            <input type="date" className="form-control form-control-sm" value={cleanDateVal(content.physical_verification_date)} onChange={(e) => handleContentChange('physical_verification_date', e.target.value)} />
                                         </div>
                                     </td>
                                 )}

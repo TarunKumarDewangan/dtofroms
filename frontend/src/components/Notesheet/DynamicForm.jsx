@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Card, Alert } from 'react-bootstrap';
 import TransliteratedInput from '../Common/TransliteratedInput';
 
+const cleanDateVal = (val) => {
+    if (!val || val.startsWith('1970-01-01')) return '';
+    return val;
+};
+
 const DynamicForm = ({ selectedWorks, vehicle, onSubmit, onChange, initialData }) => {
     const isBlankNotesheet = vehicle?.is_blank_notesheet || vehicle?.owner_name === '.....................' || initialData?.is_blank === true;
 
@@ -102,7 +107,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, onChange, initialData }
                         <Col md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="text-secondary">आवेदन दिनांक (Application Date)</Form.Label>
-                                <Form.Control type="date" name="application_date" className="form-control-dark" value={formData.application_date} onChange={handleChange} />
+                                <Form.Control type="date" name="application_date" className="form-control-dark" value={cleanDateVal(formData.application_date)} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -136,7 +141,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, onChange, initialData }
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">विक्रय दिनांक (Sale Date)</Form.Label>
-                                    <Form.Control type="date" name="sale_date" className="form-control-dark" value={formData.sale_date} onChange={handleChange} />
+                                    <Form.Control type="date" name="sale_date" className="form-control-dark" value={cleanDateVal(formData.sale_date)} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
@@ -190,7 +195,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, onChange, initialData }
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">मृत्यु दिनांक (Death Date)</Form.Label>
-                                    <Form.Control type="date" name="death_date" className="form-control-dark" value={formData.death_date} onChange={handleChange} />
+                                    <Form.Control type="date" name="death_date" className="form-control-dark" value={cleanDateVal(formData.death_date)} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
@@ -225,7 +230,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, onChange, initialData }
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">दिनांक</Form.Label>
-                                    <Form.Control type="date" name="hp_date" className="form-control-dark" value={formData.hp_date} onChange={handleChange} />
+                                    <Form.Control type="date" name="hp_date" className="form-control-dark" value={cleanDateVal(formData.hp_date)} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -254,7 +259,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, onChange, initialData }
                             <Col md={4}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-secondary">दिनांक</Form.Label>
-                                    <Form.Control type="date" name="cancel_date" className="form-control-dark" value={formData.cancel_date} onChange={handleChange} />
+                                    <Form.Control type="date" name="cancel_date" className="form-control-dark" value={cleanDateVal(formData.cancel_date)} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -490,7 +495,7 @@ const DynamicForm = ({ selectedWorks, vehicle, onSubmit, onChange, initialData }
                         <Col md={3}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="text-secondary">भौतिक सत्यापन दिनांक (Optional)</Form.Label>
-                                <Form.Control type="date" name="physical_verification_date" className="form-control-dark" value={formData.physical_verification_date} onChange={handleChange} />
+                                <Form.Control type="date" name="physical_verification_date" className="form-control-dark" value={cleanDateVal(formData.physical_verification_date)} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={3} className="d-flex align-items-center">

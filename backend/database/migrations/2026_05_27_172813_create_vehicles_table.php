@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('model_year')->nullable();
             $table->string('chassis_number')->nullable();
             $table->string('engine_number')->nullable();
+            $table->date('registration_date')->nullable();
             $table->date('fitness_validity')->nullable();
             $table->date('insurance_validity')->nullable();
             $table->decimal('tax_amount', 10, 2)->nullable();

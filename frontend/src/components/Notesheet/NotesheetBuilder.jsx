@@ -235,6 +235,7 @@ const NotesheetBuilder = () => {
                         owner_address: fd.seller_address || fd.owner_address || '',
                         vehicle_type: fd.vehicle_type || 'Motor Car',
                         model_year: fd.sale_year || '',
+                        registration_date: fd.registration_date || '',
                         chassis_number: '',
                         engine_number: '',
                         fitness_validity: '',
@@ -316,6 +317,7 @@ const NotesheetBuilder = () => {
                     owner_address: '',
                     vehicle_type: 'Motor Car',
                     model_year: '',
+                    registration_date: '',
                     chassis_number: '',
                     engine_number: '',
                     fitness_validity: '',
@@ -681,13 +683,19 @@ const NotesheetBuilder = () => {
                                                 <Form.Control name="model_year" className="form-control-dark" placeholder="e.g. 2017" value={newVehicleData.model_year} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
-                                        <Col md={4} className="mb-3">
+                                        <Col md={3} className="mb-3">
+                                            <Form.Group>
+                                                <Form.Label className="text-secondary">Registration Date</Form.Label>
+                                                <Form.Control type="date" name="registration_date" className="form-control-dark" value={newVehicleData.registration_date} onChange={handleNewVehicleChange} />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col md={3} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Chassis Number</Form.Label>
                                                 <Form.Control name="chassis_number" className="form-control-dark" placeholder="e.g. MA1XX2XXJG8K27517" value={newVehicleData.chassis_number} onChange={handleNewVehicleChange} />
                                             </Form.Group>
                                         </Col>
-                                        <Col md={5} className="mb-3">
+                                        <Col md={3} className="mb-3">
                                             <Form.Group>
                                                 <Form.Label className="text-secondary">Engine Number</Form.Label>
                                                 <Form.Control name="engine_number" className="form-control-dark" placeholder="e.g. MDI3200T89512" value={newVehicleData.engine_number} onChange={handleNewVehicleChange} />

@@ -16,6 +16,11 @@ const getInputWidth = (val, placeholder, minWidth = 60) => {
     return `${Math.max(charCount * 9.5 + 10, minWidth)}px`;
 };
 
+const cleanDateVal = (val) => {
+    if (!val || val.startsWith('1970-01-01')) return '';
+    return val;
+};
+
 const FormFiller = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -437,39 +442,39 @@ const FormFiller = () => {
                     .pdf-form-page {
                         border: 1px solid #000000 !important;
                         border-bottom: none !important;
-                        min-height: 265mm !important;
-                        padding: 25px 25px !important; /* Normal padding to fill the page nicely */
+                        min-height: 235mm !important;
+                        padding: 15px 20px !important; /* Compact padding to leave space at the bottom */
                         width: 100% !important;
                         max-width: 100% !important;
                         box-shadow: none !important;
                         box-sizing: border-box !important;
-                        font-size: 14.5px !important; /* Larger text to occupy full page */
-                        line-height: 1.65 !important;
+                        font-size: 14px !important; /* Slightly smaller text for compact page */
+                        line-height: 1.45 !important;
                     }
                     .pdf-form-title {
-                        font-size: 17px !important;
-                        margin-bottom: 3px !important;
+                        font-size: 16px !important;
+                        margin-bottom: 1px !important;
                     }
                     .pdf-form-subtitle {
                         font-size: 13.5px !important;
-                        margin-bottom: 12px !important;
+                        margin-bottom: 4px !important;
                     }
                     .pdf-form-divider {
-                        margin: 8px -25px !important;
+                        margin: 4px -20px !important;
                     }
                     .notesheet-paragraph {
-                        margin-bottom: 8px !important;
-                        line-height: 1.65 !important;
+                        margin-bottom: 4px !important;
+                        line-height: 1.45 !important;
                         text-indent: 35px !important;
                     }
                     .notesheet-table {
-                        margin-top: 8px !important;
-                        margin-bottom: 8px !important;
+                        margin-top: 4px !important;
+                        margin-bottom: 4px !important;
                     }
                     .notesheet-table th, .notesheet-table td {
-                        padding: 3px 5px !important; /* Professional spacing for table rows */
-                        font-size: 12.5px !important; /* Clear, legible table font size */
-                        line-height: 1.3 !important;
+                        padding: 2px 4px !important; /* Extremely professional tight row spacing */
+                        font-size: 11.5px !important; /* Clear, legible table font size */
+                        line-height: 1.25 !important;
                     }
                     .notesheet-table td.sno {
                         width: 30px !important;
@@ -483,8 +488,8 @@ const FormFiller = () => {
                         padding-top: 5px !important;
                     }
                     .notesheet-signature {
-                        margin-top: 20px !important;
-                        margin-bottom: 80px !important;
+                        margin-top: 10px !important;
+                        margin-bottom: 40px !important;
                     }
                     .rto-input {
                         text-align: left !important;
@@ -661,37 +666,37 @@ const FormFiller = () => {
                             {/* Paragraphs */}
                             {formData.include_transfer && (
                                 <div className="notesheet-paragraph">
-                                    उक्त वाहन को वाहन स्वामी श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_name, "क्रेता का नाम", 110) }}><TransliteratedInput name="buyer_name" className="rto-input" placeholder="क्रेता का नाम" value={formData.buyer_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_father, "पिता का नाम", 100) }}><TransliteratedInput name="buyer_father" className="rto-input" placeholder="पिता का नाम" value={formData.buyer_father || ''} onChange={handleInputChange} /></div> निवासी <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_address, "पता", 140) }}><TransliteratedInput name="buyer_address" className="rto-input" placeholder="पता" value={formData.buyer_address || ''} onChange={handleInputChange} /></div> ने वाहन स्वामी श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_name, "विक्रेता का नाम", 110) }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="विक्रेता का नाम" value={formData.owner_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_father, "पिता का नाम", 100) }}><TransliteratedInput name="owner_father" className="rto-input" placeholder="पिता का नाम" value={formData.owner_father || ''} onChange={handleInputChange} /></div> से क्रय कर स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 29(2 प्रति में) एवं फार्म नं. 30 में विहित् ऑनलाईन शुल्क राशि रू. <input name="transfer_fee" className="rto-input" style={{ width: getInputWidth(formData.transfer_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.transfer_fee || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
+                                    उक्त वाहन को वाहन स्वामी श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_name, "क्रेता का नाम", 110) }}><TransliteratedInput name="buyer_name" className="rto-input" placeholder="क्रेता का नाम" value={formData.buyer_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_father, "पिता का नाम", 100) }}><TransliteratedInput name="buyer_father" className="rto-input" placeholder="पिता का नाम" value={formData.buyer_father || ''} onChange={handleInputChange} /></div> निवासी <div className="d-inline-block" style={{ width: getInputWidth(formData.buyer_address, "पता", 140) }}><TransliteratedInput name="buyer_address" className="rto-input" placeholder="पता" value={formData.buyer_address || ''} onChange={handleInputChange} /></div> ने वाहन स्वामी श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_name, "विक्रेता का नाम", 110) }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="विक्रेता का नाम" value={formData.owner_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_father, "पिता का नाम", 100) }}><TransliteratedInput name="owner_father" className="rto-input" placeholder="पिता का नाम" value={formData.owner_father || ''} onChange={handleInputChange} /></div> से क्रय कर स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 29(2 प्रति में) एवं फार्म नं. 30 में विहित् ऑनलाईन शुल्क राशि रू. <input name="transfer_fee" className="rto-input" style={{ width: getInputWidth(formData.transfer_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.transfer_fee || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={cleanDateVal(formData.application_date)} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
                                 </div>
                             )}
 
                             {formData.include_hp_reg && (
                                 <div className="notesheet-paragraph">
-                                    एच.पी. दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 34 में विहित् ऑनलाईन शुल्क राशि रू. <input name="hp_fee" className="rto-input" style={{ width: getInputWidth(formData.hp_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.hp_fee || ''} onChange={handleInputChange} /> दिनांक <input name="hp_date" className="rto-input" style={{ width: getInputWidth(formData.hp_date, "दिनांक", 80) }} placeholder="दिनांक" value={formData.hp_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
+                                    एच.पी. दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 34 में विहित् ऑनलाईन शुल्क राशि रू. <input name="hp_fee" className="rto-input" style={{ width: getInputWidth(formData.hp_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.hp_fee || ''} onChange={handleInputChange} /> दिनांक <input name="hp_date" className="rto-input" style={{ width: getInputWidth(formData.hp_date, "दिनांक", 80) }} placeholder="दिनांक" value={cleanDateVal(formData.hp_date)} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={cleanDateVal(formData.application_date)} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
                                 </div>
                             )}
 
                             {formData.include_hp_cancel && (
                                 <div className="notesheet-paragraph">
-                                    एच.पी. निरस्त किये जाने हेतु निर्धारित प्रारूप फार्म नं. 35 में विहित् ऑनलाईन शुल्क राशि रू. <input name="hp_cancel_fee" className="rto-input" style={{ width: getInputWidth(formData.hp_cancel_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.hp_cancel_fee || ''} onChange={handleInputChange} /> दिनांक <input name="cancel_date" className="rto-input" style={{ width: getInputWidth(formData.cancel_date, "दिनांक", 80) }} placeholder="दिनांक" value={formData.cancel_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
+                                    एच.पी. निरस्त किये जाने हेतु निर्धारित प्रारूप फार्म नं. 35 में विहित् ऑनलाईन शुल्क राशि रू. <input name="hp_cancel_fee" className="rto-input" style={{ width: getInputWidth(formData.hp_cancel_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.hp_cancel_fee || ''} onChange={handleInputChange} /> दिनांक <input name="cancel_date" className="rto-input" style={{ width: getInputWidth(formData.cancel_date, "दिनांक", 80) }} placeholder="दिनांक" value={cleanDateVal(formData.cancel_date)} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={cleanDateVal(formData.application_date)} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
                                 </div>
                             )}
 
                             {formData.include_address && (
                                 <div className="notesheet-paragraph">
-                                    पता परिवर्तन दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 33 में विहित् ऑनलाईन शुल्क राशि रू. <input name="address_fee" className="rto-input" style={{ width: getInputWidth(formData.address_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.address_fee || ''} onChange={handleInputChange} /> दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
+                                    पता परिवर्तन दर्ज किये जाने हेतु निर्धारित प्रारूप फार्म नं. 33 में विहित् ऑनलाईन शुल्क राशि रू. <input name="address_fee" className="rto-input" style={{ width: getInputWidth(formData.address_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.address_fee || ''} onChange={handleInputChange} /> दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={cleanDateVal(formData.application_date)} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={cleanDateVal(formData.application_date)} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
                                 </div>
                             )}
 
                             {formData.include_duplicate && (
                                 <div className="notesheet-paragraph">
-                                    पंजीयन प्रमाण पत्र की द्वितीय प्रति जारी किये जाने हेतु निर्धारित प्रारूप फार्म नं. 26 में विहित् ऑनलाईन शुल्क राशि रू. <input name="duplicate_rc_fee" className="rto-input" style={{ width: getInputWidth(formData.duplicate_rc_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.duplicate_rc_fee || ''} onChange={handleInputChange} /> दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "दिनांक", 80) }} placeholder="दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
+                                    पंजीयन प्रमाण पत्र की द्वितीय प्रति जारी किये जाने हेतु निर्धारित प्रारूप फार्म नं. 26 में विहित् ऑनलाईन शुल्क राशि रू. <input name="duplicate_rc_fee" className="rto-input" style={{ width: getInputWidth(formData.duplicate_rc_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.duplicate_rc_fee || ''} onChange={handleInputChange} /> दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "दिनांक", 80) }} placeholder="दिनांक" value={cleanDateVal(formData.application_date)} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={cleanDateVal(formData.application_date)} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
                                 </div>
                             )}
 
                             {formData.include_death && (
                                 <div className="notesheet-paragraph">
-                                    मूल वाहन स्वामी श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_name, "मृतक का नाम", 110) }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="मृतक का नाम" value={formData.owner_name || ''} onChange={handleInputChange} /></div> की मृत्यु हो जाने के कारण उनके विधिक वारिस श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_name, "वारिस का नाम", 110) }}><TransliteratedInput name="applicant_name" className="rto-input" placeholder="वारिस का नाम" value={formData.applicant_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_father, "पिता का नाम", 100) }}><TransliteratedInput name="applicant_father" className="rto-input" placeholder="पिता का नाम" value={formData.applicant_father || ''} onChange={handleInputChange} /></div> निवासी <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_address, "पता", 140) }}><TransliteratedInput name="applicant_address" className="rto-input" placeholder="पता" value={formData.applicant_address || ''} onChange={handleInputChange} /></div> द्वारा स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 31 में विहित् ऑनलाईन शुल्क राशि रू. <input name="death_transfer_fee" className="rto-input" style={{ width: getInputWidth(formData.death_transfer_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.death_transfer_fee || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={formData.application_date || ''} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
+                                    मूल वाहन स्वामी श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.owner_name, "मृतक का नाम", 110) }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="मृतक का नाम" value={formData.owner_name || ''} onChange={handleInputChange} /></div> की मृत्यु हो जाने के कारण उनके विधिक वारिस श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_name, "वारिस का नाम", 110) }}><TransliteratedInput name="applicant_name" className="rto-input" placeholder="वारिस का नाम" value={formData.applicant_name || ''} onChange={handleInputChange} /></div> आ. श्री <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_father, "पिता का नाम", 100) }}><TransliteratedInput name="applicant_father" className="rto-input" placeholder="पिता का नाम" value={formData.applicant_father || ''} onChange={handleInputChange} /></div> निवासी <div className="d-inline-block" style={{ width: getInputWidth(formData.applicant_address, "पता", 140) }}><TransliteratedInput name="applicant_address" className="rto-input" placeholder="पता" value={formData.applicant_address || ''} onChange={handleInputChange} /></div> द्वारा स्वामित्व अंतरण हेतु निर्धारित प्रारूप फार्म नं. 31 में विहित् ऑनलाईन शुल्क राशि रू. <input name="death_transfer_fee" className="rto-input" style={{ width: getInputWidth(formData.death_transfer_fee, "शुल्क", 50) }} placeholder="शुल्क" value={formData.death_transfer_fee || ''} onChange={handleInputChange} /> को जमा कर आवेदन दिनांक <input name="application_date" className="rto-input" style={{ width: getInputWidth(formData.application_date, "आवेदन दिनांक", 80) }} placeholder="आवेदन दिनांक" value={cleanDateVal(formData.application_date)} onChange={handleInputChange} /> को कार्यालय में प्रस्तुत किया गया है।
                                 </div>
                             )}
 
@@ -800,7 +805,7 @@ const FormFiller = () => {
                                         <td className="sno">{getSNo(3)}</td>
                                         <td className="label-cell">वाहन का पंजीयन दिनांक</td>
                                         <td className="value-cell">
-                                            <input name="registration_date" className="rto-input" style={{ width: getInputWidth(formData.registration_date, "पंजीयन दिनांक", 100) }} placeholder="e.g. 24-05-2018" value={formData.registration_date || ''} onChange={handleInputChange} />
+                                            <input name="registration_date" className="rto-input" style={{ width: getInputWidth(formData.registration_date, "पंजीयन दिनांक", 100) }} placeholder="e.g. 24-05-2018" value={cleanDateVal(formData.registration_date)} onChange={handleInputChange} />
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(4) ? 'row-disabled' : ''}>
@@ -845,7 +850,7 @@ const FormFiller = () => {
                                         <td className="sno">{getSNo(6)}</td>
                                         <td className="label-cell">वाहन का मोटरयान कर की जमा दिनांक</td>
                                         <td className="value-cell">
-                                            दिनांक <input name="tax_paid_date" className="rto-input" style={{ width: getInputWidth(formData.tax_paid_date, "टैक्स जमा दिनांक", 100) }} placeholder="e.g. 15-02-2025" value={formData.tax_paid_date || ''} onChange={handleInputChange} /> (शुल्क ₹<input name="tax_amount" className="rto-input" style={{ width: getInputWidth(formData.tax_amount, "कर राशि", 70) }} placeholder="कर राशि" value={formData.tax_amount || ''} onChange={handleInputChange} />/-)
+                                            दिनांक <input name="tax_paid_date" className="rto-input" style={{ width: getInputWidth(formData.tax_paid_date, "टैक्स जमा दिनांक", 100) }} placeholder="e.g. 15-02-2025" value={cleanDateVal(formData.tax_paid_date)} onChange={handleInputChange} /> (शुल्क ₹<input name="tax_amount" className="rto-input" style={{ width: getInputWidth(formData.tax_amount, "कर राशि", 70) }} placeholder="कर राशि" value={formData.tax_amount || ''} onChange={handleInputChange} />/-)
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(7) ? 'row-disabled' : ''}>
@@ -860,7 +865,7 @@ const FormFiller = () => {
                                         <td className="sno">{getSNo(7)}</td>
                                         <td className="label-cell">वाहन का परमिट (यदि लागू हो तो)</td>
                                         <td className="value-cell">
-                                            <input name="permit_validity" className="rto-input" style={{ width: getInputWidth(formData.permit_validity, "वैधता दिनांक", 160) }} placeholder="e.g. 10-12-2027" value={formData.permit_validity || ''} onChange={handleInputChange} />
+                                            <input name="permit_validity" className="rto-input" style={{ width: getInputWidth(formData.permit_validity, "वैधता दिनांक", 160) }} placeholder="e.g. 10-12-2027" value={cleanDateVal(formData.permit_validity)} onChange={handleInputChange} />
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(8) ? 'row-disabled' : ''}>
@@ -875,7 +880,7 @@ const FormFiller = () => {
                                         <td className="sno">{getSNo(8)}</td>
                                         <td className="label-cell">वाहन का फिटनेस/पंजीयन प्रमाण पत्र की वैधता</td>
                                         <td className="value-cell">
-                                            वैधता दिनांक <input name="fitness_validity" className="rto-input" style={{ width: getInputWidth(formData.fitness_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 23-05-2033" value={formData.fitness_validity || ''} onChange={handleInputChange} />
+                                            वैधता दिनांक <input name="fitness_validity" className="rto-input" style={{ width: getInputWidth(formData.fitness_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 23-05-2033" value={cleanDateVal(formData.fitness_validity)} onChange={handleInputChange} />
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(9) ? 'row-disabled' : ''}>
@@ -890,7 +895,7 @@ const FormFiller = () => {
                                         <td className="sno">{getSNo(9)}</td>
                                         <td className="label-cell">वाहन का बीमा प्रमाण पत्र की वैधता</td>
                                         <td className="value-cell">
-                                            वैधता दिनांक <input name="insurance_validity" className="rto-input" style={{ width: getInputWidth(formData.insurance_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 10-12-2027" value={formData.insurance_validity || ''} onChange={handleInputChange} />
+                                            वैधता दिनांक <input name="insurance_validity" className="rto-input" style={{ width: getInputWidth(formData.insurance_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 10-12-2027" value={cleanDateVal(formData.insurance_validity)} onChange={handleInputChange} />
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(10) ? 'row-disabled' : ''}>
@@ -905,7 +910,7 @@ const FormFiller = () => {
                                         <td className="sno">{getSNo(10)}</td>
                                         <td className="label-cell">वाहन का प्रदूषण जांच प्रमाण पत्र की वैधता</td>
                                         <td className="value-cell">
-                                            वैता दिनांक <input name="pollution_validity" className="rto-input" style={{ width: getInputWidth(formData.pollution_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 14-11-2026" value={formData.pollution_validity || ''} onChange={handleInputChange} />
+                                            वैता दिनांक <input name="pollution_validity" className="rto-input" style={{ width: getInputWidth(formData.pollution_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 14-11-2026" value={cleanDateVal(formData.pollution_validity)} onChange={handleInputChange} />
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(11) ? 'row-disabled' : ''}>
@@ -991,7 +996,7 @@ const FormFiller = () => {
                                         <td className="sno">{getSNo(15)}</td>
                                         <td className="label-cell">वाहन का भौतिक सत्यापन दिनांक</td>
                                         <td className="value-cell">
-                                            दिनांक <input name="physical_verification_date" className="rto-input" style={{ width: getInputWidth(formData.physical_verification_date, "सत्यापन दिनांक", 100) }} placeholder="e.g. 26-05-2026" value={formData.physical_verification_date || ''} onChange={handleInputChange} />
+                                            दिनांक <input name="physical_verification_date" className="rto-input" style={{ width: getInputWidth(formData.physical_verification_date, "सत्यापन दिनांक", 100) }} placeholder="e.g. 26-05-2026" value={cleanDateVal(formData.physical_verification_date)} onChange={handleInputChange} />
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(16) ? 'row-disabled' : ''}>
@@ -1072,7 +1077,7 @@ const FormFiller = () => {
 
                             <div className="d-flex justify-content-between signature-block">
                                 <div>
-                                    Date: <input name="handover_date" className="rto-input" style={{ width: '140px' }} placeholder="Date" value={formData.handover_date || ''} onChange={handleInputChange} />
+                                    Date: <input name="handover_date" className="rto-input" style={{ width: '140px' }} placeholder="Date" value={cleanDateVal(formData.handover_date)} onChange={handleInputChange} />
                                 </div>
                                 <div className="d-flex flex-column align-items-center">
                                     <div className="signature-box">Signature of Transferor (Seller)</div>
@@ -1098,25 +1103,25 @@ const FormFiller = () => {
                             </div>
 
                             <div>
-                                I, <div className="d-inline-block" style={{ width: '260px' }}><TransliteratedInput name="seller_name" className="rto-input" placeholder="Seller Name" value={formData.seller_name || ''} onChange={handleInputChange} /></div> have on this day of <input name="sale_date" className="rto-input" style={{ width: '150px' }} placeholder="Sale Date" value={formData.sale_date || ''} onChange={handleInputChange} /> sold my motor vehicle number <div className="d-inline-block" style={{ width: '180px' }}><TransliteratedInput name="registration_number" className="rto-input" placeholder="Vehicle Number" value={formData.registration_number || ''} onChange={handleInputChange} /></div> to Shri/Smt <div className="d-inline-block" style={{ width: '260px' }}><TransliteratedInput name="buyer_name" className="rto-input" placeholder="Buyer Name" value={formData.buyer_name || ''} onChange={handleInputChange} /></div> residing at <div className="d-inline-block" style={{ width: '400px' }}><TransliteratedInput name="buyer_address" className="rto-input" placeholder="Buyer Address" value={formData.buyer_address || ''} onChange={handleInputChange} /></div> and hand over the RC and Insurance to him/her.
+                                I, <div className="d-inline-block" style={{ width: '260px' }}><TransliteratedInput name="seller_name" className="rto-input" placeholder="Seller Name" value={formData.seller_name || ''} onChange={handleInputChange} /></div> have on this day of <input name="sale_date" className="rto-input" style={{ width: '150px' }} placeholder="Sale Date" value={cleanDateVal(formData.sale_date)} onChange={handleInputChange} /> sold my motor vehicle number <div className="d-inline-block" style={{ width: '180px' }}><TransliteratedInput name="registration_number" className="rto-input" placeholder="Vehicle Number" value={formData.registration_number || ''} onChange={handleInputChange} /></div> to Shri/Smt <div className="d-inline-block" style={{ width: '260px' }}><TransliteratedInput name="buyer_name" className="rto-input" placeholder="Buyer Name" value={formData.buyer_name || ''} onChange={handleInputChange} /></div> residing at <div className="d-inline-block" style={{ width: '400px' }}><TransliteratedInput name="buyer_address" className="rto-input" placeholder="Buyer Address" value={formData.buyer_address || ''} onChange={handleInputChange} /></div> and hand over the RC and Insurance to him/her.
                             </div>
 
                             <div className="d-flex justify-content-end signature-block">
                                 <div className="d-flex flex-column align-items-center">
                                     <div className="signature-box">Signature of Transferor (Seller)</div>
-                                    <span>Date: <input name="seller_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={formData.seller_sign_date || ''} onChange={handleInputChange} /></span>
+                                    <span>Date: <input name="seller_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={cleanDateVal(formData.seller_sign_date)} onChange={handleInputChange} /></span>
                                 </div>
                             </div>
 
                             <div className="form-section-title mt-4">PART II - FOR THE USE OF THE TRANSFEREE (BUYER)</div>
                             <div className="mt-2">
-                                I, <div className="d-inline-block" style={{ width: '260px' }}><TransliteratedInput name="buyer_name" className="rto-input" placeholder="Buyer Name" value={formData.buyer_name || ''} onChange={handleInputChange} disabled /></div> residing at <div className="d-inline-block" style={{ width: '400px' }}><TransliteratedInput name="buyer_address" className="rto-input" placeholder="Buyer Address" value={formData.buyer_address || ''} onChange={handleInputChange} disabled /></div> hereby report that ownership of vehicle number <div className="d-inline-block" style={{ width: '180px' }}><TransliteratedInput name="registration_number" className="rto-input" placeholder="Vehicle Number" value={formData.registration_number || ''} onChange={handleInputChange} disabled /></div> has been transferred to me with effect from <input name="sale_date" className="rto-input" style={{ width: '150px' }} placeholder="Date" value={formData.sale_date || ''} disabled />. I enclose the required forms, fees, and certificates.
+                                I, <div className="d-inline-block" style={{ width: '260px' }}><TransliteratedInput name="buyer_name" className="rto-input" placeholder="Buyer Name" value={formData.buyer_name || ''} onChange={handleInputChange} disabled /></div> residing at <div className="d-inline-block" style={{ width: '400px' }}><TransliteratedInput name="buyer_address" className="rto-input" placeholder="Buyer Address" value={formData.buyer_address || ''} onChange={handleInputChange} disabled /></div> hereby report that ownership of vehicle number <div className="d-inline-block" style={{ width: '180px' }}><TransliteratedInput name="registration_number" className="rto-input" placeholder="Vehicle Number" value={formData.registration_number || ''} onChange={handleInputChange} disabled /></div> has been transferred to me with effect from <input name="sale_date" className="rto-input" style={{ width: '150px' }} placeholder="Date" value={cleanDateVal(formData.sale_date)} disabled />. I enclose the required forms, fees, and certificates.
                             </div>
 
                             <div className="d-flex justify-content-end signature-block">
                                 <div className="d-flex flex-column align-items-center">
                                     <div className="signature-box">Signature of Transferee (Buyer)</div>
-                                    <span>Date: <input name="buyer_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={formData.buyer_sign_date || ''} onChange={handleInputChange} /></span>
+                                    <span>Date: <input name="buyer_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={cleanDateVal(formData.buyer_sign_date)} onChange={handleInputChange} /></span>
                                 </div>
                             </div>
                         </div>
@@ -1137,7 +1142,7 @@ const FormFiller = () => {
                             </div>
 
                             <div className="notesheet-paragraph">
-                                I/We <div className="d-inline-block" style={{ width: '280px' }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="Owner Name" value={formData.owner_name || ''} onChange={handleInputChange} /></div> son/wife/daughter of <div className="d-inline-block" style={{ width: '220px' }}><TransliteratedInput name="owner_father" className="rto-input" placeholder="Father Name" value={formData.owner_father || ''} onChange={handleInputChange} /></div> residing at old address <div className="d-inline-block" style={{ width: '380px' }}><TransliteratedInput name="old_address" className="rto-input" placeholder="Old Registered Address" value={formData.old_address || ''} onChange={handleInputChange} /></div> hereby intimate that I/we have changed my/our address and moved to new address <div className="d-inline-block" style={{ width: '380px' }}><TransliteratedInput name="new_address" className="rto-input" placeholder="New Address" value={formData.new_address || ''} onChange={handleInputChange} /></div> with effect from date <input name="change_date" className="rto-input" style={{ width: '150px' }} placeholder="Date of Address Change" value={formData.change_date || ''} onChange={handleInputChange} />.
+                                I/We <div className="d-inline-block" style={{ width: '280px' }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="Owner Name" value={formData.owner_name || ''} onChange={handleInputChange} /></div> son/wife/daughter of <div className="d-inline-block" style={{ width: '220px' }}><TransliteratedInput name="owner_father" className="rto-input" placeholder="Father Name" value={formData.owner_father || ''} onChange={handleInputChange} /></div> residing at old address <div className="d-inline-block" style={{ width: '380px' }}><TransliteratedInput name="old_address" className="rto-input" placeholder="Old Registered Address" value={formData.old_address || ''} onChange={handleInputChange} /></div> hereby intimate that I/we have changed my/our address and moved to new address <div className="d-inline-block" style={{ width: '380px' }}><TransliteratedInput name="new_address" className="rto-input" placeholder="New Address" value={formData.new_address || ''} onChange={handleInputChange} /></div> with effect from date <input name="change_date" className="rto-input" style={{ width: '150px' }} placeholder="Date of Address Change" value={cleanDateVal(formData.change_date)} onChange={handleInputChange} />.
                             </div>
 
                             <div className="notesheet-paragraph mt-3">
@@ -1146,7 +1151,7 @@ const FormFiller = () => {
 
                             <div className="d-flex justify-content-between signature-block">
                                 <div>
-                                    Date: <input name="owner_signature_date" className="rto-input" style={{ width: '140px' }} placeholder="Date" value={formData.owner_signature_date || ''} onChange={handleInputChange} />
+                                    Date: <input name="owner_signature_date" className="rto-input" style={{ width: '140px' }} placeholder="Date" value={cleanDateVal(formData.owner_signature_date)} onChange={handleInputChange} />
                                 </div>
                                 <div className="d-flex flex-column align-items-center">
                                     <div className="signature-box">Signature of Owner</div>
@@ -1174,17 +1179,17 @@ const FormFiller = () => {
                             </div>
 
                             <div className="notesheet-paragraph mt-2">
-                                It is requested that an entry of the said agreement be made in the Registration Certificate on date <input name="agreement_date" className="rto-input" style={{ width: '150px' }} placeholder="Agreement Date" value={formData.agreement_date || ''} onChange={handleInputChange} />.
+                                It is requested that an entry of the said agreement be made in the Registration Certificate on date <input name="agreement_date" className="rto-input" style={{ width: '150px' }} placeholder="Agreement Date" value={cleanDateVal(formData.agreement_date)} onChange={handleInputChange} />.
                             </div>
 
                             <div className="d-flex justify-content-between signature-block">
                                 <div className="d-flex flex-column align-items-center">
                                     <div className="signature-box">Signature of Owner</div>
-                                    <span>Date: <input name="owner_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={formData.owner_sign_date || ''} onChange={handleInputChange} /></span>
+                                    <span>Date: <input name="owner_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={cleanDateVal(formData.owner_sign_date)} onChange={handleInputChange} /></span>
                                 </div>
                                 <div className="d-flex flex-column align-items-center">
                                     <div className="signature-box">Signature of Financier</div>
-                                    <span>Date: <input name="financier_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={formData.financier_sign_date || ''} onChange={handleInputChange} /></span>
+                                    <span>Date: <input name="financier_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={cleanDateVal(formData.financier_sign_date)} onChange={handleInputChange} /></span>
                                 </div>
                             </div>
                         </div>
@@ -1205,7 +1210,7 @@ const FormFiller = () => {
                             </div>
 
                             <div className="notesheet-paragraph">
-                                We hereby declare that the agreement of Hire-Purchase / Lease / Hypothecation entered into between owner <div className="d-inline-block" style={{ width: '280px' }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="Owner Name" value={formData.owner_name || ''} onChange={handleInputChange} /></div> residing at <div className="d-inline-block" style={{ width: '380px' }}><TransliteratedInput name="owner_address" className="rto-input" placeholder="Owner Address" value={formData.owner_address || ''} onChange={handleInputChange} /></div> and financier <div className="d-inline-block" style={{ width: '280px' }}><TransliteratedInput name="financier_name" className="rto-input" placeholder="Bank/Financier Name" value={formData.financier_name || ''} onChange={handleInputChange} /></div> residing at <div className="d-inline-block" style={{ width: '380px' }}><TransliteratedInput name="financier_address" className="rto-input" placeholder="Financier Address" value={formData.financier_address || ''} onChange={handleInputChange} /></div> in respect of vehicle No. <div className="d-inline-block" style={{ width: '180px' }}><TransliteratedInput name="registration_number" className="rto-input" placeholder="Vehicle Number" value={formData.registration_number || ''} onChange={handleInputChange} /></div> has been terminated on date <input name="termination_date" className="rto-input" style={{ width: '150px' }} placeholder="Termination Date" value={formData.termination_date || ''} onChange={handleInputChange} />.
+                                We hereby declare that the agreement of Hire-Purchase / Lease / Hypothecation entered into between owner <div className="d-inline-block" style={{ width: '280px' }}><TransliteratedInput name="owner_name" className="rto-input" placeholder="Owner Name" value={formData.owner_name || ''} onChange={handleInputChange} /></div> residing at <div className="d-inline-block" style={{ width: '380px' }}><TransliteratedInput name="owner_address" className="rto-input" placeholder="Owner Address" value={formData.owner_address || ''} onChange={handleInputChange} /></div> and financier <div className="d-inline-block" style={{ width: '280px' }}><TransliteratedInput name="financier_name" className="rto-input" placeholder="Bank/Financier Name" value={formData.financier_name || ''} onChange={handleInputChange} /></div> residing at <div className="d-inline-block" style={{ width: '380px' }}><TransliteratedInput name="financier_address" className="rto-input" placeholder="Financier Address" value={formData.financier_address || ''} onChange={handleInputChange} /></div> in respect of vehicle No. <div className="d-inline-block" style={{ width: '180px' }}><TransliteratedInput name="registration_number" className="rto-input" placeholder="Vehicle Number" value={formData.registration_number || ''} onChange={handleInputChange} /></div> has been terminated on date <input name="termination_date" className="rto-input" style={{ width: '150px' }} placeholder="Termination Date" value={cleanDateVal(formData.termination_date)} onChange={handleInputChange} />.
                             </div>
 
                             <div className="notesheet-paragraph mt-2">
@@ -1215,11 +1220,11 @@ const FormFiller = () => {
                             <div className="d-flex justify-content-between signature-block">
                                 <div className="d-flex flex-column align-items-center">
                                     <div className="signature-box">Signature of Owner</div>
-                                    <span>Date: <input name="owner_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={formData.owner_sign_date || ''} onChange={handleInputChange} /></span>
+                                    <span>Date: <input name="owner_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={cleanDateVal(formData.owner_sign_date)} onChange={handleInputChange} /></span>
                                 </div>
                                 <div className="d-flex flex-column align-items-center">
                                     <div className="signature-box">Signature of Financier (with Seal)</div>
-                                    <span>Date: <input name="financier_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={formData.financier_sign_date || ''} onChange={handleInputChange} /></span>
+                                    <span>Date: <input name="financier_sign_date" className="rto-input" style={{ width: '120px' }} placeholder="Date" value={cleanDateVal(formData.financier_sign_date)} onChange={handleInputChange} /></span>
                                 </div>
                             </div>
                         </div>

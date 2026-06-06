@@ -277,32 +277,33 @@ class NotesheetController extends Controller
         $body .= "४. वर्तमान पता               : " . $getVal($vehicle->owner_address) . "\n";
         $body .= "५. वाहन का प्रकार            : " . $getVal($vehicle->vehicle_type) . "\n";
         $body .= "६. मॉडल/निर्माण वर्ष          : " . $getVal($vehicle->model_year) . "\n";
-        $body .= "७. चेसिस नंबर              : " . $getVal($vehicle->chassis_number) . "\n";
-        $body .= "८. इंजन नंबर               : " . $getVal($vehicle->engine_number) . "\n";
+        $body .= "७. पंजीयन दिनांक             : " . $formatDate($vehicle->registration_date) . "\n";
+        $body .= "८. चेसिस नंबर              : " . $getVal($vehicle->chassis_number) . "\n";
+        $body .= "९. इंजन नंबर               : " . $getVal($vehicle->engine_number) . "\n";
         
         $taxPaidDateFormatted = $formatDate($vehicle->tax_paid_date);
         $taxAmountFormatted = $formatTax($vehicle->tax_amount);
-        $body .= "९. टैक्स वैधता/भुगतान दिनांक    : {$taxPaidDateFormatted} (कर राशि रु. {$taxAmountFormatted}/-)\n";
+        $body .= "१०. टैक्स वैधता/भुगतान दिनांक    : {$taxPaidDateFormatted} (कर राशि रु. {$taxAmountFormatted}/-)\n";
         
         $fitnessFormatted = $formatDate($vehicle->fitness_validity);
-        $body .= "१०. फिटनेस वैधता दिनांक      : {$fitnessFormatted}\n";
+        $body .= "११. फिटनेस वैधता दिनांक      : {$fitnessFormatted}\n";
         
         $insuranceFormatted = $formatDate($vehicle->insurance_validity);
-        $body .= "११. बीमा वैधता दिनांक        : {$insuranceFormatted}\n";
+        $body .= "१२. बीमा वैधता दिनांक        : {$insuranceFormatted}\n";
         
         if ($isBlank) {
-            $body .= "१२. परमिट वैधता दिनांक       : .....................\n";
-            $body .= "१३. प्रदूषण वैधता दिनांक       : .....................\n";
+            $body .= "१३. परमिट वैधता दिनांक       : .....................\n";
+            $body .= "१४. प्रदूषण वैधता दिनांक       : .....................\n";
         } else {
             if ($vehicle->permit_validity) {
-                $body .= "१२. परमिट वैधता दिनांक       : " . $formatDate($vehicle->permit_validity) . "\n";
+                $body .= "१३. परमिट वैधता दिनांक       : " . $formatDate($vehicle->permit_validity) . "\n";
             }
             if ($vehicle->pollution_validity) {
-                $body .= "१३. प्रदूषण वैधता दिनांक       : " . $formatDate($vehicle->pollution_validity) . "\n";
+                $body .= "१४. प्रदूषण वैधता दिनांक       : " . $formatDate($vehicle->pollution_validity) . "\n";
             }
         }
         
-        $body .= "१४. बंधक / फाइनेंस स्थिति       : " . $getVal($vehicle->current_hpa) . "\n";
+        $body .= "१५. बंधक / फाइनेंस स्थिति       : " . $getVal($vehicle->current_hpa) . "\n";
         
         $originalFileAttached = $content['original_file_attached'] ?? 'yes';
         if ($isBlank) {
@@ -312,7 +313,7 @@ class NotesheetController extends Controller
                 ? "नहीं, मूल नस्ती संलग्न नहीं है" 
                 : "हाँ, मूल नस्ती संलग्न है";
         }
-        $body .= "१५. हस्ताक्षर मिलान हेतु मूल नस्ती : {$originalFileStatusText}\n";
+        $body .= "१६. हस्ताक्षर मिलान हेतु मूल नस्ती : {$originalFileStatusText}\n";
         $body .= "--------------------------------------------------------\n\n";
 
         // Closing Paragraph

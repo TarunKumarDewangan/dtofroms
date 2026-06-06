@@ -18,6 +18,7 @@ class Vehicle extends Model
         'model_year',
         'chassis_number',
         'engine_number',
+        'registration_date',
         'fitness_validity',
         'insurance_validity',
         'tax_amount',
