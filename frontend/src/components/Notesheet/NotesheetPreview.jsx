@@ -55,9 +55,9 @@ const NotesheetPreview = ({
     };
 
     const isRowVisible = (num) => {
-        const defaultValue = (num === 2 || num === 12 || num === 13) ? isTransferTaken : true;
+        const defaultValue = (num === 2 || num === 13 || num === 14) ? isTransferTaken : true;
         const isVisible = rowVisibility[num] ?? defaultValue;
-        if (num === 2 || num === 12 || num === 13) {
+        if (num === 2 || num === 13 || num === 14) {
             return !!(isVisible && isTransferTaken);
         }
         return !!isVisible;
@@ -67,7 +67,7 @@ const NotesheetPreview = ({
         const defaults = {
             1: true, 2: isTransferTaken, 3: true, 4: true, 5: true,
             6: true, 7: true, 8: true, 9: true, 10: true,
-            11: true, 12: isTransferTaken, 13: isTransferTaken, 14: true, 15: true
+            11: true, 12: true, 13: isTransferTaken, 14: isTransferTaken, 15: true, 16: true
         };
         return {
             ...defaults,
@@ -79,7 +79,7 @@ const NotesheetPreview = ({
         const defaults = {
             1: true, 2: isTransferTaken, 3: true, 4: true, 5: true,
             6: true, 7: true, 8: true, 9: true, 10: true,
-            11: true, 12: isTransferTaken, 13: isTransferTaken, 14: true, 15: true
+            11: true, 12: true, 13: isTransferTaken, 14: isTransferTaken, 15: true, 16: true
         };
         if (content?.row_visibility) {
             setRowVisibility(prev => {
@@ -89,8 +89,8 @@ const NotesheetPreview = ({
                 };
                 if (!isTransferTaken) {
                     nextVis[2] = false;
-                    nextVis[12] = false;
                     nextVis[13] = false;
+                    nextVis[14] = false;
                 }
                 return nextVis;
             });
@@ -100,7 +100,7 @@ const NotesheetPreview = ({
     }, [notesheet?.id, notesheet?.notesheet_number, isTransferTaken, content?.row_visibility]);
 
     const toggleRow = (num) => {
-        const defaultValue = (num === 2 || num === 12 || num === 13) ? isTransferTaken : true;
+        const defaultValue = (num === 2 || num === 13 || num === 14) ? isTransferTaken : true;
         const currentValue = rowVisibility[num] ?? defaultValue;
         const nextVisibility = {
             ...rowVisibility,
@@ -1026,14 +1026,20 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                                 <td className="sno">{getSNo(9)}</td>
-                                <td className="label-cell">वाहन का प्रदूषण जांच प्रमाण पत्र की वैधता</td>
+                                <td className="label-cell">वाहन का बीमा प्रमाण पत्र की वैधता</td>
                                 <td className="value-cell">
-                                    <span>वैधता दिनांक {getVal(formatDate(vehicle.pollution_validity), '.....................')}</span>
+                                    {vehicle.insurance_validity && !vehicle.insurance_validity.startsWith('1970-01-01') ? (
+                                        <span>वैधता दिनांक {formatDate(vehicle.insurance_validity)}</span>
+                                    ) : isBlankNotesheet ? (
+                                        <span>वैधता दिनांक .....................</span>
+                                    ) : (
+                                        <span>{vehicle.insurance_validity ? `वैधता दिनांक ${formatDate(vehicle.insurance_validity)}` : 'लागू नहीं (NA)'}</span>
+                                    )}
                                 </td>
                                 {isEditable && (
                                     <td className="no-print edit-cell">
                                         <div className="d-flex flex-column gap-1">
-                                            <input type="date" className="form-control form-control-sm" value={vehicle.pollution_validity || ''} onChange={(e) => handleVehicleChange('pollution_validity', e.target.value)} />
+                                            <input type="date" className="form-control form-control-sm" value={vehicle.insurance_validity || ''} onChange={(e) => handleVehicleChange('insurance_validity', e.target.value)} />
                                         </div>
                                     </td>
                                 )}
@@ -1050,6 +1056,30 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                                 <td className="sno">{getSNo(10)}</td>
+                                <td className="label-cell">वाहन का प्रदूषण जांच प्रमाण पत्र की वैधता</td>
+                                <td className="value-cell">
+                                    <span>वैधता दिनांक {getVal(formatDate(vehicle.pollution_validity), '.....................')}</span>
+                                </td>
+                                {isEditable && (
+                                    <td className="no-print edit-cell">
+                                        <div className="d-flex flex-column gap-1">
+                                            <input type="date" className="form-control form-control-sm" value={vehicle.pollution_validity || ''} onChange={(e) => handleVehicleChange('pollution_validity', e.target.value)} />
+                                        </div>
+                                    </td>
+                                )}
+                            </tr>
+                            <tr className={!isRowVisible(11) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                                {isEditable && (
+                                    <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                        <Form.Check 
+                                            type="switch" 
+                                            id="toggle-row-11"
+                                            checked={isRowVisible(11)} 
+                                            onChange={() => toggleRow(11)} 
+                                        />
+                                    </td>
+                                )}
+                                <td className="sno">{getSNo(11)}</td>
                                 <td className="label-cell">वित्त-पोषक का नाम</td>
                                 <td className="value-cell">
                                     {hasHPRegister ? (
@@ -1095,18 +1125,18 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!isRowVisible(11) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(12) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
-                                            id="toggle-row-11"
-                                            checked={isRowVisible(11)} 
-                                            onChange={() => toggleRow(11)} 
+                                            id="toggle-row-12"
+                                            checked={isRowVisible(12)} 
+                                            onChange={() => toggleRow(12)} 
                                         />
                                     </td>
                                 )}
-                                <td className="sno">{getSNo(11)}</td>
+                                <td className="sno">{getSNo(12)}</td>
                                 <td className="label-cell">पुलिस जांच/चोरी संबंधी स्थिति एन.सी.आर.बी. रिपोर्ट</td>
                                 <td className="value-cell">
                                     {getVal(content.ncrb_report === 'yes' ? 'चोरी/अपराध में संलिप्त नहीं (एन.सी.आर.बी. रिपोर्ट संलग्न)' : (content.ncrb_report === 'no' ? 'संलग्न नहीं' : ''), '.....................')}
@@ -1127,19 +1157,19 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!isRowVisible(12) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(13) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
-                                            id="toggle-row-12"
-                                            checked={isRowVisible(12)} 
-                                            onChange={() => toggleRow(12)} 
+                                            id="toggle-row-13"
+                                            checked={isRowVisible(13)} 
+                                            onChange={() => toggleRow(13)} 
                                             disabled={!isTransferTaken}
                                         />
                                     </td>
                                 )}
-                                <td className="sno">{getSNo(12)}</td>
+                                <td className="sno">{getSNo(13)}</td>
                                 <td className="label-cell">एफ.आई.आर. की प्रति</td>
                                 <td className="value-cell">
                                     {getVal(hasDuplicateRC ? 'गुमशुदगी रिपोर्ट/सनहा की प्रति संलग्न' : '', isBlankNotesheet ? '.....................' : 'लागू नहीं (NA)')}
@@ -1170,19 +1200,19 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!isRowVisible(13) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                            <tr className={!isRowVisible(14) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
                                         <Form.Check 
                                             type="switch" 
-                                            id="toggle-row-13"
-                                            checked={isRowVisible(13)} 
-                                            onChange={() => toggleRow(13)} 
+                                            id="toggle-row-14"
+                                            checked={isRowVisible(14)} 
+                                            onChange={() => toggleRow(14)} 
                                             disabled={!isTransferTaken}
                                         />
                                     </td>
                                 )}
-                                <td className="sno">{getSNo(13)}</td>
+                                <td className="sno">{getSNo(14)}</td>
                                 <td className="label-cell">वाहन स्वामी एवं क्रेता द्वारा वाहन संबंधी समस्त जवाबदारी लेते हुए शपथपत्र प्रस्तुत किया गया है।</td>
                                 <td className="value-cell">
                                     {getVal(content.affidavit_attached === 'yes' ? 'हाँ, शपथपत्र संलग्न है' : (content.affidavit_attached === 'no' ? 'संलग्न नहीं' : ''), '.....................')}
@@ -1203,30 +1233,6 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                             </tr>
-                            <tr className={!isRowVisible(14) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
-                                {isEditable && (
-                                    <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
-                                        <Form.Check 
-                                            type="switch" 
-                                            id="toggle-row-14"
-                                            checked={isRowVisible(14)} 
-                                            onChange={() => toggleRow(14)} 
-                                        />
-                                    </td>
-                                )}
-                                <td className="sno">{getSNo(14)}</td>
-                                <td className="label-cell">वाहन का भौतिक सत्यापन दिनांक</td>
-                                <td className="value-cell">
-                                    {getVal(content.physical_verification_date ? `दिनांक ${formatDate(content.physical_verification_date)} को भौतिक सत्यापन किया गया` : '', isBlankNotesheet ? 'दिनांक ..................... को भौतिक सत्यापन किया गया' : 'लागू नहीं (NA)')}
-                                </td>
-                                {isEditable && (
-                                    <td className="no-print edit-cell">
-                                        <div className="d-flex flex-column gap-1">
-                                            <input type="date" className="form-control form-control-sm" value={content.physical_verification_date || ''} onChange={(e) => handleContentChange('physical_verification_date', e.target.value)} />
-                                        </div>
-                                    </td>
-                                )}
-                            </tr>
                             <tr className={!isRowVisible(15) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
                                 {isEditable && (
                                     <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
@@ -1239,6 +1245,30 @@ const NotesheetPreview = ({
                                     </td>
                                 )}
                                 <td className="sno">{getSNo(15)}</td>
+                                <td className="label-cell">वाहन का भौतिक सत्यापन दिनांक</td>
+                                <td className="value-cell">
+                                    {getVal(content.physical_verification_date ? `दिनांक ${formatDate(content.physical_verification_date)} को भौतिक सत्यापन किया गया` : '', isBlankNotesheet ? 'दिनांक ..................... को भौतिक सत्यापन किया गया' : 'लागू नहीं (NA)')}
+                                </td>
+                                {isEditable && (
+                                    <td className="no-print edit-cell">
+                                        <div className="d-flex flex-column gap-1">
+                                            <input type="date" className="form-control form-control-sm" value={content.physical_verification_date || ''} onChange={(e) => handleContentChange('physical_verification_date', e.target.value)} />
+                                        </div>
+                                    </td>
+                                )}
+                            </tr>
+                            <tr className={!isRowVisible(16) ? (isEditable ? 'row-disabled' : 'd-none') : ''}>
+                                {isEditable && (
+                                    <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                        <Form.Check 
+                                            type="switch" 
+                                            id="toggle-row-16"
+                                            checked={isRowVisible(16)} 
+                                            onChange={() => toggleRow(16)} 
+                                        />
+                                    </td>
+                                )}
+                                <td className="sno">{getSNo(16)}</td>
                                 <td className="label-cell">हस्ताक्षर मिलान हेतु मूल नस्ती संलग्न है।</td>
                                 <td className="value-cell">
                                     {getVal((content.original_file_attached === 'no' || content.original_file_attached === false) ? 'नहीं, मूल नस्ती संलग्न नहीं है' : (content.original_file_attached === 'yes' ? 'हाँ, मूल नस्ती संलग्न है' : ''), '.....................')}
@@ -1301,8 +1331,8 @@ const NotesheetPreview = ({
                                 if (onSave) {
                                      const finalVisibility = { ...rowVisibility };
                                      finalVisibility[2] = isRowVisible(2);
-                                     finalVisibility[12] = isRowVisible(12);
                                      finalVisibility[13] = isRowVisible(13);
+                                     finalVisibility[14] = isRowVisible(14);
                                      onSave({
                                          ...content,
                                          row_visibility: finalVisibility

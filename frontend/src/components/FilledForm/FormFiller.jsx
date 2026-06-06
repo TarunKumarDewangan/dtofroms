@@ -32,7 +32,7 @@ const FormFiller = () => {
     const [rowVisibility, setRowVisibility] = useState({
         1: true, 2: true, 3: true, 4: true, 5: true,
         6: true, 7: true, 8: true, 9: true, 10: true,
-        11: true, 12: true, 13: true, 14: true, 15: true
+        11: true, 12: true, 13: true, 14: true, 15: true, 16: true
     });
 
     useEffect(() => {
@@ -41,15 +41,15 @@ const FormFiller = () => {
             setRowVisibility(prev => ({
                 ...prev,
                 2: hasTransfer,
-                12: hasTransfer,
-                13: hasTransfer
+                13: hasTransfer,
+                14: hasTransfer
             }));
         }
     }, [formData.include_transfer, formData.include_death, formType]);
 
     const toggleRow = (num) => {
         const hasTransfer = !!(formData.include_transfer || formData.include_death);
-        const defaultValue = (num === 2 || num === 12 || num === 13) ? hasTransfer : true;
+        const defaultValue = (num === 2 || num === 13 || num === 14) ? hasTransfer : true;
         const currentValue = rowVisibility[num] ?? defaultValue;
         setRowVisibility(prev => ({
             ...prev,
@@ -59,9 +59,9 @@ const FormFiller = () => {
 
     const isRowVisible = (num) => {
         const hasTransfer = !!(formData.include_transfer || formData.include_death);
-        const defaultValue = (num === 2 || num === 12 || num === 13) ? hasTransfer : true;
+        const defaultValue = (num === 2 || num === 13 || num === 14) ? hasTransfer : true;
         const isVisible = rowVisibility[num] ?? defaultValue;
-        if (num === 2 || num === 12 || num === 13) {
+        if (num === 2 || num === 13 || num === 14) {
             return !!(isVisible && hasTransfer);
         }
         return !!isVisible;
@@ -888,9 +888,9 @@ const FormFiller = () => {
                                             />
                                         </td>
                                         <td className="sno">{getSNo(9)}</td>
-                                        <td className="label-cell">वाहन का प्रदूषण जांच प्रमाण पत्र की वैधता</td>
+                                        <td className="label-cell">वाहन का बीमा प्रमाण पत्र की वैधता</td>
                                         <td className="value-cell">
-                                            वैता दिनांक <input name="pollution_validity" className="rto-input" style={{ width: getInputWidth(formData.pollution_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 14-11-2026" value={formData.pollution_validity || ''} onChange={handleInputChange} />
+                                            वैधता दिनांक <input name="insurance_validity" className="rto-input" style={{ width: getInputWidth(formData.insurance_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 10-12-2027" value={formData.insurance_validity || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(10) ? 'row-disabled' : ''}>
@@ -903,9 +903,9 @@ const FormFiller = () => {
                                             />
                                         </td>
                                         <td className="sno">{getSNo(10)}</td>
-                                        <td className="label-cell">वित्त-पोषक का नाम</td>
+                                        <td className="label-cell">वाहन का प्रदूषण जांच प्रमाण पत्र की वैधता</td>
                                         <td className="value-cell">
-                                            <div className="d-inline-block" style={{ width: getInputWidth(formData.current_hpa, "फाइनेंसर का नाम", 160) }}><TransliteratedInput name="current_hpa" className="rto-input" placeholder="e.g. NA / SBI" value={formData.current_hpa || ''} onChange={handleInputChange} /></div>
+                                            वैता दिनांक <input name="pollution_validity" className="rto-input" style={{ width: getInputWidth(formData.pollution_validity, "वैधता दिनांक", 100) }} placeholder="e.g. 14-11-2026" value={formData.pollution_validity || ''} onChange={handleInputChange} />
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(11) ? 'row-disabled' : ''}>
@@ -918,12 +918,9 @@ const FormFiller = () => {
                                             />
                                         </td>
                                         <td className="sno">{getSNo(11)}</td>
-                                        <td className="label-cell">पुलिस जांच/चोरी संबंधी स्थिति एन.सी.आर.बी. रिपोर्ट</td>
+                                        <td className="label-cell">वित्त-पोषक का नाम</td>
                                         <td className="value-cell">
-                                            <Form.Select name="ncrb_report" className="rto-input" style={{ width: getInputWidth(formData.ncrb_report, "", 160), display: 'inline-block' }} value={formData.ncrb_report || 'yes'} onChange={handleInputChange}>
-                                                <option value="yes">चोरी/अपराध में संलिप्त नहीं</option>
-                                                <option value="no">संलग्न नहीं</option>
-                                            </Form.Select>
+                                            <div className="d-inline-block" style={{ width: getInputWidth(formData.current_hpa, "फाइनेंसर का नाम", 160) }}><TransliteratedInput name="current_hpa" className="rto-input" placeholder="e.g. NA / SBI" value={formData.current_hpa || ''} onChange={handleInputChange} /></div>
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(12) ? 'row-disabled' : ''}>
@@ -933,15 +930,14 @@ const FormFiller = () => {
                                                 id="toggle-row-12"
                                                 checked={isRowVisible(12)} 
                                                 onChange={() => toggleRow(12)} 
-                                                disabled={!(formData.include_transfer || formData.include_death)}
                                             />
                                         </td>
                                         <td className="sno">{getSNo(12)}</td>
-                                        <td className="label-cell">एफ.आई.आर. की प्रति</td>
+                                        <td className="label-cell">पुलिस जांच/चोरी संबंधी स्थिति एन.सी.आर.बी. रिपोर्ट</td>
                                         <td className="value-cell">
-                                            <Form.Select name="fir_attached" className="rto-input" style={{ width: getInputWidth(formData.fir_attached, "", 160), display: 'inline-block' }} value={formData.fir_attached || 'no'} onChange={handleInputChange}>
-                                                <option value="no">लागू नहीं (NA)</option>
-                                                <option value="yes">हाँ, गुमशुदगी रिपोर्ट/सनहा की प्रति संलग्न</option>
+                                            <Form.Select name="ncrb_report" className="rto-input" style={{ width: getInputWidth(formData.ncrb_report, "", 160), display: 'inline-block' }} value={formData.ncrb_report || 'yes'} onChange={handleInputChange}>
+                                                <option value="yes">चोरी/अपराध में संलिप्त नहीं</option>
+                                                <option value="no">संलग्न नहीं</option>
                                             </Form.Select>
                                         </td>
                                     </tr>
@@ -956,11 +952,11 @@ const FormFiller = () => {
                                             />
                                         </td>
                                         <td className="sno">{getSNo(13)}</td>
-                                        <td className="label-cell">वाहन स्वामी एवं क्रेता द्वारा वाहन संबंधी समस्त जवाबदारी लेते हुए शपथपत्र प्रस्तुत किया गया है।</td>
+                                        <td className="label-cell">एफ.आई.आर. की प्रति</td>
                                         <td className="value-cell">
-                                            <Form.Select name="affidavit_attached" className="rto-input" style={{ width: getInputWidth(formData.affidavit_attached, "", 160), display: 'inline-block' }} value={formData.affidavit_attached || 'yes'} onChange={handleInputChange}>
-                                                <option value="yes">हाँ, शपथपत्र संलग्न है</option>
-                                                <option value="no">संलग्न नहीं</option>
+                                            <Form.Select name="fir_attached" className="rto-input" style={{ width: getInputWidth(formData.fir_attached, "", 160), display: 'inline-block' }} value={formData.fir_attached || 'no'} onChange={handleInputChange}>
+                                                <option value="no">लागू नहीं (NA)</option>
+                                                <option value="yes">हाँ, गुमशुदगी रिपोर्ट/सनहा की प्रति संलग्न</option>
                                             </Form.Select>
                                         </td>
                                     </tr>
@@ -971,12 +967,16 @@ const FormFiller = () => {
                                                 id="toggle-row-14"
                                                 checked={isRowVisible(14)} 
                                                 onChange={() => toggleRow(14)} 
+                                                disabled={!(formData.include_transfer || formData.include_death)}
                                             />
                                         </td>
                                         <td className="sno">{getSNo(14)}</td>
-                                        <td className="label-cell">वाहन का भौतिक सत्यापन दिनांक</td>
+                                        <td className="label-cell">वाहन स्वामी एवं क्रेता द्वारा वाहन संबंधी समस्त जवाबदारी लेते हुए शपथपत्र प्रस्तुत किया गया है।</td>
                                         <td className="value-cell">
-                                            दिनांक <input name="physical_verification_date" className="rto-input" style={{ width: getInputWidth(formData.physical_verification_date, "सत्यापन दिनांक", 100) }} placeholder="e.g. 26-05-2026" value={formData.physical_verification_date || ''} onChange={handleInputChange} />
+                                            <Form.Select name="affidavit_attached" className="rto-input" style={{ width: getInputWidth(formData.affidavit_attached, "", 160), display: 'inline-block' }} value={formData.affidavit_attached || 'yes'} onChange={handleInputChange}>
+                                                <option value="yes">हाँ, शपथपत्र संलग्न है</option>
+                                                <option value="no">संलग्न नहीं</option>
+                                            </Form.Select>
                                         </td>
                                     </tr>
                                     <tr className={!isRowVisible(15) ? 'row-disabled' : ''}>
@@ -989,6 +989,21 @@ const FormFiller = () => {
                                             />
                                         </td>
                                         <td className="sno">{getSNo(15)}</td>
+                                        <td className="label-cell">वाहन का भौतिक सत्यापन दिनांक</td>
+                                        <td className="value-cell">
+                                            दिनांक <input name="physical_verification_date" className="rto-input" style={{ width: getInputWidth(formData.physical_verification_date, "सत्यापन दिनांक", 100) }} placeholder="e.g. 26-05-2026" value={formData.physical_verification_date || ''} onChange={handleInputChange} />
+                                        </td>
+                                    </tr>
+                                    <tr className={!isRowVisible(16) ? 'row-disabled' : ''}>
+                                        <td className="no-print text-center toggle-cell" style={{ verticalAlign: 'middle', width: '50px' }}>
+                                            <Form.Check 
+                                                type="switch" 
+                                                id="toggle-row-16"
+                                                checked={isRowVisible(16)} 
+                                                onChange={() => toggleRow(16)} 
+                                            />
+                                        </td>
+                                        <td className="sno">{getSNo(16)}</td>
                                         <td className="label-cell">हस्ताक्षर मिलान हेतु मूल नस्ती संलग्न है।</td>
                                         <td className="value-cell">
                                             <Form.Select name="original_file_attached" className="rto-input" style={{ width: getInputWidth(formData.original_file_attached, "", 160), display: 'inline-block' }} value={formData.original_file_attached || 'yes'} onChange={handleInputChange}>

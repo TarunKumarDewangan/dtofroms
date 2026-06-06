@@ -215,6 +215,7 @@ const NotesheetBuilder = () => {
                         tax_amount: fd.tax_amount || dbVehicle.tax_amount || '',
                         tax_paid_date: fd.tax_paid_date || dbVehicle.tax_paid_date || '',
                         permit_validity: fd.permit_validity || dbVehicle.permit_validity || '',
+                        insurance_validity: fd.insurance_validity || dbVehicle.insurance_validity || '',
                         current_hpa: fd.current_hpa || dbVehicle.current_hpa || 'NA',
                     };
                     setVehicle(mergedVehicle);
