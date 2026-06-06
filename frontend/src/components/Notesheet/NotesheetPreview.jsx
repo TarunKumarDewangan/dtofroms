@@ -397,12 +397,12 @@ const NotesheetPreview = ({
                 }
                 .notesheet-user-code {
                     position: absolute;
-                    bottom: 15px;
+                    bottom: 10px;
                     left: 25px;
-                    font-size: 11px;
+                    font-size: 12px;
                     font-weight: bold;
                     font-family: monospace, sans-serif;
-                    color: rgba(0, 0, 0, 0.08);
+                    color: rgba(0, 0, 0, 0.55);
                     -webkit-print-color-adjust: exact;
                     print-color-adjust: exact;
                 }
@@ -452,8 +452,8 @@ const NotesheetPreview = ({
                     }
                     .notesheet-outer-border {
                         border: 1px solid #000000 !important;
-                        border-bottom: none !important;
-                        min-height: 235mm !important;
+                        border-bottom: 1px solid #000000 !important;
+                        min-height: 268mm !important;
                         padding: 15px 20px !important; /* Compact padding to leave space at the bottom */
                         width: 100% !important;
                         max-width: 100% !important;
@@ -495,10 +495,10 @@ const NotesheetPreview = ({
                         margin-bottom: 40px !important;
                     }
                     .notesheet-user-code {
-                        bottom: 12px !important;
+                        bottom: 8px !important;
                         left: 20px !important;
-                        font-size: 11px !important;
-                        color: rgba(0, 0, 0, 0.08) !important;
+                        font-size: 12px !important;
+                        color: rgba(0, 0, 0, 0.65) !important;
                     }
                     @page {
                         size: A4;

@@ -441,8 +441,8 @@ const FormFiller = () => {
                     }
                     .pdf-form-page {
                         border: 1px solid #000000 !important;
-                        border-bottom: none !important;
-                        min-height: 235mm !important;
+                        border-bottom: 1px solid #000000 !important;
+                        min-height: 268mm !important;
                         padding: 15px 20px !important; /* Compact padding to leave space at the bottom */
                         width: 100% !important;
                         max-width: 100% !important;
